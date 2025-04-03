@@ -2,12 +2,32 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #ede1b5;
 }
 
 header {
-    background-color: #f0f0f0;
+    background-image: url('pietra.jpg');
+    background-size: cover;
+    background-position: center;
     padding: 20px;
     text-align: center;
+    color: #ede1b5;
+    position: relative;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+header * {
+    position: relative;
+    z-index: 1;
 }
 
 nav {
@@ -15,7 +35,7 @@ nav {
 }
 
 .button {
-    background-color: green;
+    background-color: #848b11;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -33,7 +53,8 @@ main {
 }
 
 footer {
-    background-color: snow;
+    background-color: transparent;
+    color: #848b11;
     padding: 10px;
     text-align: center;
     position: sticky;
@@ -43,8 +64,9 @@ footer {
 
 article {
     margin-bottom: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid green;
     padding-bottom: 10px;
+    text-align: 568203;
 }
 
 form label {

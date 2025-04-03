@@ -10,6 +10,32 @@
             text-align: center; /* Centra il testo orizzontalmente */
             margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
         }
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+            height: 0;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            max-width: 600px;
+            max-height: 450px;
+        }
+        @media (max-width: 768px) {
+            .map-container {
+                padding-bottom: 75%; /* Slightly taller on mobile */
+            }
+            .map-container iframe {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -28,7 +54,9 @@
         <h2>Vieni a trovarci!</h2>
         <p>Maggiori info e volantini presso il bar e minimarket "Al Campo" in:</p>
         <p>Via XV Marzo - Cerrè Sologno (RE)</p>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2852.7009872420617!2d10.36467351184391!3d44.357193406494574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d5450058b878f3%3A0x241fcccc5bfc89e8!2sAl%20Campo%20Bar%20%26%20Butega!5e0!3m2!1sit!2sit!4v1743694287059!5m2!1sit!2sit" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>         
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2852.7009872420617!2d10.36467351184391!3d44.357193406494574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d5450058b878f3%3A0x241fcccc5bfc89e8!2sAl%20Campo%20Bar%20%26%20Butega!5e0!3m2!1sit!2sit!4v1743694287059!5m2!1sit!2sit" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>         
         <p>Orari di apertura:
         <br>lunedì 07:00–22:30	
         <br>martedì 07:00–22:30
@@ -36,8 +64,7 @@
         <br>giovedì Chiuso
         <br>venerdì 07:00– 00:00
         <br>sabato 07:00–00:00
-        <br>domenica 07:00–22:30	
-        
+        <br>domenica 07:00–22:30
         </p>
     </main>
 

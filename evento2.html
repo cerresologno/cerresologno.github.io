@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titolo evento2</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
     <style>
         .centered-content {
             text-align: center; /* Centra il testo orizzontalmente */
@@ -12,8 +13,9 @@
         }
     </style>
 </head>
+<body onload="checkDarkMode()">
+</body>
 <body>
-    <button onclick="toggleDarkMode()">Attiva/Disattiva Tema Scuro</button>
     <header>
         <h1>Evento 2</h1>
         <nav>
@@ -21,6 +23,7 @@
             <a href="home.html" class="button">Home</a>
             <a href="contatti.html" class="button">Chi siamo?</a>
             <a href="dove.html" class="button">Dove ci trovi?</a>
+            <a onclick="toggleDarkMode()" class="button">Cambia Tema</a>
 
         </nav>
     </header>
@@ -34,6 +37,26 @@
     <footer>
         <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
     </footer>
-
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode(); // Verifica all'avvio della pagina
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+    <iframe src="about:blank" style="display: none;"></iframe>
+</body>
 </body>
 </html>

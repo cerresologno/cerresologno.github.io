@@ -125,6 +125,15 @@ form input[type="submit"] {
     .dark-mode .news-preview {
         border-color: #555;
     }
+    .dark-mode footer {
+        background-color: transparent;
+        color: #848b11;
+        padding: 10px;
+        text-align: center;
+        bottom: 0;
+        width: 100%;
+    }
+    
 }
 /* Media Query per dispositivi mobili */
 @media (max-width: 600px) {

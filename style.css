@@ -47,7 +47,9 @@ nav {
     cursor: pointer;
     border-radius: 8px;
 }
-
+h1, h2, h3 {
+    color: #848b11;
+}
 main {
     padding: 20px;
 }
@@ -88,4 +90,16 @@ form input[type="submit"] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+@media (max-width: 768px) {
+    body{
+        font-size: 14px;
+    }
+    .button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    nav ul {
+        flex-direction: column;
+    }
 }

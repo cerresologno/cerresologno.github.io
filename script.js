@@ -1,3 +1,7 @@
+// Verifica se la modalità scura è abilitata all'avvio della pagina
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.body.classList.add("dark-mode");
+}
 function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
     if (document.body.classList.contains("dark-mode")) {

@@ -1,14 +1,14 @@
 const cacheName = 'proloco-cerre-sologno-v1';
 const staticAssets = [
   './',
-  './index.html',
+  './home.html',
   './news.html',
   './eventi.html',
   './contatti.html',
   './dove.html',
   './style.css',
   './script.js',
-  './img/carre_sologno.jpg',
+  './img/pietra.jpg',
   './img/icon-192x192.png',
   './img/icon-512x512.png'
 ];

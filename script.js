@@ -44,3 +44,49 @@ if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js');
     });
 }
+
+
+function createMobileNavigation() {
+    if (window.innerWidth <= 768) {  // Mobile view
+        const nav = document.createElement('nav');
+        nav.className = 'mobile-nav';
+        
+        // Get the existing navigation items
+        const existingNav = document.querySelector('nav');
+        const navItems = existingNav.querySelectorAll('a');
+        
+        // Create bottom navigation HTML
+        nav.innerHTML = Array.from(navItems).map(item => `
+            <a href="${item.getAttribute('href')}" class="nav-item">
+                <i class="material-icons">${getIconForLink(item.textContent)}</i>
+                <span>${item.textContent}</span>
+            </a>
+        `).join('');
+        
+        document.body.appendChild(nav);
+        existingNav.classList.add('desktop-only');
+    }
+}
+
+function getIconForLink(text) {
+    const iconMap = {
+        'Home': 'home',
+        'Projects': 'work',
+        'About': 'person',
+        'Contact': 'mail',
+        // Add more mappings as needed
+    };
+    return iconMap[text] || 'link';
+}
+
+// Initialize mobile navigation
+window.addEventListener('load', createMobileNavigation);
+window.addEventListener('resize', () => {
+    const existingNav = document.querySelector('.mobile-nav');
+    const desktopNav = document.querySelector('nav:not(.mobile-nav)');
+    if (existingNav) {
+        existingNav.remove();
+    }
+    desktopNav?.classList.remove('desktop-only');
+    createMobileNavigation();
+});

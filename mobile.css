@@ -1,0 +1,82 @@
+@media screen and (max-width: 768px) {
+    /* General Typography */
+    body {
+        font-size: 14px;
+    }
+
+    /* Headers */
+    h1 {
+        font-size: 1.8em;
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+        padding: 0 10px;
+    }
+
+    /* Navigation */
+    .button {
+        padding: 10px 15px;
+        font-size: 14px;
+        margin: 3px;
+    }
+
+    /* Storia Page */
+    .storia-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .storia-image {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .storia-text {
+        padding: 10px;
+    }
+
+    /* News Page */
+    .news-preview {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    /* Eventi Page */
+    .event-container {
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Contatti Page */
+    .contact-container {
+        padding: 10px;
+    }
+
+    .contact-form {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* Dove Page */
+    .location-container {
+        padding: 10px;
+    }
+
+    .map-container {
+        width: 100%;
+        height: 300px;
+    }
+
+    /* General Content */
+    .centered-content {
+        padding: 10px;
+    }
+
+    /* Footer */
+    footer {
+        padding: 15px;
+    }
+}

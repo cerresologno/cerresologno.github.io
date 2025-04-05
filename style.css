@@ -98,10 +98,12 @@ form input[type="submit"] {
     .button {
         padding: 10px 20px;
         font-size: 14px;
+        display: inline-block; /* Keep buttons inline */
     }
-    nav ul {
-        flex-direction: column;
-    }
+    /* Remove the nav ul flex-direction change to maintain horizontal layout */
+}
+nav ul {
+    flex-direction: column;
 }
 /* Tema scuro */
 @media (prefers-color-scheme: dark) {

@@ -54,6 +54,13 @@ main {
     padding: 20px;
 }
 
+#chi-siamo p,
+#chi-siamo h2,
+#contatti p,
+#contatti h2 {
+    text-align: center;
+}
+
 footer {
     background-color: transparent;
     color: #848b11;
@@ -98,10 +105,12 @@ form input[type="submit"] {
     .button {
         padding: 10px 20px;
         font-size: 14px;
+        display: inline-block; /* Keep buttons inline */
     }
-    nav ul {
-        flex-direction: column;
-    }
+    /* Remove the nav ul flex-direction change to maintain horizontal layout */
+}
+nav ul {
+    flex-direction: column;
 }
 /* Tema scuro */
 @media (prefers-color-scheme: dark) {

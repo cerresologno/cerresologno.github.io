@@ -14,11 +14,55 @@
             text-align: center; /* Centra il testo orizzontalmente */
             margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
         }
+        .two-column-layout {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .left-column {
+            flex: 1;
+            min-width: 300px;
+            padding: 10px;
+        }
+        
+        .right-column {
+            flex: 1;
+            min-width: 300px;
+            padding: 10px;
+        }
+        
+        .map-container {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+        }
+        
+        .aerial-photo {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .aerial-photo img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column-layout {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body onload="checkDarkMode()">
-</body>
-<body>
     <header>
         <h1>Pro Loco Cerrè Sologno</h1>
         <nav>
@@ -29,17 +73,53 @@
             <a href="storia.html" class="button">La storia di Cerré</a>
             <a href="dove.html" class="button">Dove ci trovi?</a>
             <a onclick="toggleDarkMode()" class="button">Cambia Tema</a>
-
         </nav>
     </header>
 
-    <main class="centered-content">
-        <h2>Benvenuti nel sito della Pro Loco di Cerrè Sologno!</h2>
-        <p>Scopri le bellezze del nostro territorio, la sua storia, gli eventi e le iniziative che organizziamo.</p>
+    <main>
+        <h2 class="centered-content">Benvenuti nel sito della Pro Loco di Cerrè Sologno!</h2>
+        <p class="centered-content">Scopri le bellezze del nostro territorio, la sua storia, gli eventi e le iniziative che organizziamo.</p>
+        
+        <div class="two-column-layout">
+            <div class="left-column">
+                <div class="map-container">
+                    <h3><a href="dove.html" style="text-decoration: none; color: inherit;">Dove siamo</a></h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11326.006362789367!2d10.3763!3d44.3825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47809f9c8a6e2c33%3A0x5f39b3c5c0c7e6c6!2sCerr%C3%A8%20Sologno%2C%2042030%20Villa%20Minozzo%20RE!5e1!3m2!1sit!2sit!4v1650000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                
+                <div class="aerial-photo">
+                    <h3>Vista del paese</h3>
+                    <img src="cerre2.jpeg" alt="Vista di Cerrè Sologno">
+                </div>
+            </div>
+            
+            <div class="right-column centered-content">
+                <h2>Novità</h2>
+                <div class="news-preview">
+                    <p>Lorem ipsum dolor sit amet...</p>
+                    <a href="news2.html" class="button">Leggi tutto</a>
+                    <p>Data: 05/04/2025</p>
+                </div>
+                
+                <h2>In programmazione</h2>
+                <div class="news-preview">
+                    <p>Scopri il prossimo evento in programmazione a Cerrè!</p>
+                    <a href="evento2.html" class="button">Scopri l'evento!</a>
+                </div>
+                
+                <h2>La storia</h2>
+                <div class="news-preview">
+                    <p>Scopri la storia di una delle battaglie meno raccontate di sempre!</p>
+                    <a href="storia.html" class="button">Clicca qui!</a>
+                </div>
+            </div>
+        </div>
     </main>
+    
     <footer>
         <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
     </footer>
+    
     <script>
         function checkDarkMode() {
             if (localStorage.getItem("darkMode") === "enabled") {
@@ -60,6 +140,5 @@
         });
     </script>
     <iframe src="about:blank" style="display: none;"></iframe>
-</body>
 </body>
 </html>

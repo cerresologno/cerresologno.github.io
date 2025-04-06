@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -113,4 +114,121 @@
     <iframe src="about:blank" style="display: none;"></iframe>
 </body>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Nostra Storia</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile.css">
+    <script src="script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .centered-content {
+            margin-top: 50px;
+        }
+        .storia-container {
+            display: flex;
+            align-items: start;
+            gap: 20px;
+            padding: 20px;
+        }
+        .storia-image {
+            flex: 0 0 300px;
+        }
+        .storia-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .storia-text {
+            flex: 1;
+            text-align: justify;
+        }
+
+        @media screen and (max-width: 768px) {
+            .storia-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .storia-image {
+                flex: none;
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .storia-text {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body onload="checkDarkMode()">
+</body>
+<body>
+    <header>
+        <h1>La Nostra Storia</h1>
+        <nav>
+            <a href="home.html" class="button">Home</a>
+            <a href="news.html" class="button">News</a>
+            <a href="eventi.html" class="button">Eventi</a>
+            <a href="contatti.html" class="button">Chi siamo?</a>
+            <a href="dove.html" class="button">Dove ci trovi?</a>
+            <a onclick="toggleDarkMode()" class="button">Cambia Tema</a>
+
+        </nav>
+    </header>
+
+    <main class="centered-content">
+        <h2>La Nostra Battaglia e la Stele</h2>
+        <div class="storia-container">
+            <div class="storia-image">
+                <img src="Villa-Minozzo_1.1-225x300.webp" alt="Stele commemorativa di Cerrè Sologno">
+            </div>
+            <div class="storia-text">
+                <p>Il 15 marzo 1944, presso il paese di Cerrè Sologno ha luogo uno degli scontri di maggior rilievo dell’intera 
+                    guerra di Liberazione in ambito reggiano. Più che le scelte strategiche degli opposti schieramenti, è la casualità ad innescare la battaglia. 
+                    Un reparto partigiano, di stanza nel borgo, viene colto di sorpresa da una compagnia mista composta da soldati tedeschi e militi della GNR.
+                    La compagine partigiana riesce infine ad avere la meglio, nonostante i 7 morti (Gaetano Bedeschi e Nicola Franceschini, 
+                    i modenesi Walter Zetti, Azelio Rinfranti, Giovanni Bertoni e Gerardo Albicini, il barese Luigi Bosco) e 11 rimasero feriti.
+                    I nazifascisti cercarono scampo nella fuga buttandosi allo sbaraglio verso il Secchia, ma vennero presi sotto il fuoco dei partigiani,
+                    contando alla fine 10 morti, 22 prigionieri ed un imprecisato numero di feriti. 
+                    Tra i feriti tedeschi spiccava il tenente Speidel, membro del Comando Piazza di Reggio Emilia. 
+                    Lo scacco subito porta a sovrastimare le risorse dei “ribelli” e rende quindi più sistematica la risposta militare tedesca.
+                    Tra il 18 ed il 20 marzo, infatti, scatta una durissima rappresaglia contro gli abitanti dei piccoli borghi appenninici tra Reggio Emilia e Modena, 
+                    considerati basi logistiche dei banditi. Le formazioni partigiane, momentaneamente sbandate, si riorganizzano però nelle settimane successive.
+                    La battaglia di Cerré Sologno è ricordata da una stele inaugurata nel 1954 sulla strada per Ligonchio al bivio per Carù.</p>
+                <p>Data: 05/04/2025</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+    </footer>
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode(); // Verifica all'avvio della pagina
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+    <iframe src="about:blank" style="display: none;"></iframe>
+</body>
+</body>
+>>>>>>> 8f76def3e1a617694796d3e66887dfb3a91a4a87
 </html>

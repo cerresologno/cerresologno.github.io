@@ -1,7 +1,7 @@
 {
     "name": "Pro Loco Cerrè Sologno",
     "short_name": "Cerrè Sologno",
-    "start_url": "home.html",
+    "start_url": "/home.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#4CAF50",
@@ -9,7 +9,7 @@
       {
         "src": "img/pietra.jpg",
         "sizes": "192x192",
-        "type": "pietra.jpg"
+        "type": "pietra/jpg"
       },
       {
         "src": "img/pietra.jpg",

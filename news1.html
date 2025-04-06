@@ -13,23 +13,43 @@
             text-align: center; /* Centra il testo orizzontalmente */
             margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
         }
+        
+        /* Stile per il contenitore della navigazione */
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        /* Stile per il pulsante del tema */
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        /* Solo per dispositivi mobili, ripristina il comportamento normale */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
     </style>
 </head>
 <body onload="checkDarkMode()">
-</body>
-<body>
     <header>
         <h1>News 1</h1>
-        <nav>
-            <a href="news.html" class="button">Indietro</a>
-            <a href="home.html" class="button">Home</a>
-            <a href="eventi.html" class="button">Eventi</a>
-            <a href="contatti.html" class="button">Chi siamo?</a>
-            <a href="storia.html" class="button">La storia di Cerré</a>
-            <a href="dove.html" class="button">Dove ci trovi?</a>
-            <a onclick="toggleDarkMode()" class="button">Cambia Tema</a>
-
-        </nav>
+        <div class="nav-container">
+            <nav>
+                <a href="news.html" class="button">Indietro</a>
+                <a href="home.html" class="button">Home</a>
+                <a href="eventi.html" class="button">Eventi</a>
+                <a href="contatti.html" class="button">Chi siamo?</a>
+                <a href="storia.html" class="button">La storia di Cerré</a>
+                <a href="dove.html" class="button">Dove ci trovi?</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
     </header>
 
     <main class="centered-content">
@@ -61,6 +81,5 @@
         });
     </script>
     <iframe src="about:blank" style="display: none;"></iframe>
-</body>
 </body>
 </html>

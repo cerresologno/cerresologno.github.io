@@ -1,18 +1,16 @@
 const CACHE_NAME = 'cerresologno-cache-v1';
 const urlsToCache = [
   '/',
-  '/home.html',
-  '/static/css/main.chunk.css',
-  '/static/js/main.chunk.js',
-  '/static/js/0.chunk.js',
-  '/static/js/bundle.js',
+  '/index.html',
+  // Use more generic patterns instead of specific chunk names
+  // which can change with each build
+  '/static/css/',
+  '/static/js/',
   '/manifest.json',
   '/favicon.ico',
   '/logo192.png',
-  '/logo512.png',
-  // Aggiungi qui altri file specifici del tuo sito
-  '/assets/images/hero.jpg',
-  '/assets/fonts/main-font.woff2'
+  '/logo512.png'
+  // Remove specific asset paths that might not exist
 ];
 
 self.addEventListener('install', event => {
@@ -21,6 +19,10 @@ self.addEventListener('install', event => {
       .then(cache => {
         console.log('Opened cache');
         return cache.addAll(urlsToCache);
+      })
+      .catch(error => {
+        console.error('Cache failed:', error);
+        // Continue with installation even if caching fails
       })
   );
 });

@@ -1,7 +1,16 @@
 const CACHE_NAME = 'cerresologno-cache-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
+  '/,
+  '/home.html,
+  '/contatti.html,
+  '/dove.html,
+  '/news.html,
+  '/eventi.html,
+  '/storia.html,
+  '/evento1.html,
+  '/evento2.html,
+  '/news1.html,
+  '/news2.html,
   // Use more generic patterns instead of specific chunk names
   // which can change with each build
   '/static/css/',

@@ -1,7 +1,7 @@
 const CACHE_NAME = 'cerresologno-cache-v1';
 const urlsToCache = [
   '/',
-  '/index.html',
+  '/home.html',
   '/static/css/main.chunk.css',
   '/static/js/main.chunk.js',
   '/static/js/0.chunk.js',

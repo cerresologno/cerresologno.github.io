@@ -1,25 +1,42 @@
+<<<<<<< HEAD
 {
-  "short_name": "Cerrè Sologno",
-  "name": "Cerrè Sologno",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+    "name": "Pro Loco Cerrè Sologno",
+    "short_name": "Cerrè Sologno",
+    "start_url": "/home.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4CAF50",
+    "icons": [
+      {
+        "src": "img/pietra.jpg",
+        "sizes": "192x192",
+        "type": "pietra/jpg"
+      },
+      {
+        "src": "img/pietra.jpg",
+        "sizes": "512x512",
+        "type": "image/jpg"
+      }
+    ]
+=======
+{
+    "name": "Pro Loco Cerrè Sologno",
+    "short_name": "Cerrè Sologno",
+    "start_url": "/home.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4CAF50",
+    "icons": [
+      {
+        "src": "img/pietra.jpg",
+        "sizes": "192x192",
+        "type": "pietra/jpg"
+      },
+      {
+        "src": "img/pietra.jpg",
+        "sizes": "512x512",
+        "type": "image/jpg"
+      }
+    ]
+>>>>>>> 8f76def3e1a617694796d3e66887dfb3a91a4a87
 }

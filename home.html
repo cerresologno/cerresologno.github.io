@@ -61,16 +61,34 @@
                 flex-direction: column;
             }
             
+            .left-column {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            /* Hide the original aerial photo in the left column */
+            .left-column .aerial-photo {
+                display: none;
+            }
+            
+            /* Move the map container below */
             .map-container {
+                margin-top: 40px;
                 margin-bottom: 40px;
             }
             
-            .aerial-photo {
-                margin-top: 40px;
+            /* Create a mobile-only aerial photo that appears after h2 */
+            .mobile-aerial-photo {
+                display: block;
+                width: 90%;
+                margin: 20px auto;
             }
             
-            .aerial-photo h3 {
-                margin-top: 0;
+            /* Hide this element in desktop view */
+            @media (min-width: 769px) {
+                .mobile-aerial-photo {
+                    display: none;
+                }
             }
         }
     </style>
@@ -92,21 +110,16 @@
 
     <main>
         <h2 class="centered-content">Benvenuti nel sito della Pro Loco di Cerrè Sologno!</h2>
+        
+        <!-- Add a mobile-only aerial photo here -->
+        <div class="mobile-aerial-photo">
+            <h3>Vista del paese</h3>
+            <img src="cerre2.jpeg" alt="Vista di Cerrè Sologno" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px;">
+        </div>
+        
         <p class="centered-content">Scopri le bellezze del nostro territorio, la sua storia, gli eventi e le iniziative che organizziamo.</p>
         
         <div class="two-column-layout">
-            <div class="left-column">
-                <div class="map-container">
-                    <h3><a href="dove.html" style="text-decoration: none; color: inherit;">Dove siamo</a></h3>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11326.006362789367!2d10.3763!3d44.3825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47809f9c8a6e2c33%3A0x5f39b3c5c0c7e6c6!2sCerr%C3%A8%20Sologno%2C%2042030%20Villa%20Minozzo%20RE!5e1!3m2!1sit!2sit!4v1650000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-                
-                <div class="aerial-photo">
-                    <h3>Vista del paese</h3>
-                    <img src="cerre2.jpeg" alt="Vista di Cerrè Sologno">
-                </div>
-            </div>
-            
             <div class="right-column centered-content">
                 <h2>Novità</h2>
                 <div class="news-preview">
@@ -130,6 +143,13 @@
                 <div class="news-preview">
                     <p>Segui le nostre pagine social per rimanere sempre aggiornato!</p>
                     <a href="contatti.html" class="button">Clicca qui per seguirci!</a>
+                </div>
+            </div>
+            
+            <div class="left-column">
+                <div class="map-container">
+                    <h3><a href="dove.html" style="text-decoration: none; color: inherit;">Dove siamo</a></h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11326.006362789367!2d10.3763!3d44.3825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47809f9c8a6e2c33%3A0x5f39b3c5c0c7e6c6!2sCerr%C3%A8%20Sologno%2C%2042030%20Villa%20Minozzo%20RE!5e1!3m2!1sit!2sit!4v1650000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
         </div>

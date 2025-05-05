@@ -68,10 +68,17 @@
     </style>
 </head>
 <body>
+    <!-- Pulsante menu hamburger per mobile -->
+    <button class="menu-toggle d-md-none" id="menu-toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </button>
+    
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-2 sidebar p-3">
+            <div class="col-md-2 sidebar p-3" id="sidebar">
                 <h4 class="text-center mb-4">Cerresologno</h4>
                 <div class="nav flex-column">
                     <a class="nav-link active" href="#" data-section="editor">Nuovo Articolo</a>
@@ -79,6 +86,13 @@
                     <a class="nav-link" href="#" data-section="events">Eventi</a>
                     <a class="nav-link" href="#" data-section="drafts">Bozze</a>
                     <a class="nav-link" href="#" data-section="analytics">Statistiche</a>
+                </div>
+                <div class="theme-toggle mt-4">
+                    <span>Tema Scuro</span>
+                    <label class="theme-toggle-switch">
+                        <input type="checkbox" id="theme-toggle-input">
+                        <span class="theme-toggle-slider"></span>
+                    </label>
                 </div>
                 <div class="mt-auto" style="position: absolute; bottom: 20px; width: 80%;">
                     <a class="nav-link text-danger" href="#" id="logout-btn">Logout</a>
@@ -282,6 +296,33 @@
             localStorage.removeItem('adminUsername');
             // Reindirizza alla pagina di login
             window.location.href = 'login.html';
+        });
+        
+        // Gestione menu mobile
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+        
+        // Chiudi il menu quando si clicca su un link della sidebar su mobile
+        document.querySelectorAll('.sidebar .nav-link').forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 992) {
+                    document.getElementById('sidebar').classList.remove('show');
+                }
+            });
+        });
+        
+        // Chiudi il menu quando si clicca fuori dalla sidebar su mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menu-toggle');
+            
+            if (window.innerWidth < 992 && 
+                !sidebar.contains(event.target) && 
+                !menuToggle.contains(event.target) && 
+                sidebar.classList.contains('show')) {
+                sidebar.classList.remove('show');
+            }
         });
     </script>
 </body>

@@ -645,6 +645,12 @@ function updateAnalyticsData() {
     
     // Aggiorna il grafico delle visite
     updateVisitsChart(analyticsData);
+    
+    // Aggiorna il grafico della provenienza dei visitatori
+    updateReferrerChart(analyticsData);
+    
+    // Aggiorna il grafico dei dispositivi e sistemi operativi
+    updateDeviceOsChart(analyticsData);
 }
 
 /**
@@ -763,6 +769,153 @@ function updateVisitsChart(analyticsData) {
                     beginAtZero: true,
                     ticks: {
                         precision: 0
+                    }
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Aggiorna il grafico della provenienza dei visitatori
+ * @param {Object} analyticsData - I dati di analytics
+ */
+function updateReferrerChart(analyticsData) {
+    const chartCanvas = document.getElementById('referrer-chart');
+    if (!chartCanvas) return;
+    
+    // Ottieni i dati dei referrer
+    const referrersData = typeof getReferrersData === 'function' ? getReferrersData() : [];
+    
+    // Se non ci sono dati, mostra un messaggio
+    if (referrersData.length === 0) {
+        const ctx = chartCanvas.getContext('2d');
+        ctx.font = '16px Arial';
+        ctx.fillStyle = '#666';
+        ctx.textAlign = 'center';
+        ctx.fillText('Nessun dato disponibile', chartCanvas.width / 2, chartCanvas.height / 2);
+        return;
+    }
+    
+    // Prepara i dati per il grafico
+    const labels = referrersData.map(item => item.referrer);
+    const data = referrersData.map(item => item.visits);
+    
+    // Colori per il grafico
+    const backgroundColors = [
+        '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
+        '#5a5c69', '#858796', '#6610f2', '#6f42c1', '#fd7e14'
+    ];
+    
+    // Distruggi il grafico esistente se presente
+    if (window.referrerChart) {
+        window.referrerChart.destroy();
+    }
+    
+    // Crea il nuovo grafico
+    window.referrerChart = new Chart(chartCanvas, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: backgroundColors.slice(0, data.length),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        boxWidth: 12
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            const percentage = ((value / data.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
+                            return `${label}: ${value} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Aggiorna il grafico dei dispositivi e sistemi operativi
+ * @param {Object} analyticsData - I dati di analytics
+ */
+function updateDeviceOsChart(analyticsData) {
+    const chartCanvas = document.getElementById('device-os-chart');
+    if (!chartCanvas) return;
+    
+    // Ottieni i dati dei dispositivi e sistemi operativi
+    const devicesData = typeof getDevicesData === 'function' ? getDevicesData() : [];
+    const osData = typeof getOsData === 'function' ? getOsData() : [];
+    
+    // Se non ci sono dati, mostra un messaggio
+    if (devicesData.length === 0 && osData.length === 0) {
+        const ctx = chartCanvas.getContext('2d');
+        ctx.font = '16px Arial';
+        ctx.fillStyle = '#666';
+        ctx.textAlign = 'center';
+        ctx.fillText('Nessun dato disponibile', chartCanvas.width / 2, chartCanvas.height / 2);
+        return;
+    }
+    
+    // Prepara i dati per il grafico
+    const deviceLabels = devicesData.map(item => `${item.device}`);
+    const deviceData = devicesData.map(item => item.visits);
+    
+    const osLabels = osData.map(item => `${item.os}`);
+    const osData2 = osData.map(item => item.visits);
+    
+    // Colori per il grafico
+    const deviceColors = ['#4e73df', '#1cc88a', '#36b9cc'];
+    const osColors = ['#f6c23e', '#e74a3b', '#5a5c69', '#858796', '#6610f2'];
+    
+    // Distruggi il grafico esistente se presente
+    if (window.deviceOsChart) {
+        window.deviceOsChart.destroy();
+    }
+    
+    // Crea il nuovo grafico
+    window.deviceOsChart = new Chart(chartCanvas, {
+        type: 'pie',
+        data: {
+            labels: [...deviceLabels, ...osLabels],
+            datasets: [{
+                data: [...deviceData, ...osData2],
+                backgroundColor: [...deviceColors.slice(0, deviceData.length), ...osColors.slice(0, osData2.length)],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        boxWidth: 12
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            const total = [...deviceData, ...osData2].reduce((a, b) => a + b, 0);
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${label}: ${value} (${percentage}%)`;
+                        }
                     }
                 }
             }

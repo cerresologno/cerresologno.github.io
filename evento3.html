@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una storia curiosa... - Pro Loco Cerrè Sologno</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile.css">
+    <script src="script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .centered-content {
+            margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
+            max-width: 800px; /* Larghezza massima del contenuto */
+            margin-left: auto; /* Centra il blocco orizzontalmente */
+            margin-right: auto; /* Centra il blocco orizzontalmente */
+            padding: 0 20px; /* Aggiunge un po' di padding laterale */
+        }
+        .centered-content h2, .centered-content h3 {
+            text-align: center; /* Centra i titoli orizzontalmente */
+        }
+        .centered-content p {
+            text-align: justify; /* Giustifica i paragrafi */
+        }
+        .content {
+            width: 100%; /* Assicura che il contenuto occupi tutta la larghezza disponibile */
+        }
+        
+        /* Stile per il contenitore della navigazione */
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        /* Stile per il pulsante del tema */
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        /* Solo per dispositivi mobili, ripristina il comportamento normale */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Una storia curiosa...</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="eventi.html" class="button">Indietro</a>
+                <a href="home.html" class="button">Home</a>
+                <a href="news.html" class="button">News</a>
+                <a href="contatti.html" class="button">Chi siamo?</a>
+                <a href="storia.html" class="button">La storia di Cerré</a>
+                <a href="dove.html" class="button">Dove ci trovi?</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+
+    <main class="centered-content">
+        <h2>Una storia curiosa...</h2>
+        <p>5/5/2025</p>
+        <div class="content">
+            <p>C'era una volta, in uno sperduto paesino dell'Appennino Tosco Emiliano chiamato Cerrè Sologno, una ranocchia piccola e curiosa di nome Sapo.</p>
+            <p>Sapo si annoiava molto perché era troppo vivace, troppo saltellante e piena di energie per un paesino tanto piccolo, vuoto e tranquillo come Cerrè. </p>
+            <p>Per questo motivo, un giorno, con un pizzico di intraprendenza, Sapo si decise: Avrebbe creato la sua prima festa, il suo primo evento. "Se nessuno vuole divertirsi e festeggiare, allora sarò io a riportare la festa nel paese!" si disse. Voleva creare un luogo di ritrovo  di feste, di gioie e di amicizie, come una... una discoteca! Come quelle delle città! Ma le mancava il nome. Dopo averci pensato su un po', si decise:  aveva creato lei questo progetto, quindi questo avrebbe portato il suo nome: Sapoteca, la discoteca di Sapo! Un turbinio di luci e colori, un luogo che avrebbe attratto tutti i giovani e non solo, che avrebbe richiamato gente da tutto il paese e dai paesi vicini... ma che dico, dall'intero appennino! </p>
+            <p>Ogni anno, il 12 agosto, Sapo apriva le porte del suo locale preparando la Sulada, un piatto tipico, semplice, fatto di acqua, farina, risate e giovani: un simbolo.</p>
+            <p>Ma si sa, anche le cose belle ogni tanto si fermano e si prendono una pausa... </p>
+            <p>Anche la Sapoteca, anno dopo anno, ha iniziato a svuotarsi e a chiudere le sue porte, e a Cerrè tornò la calma piatta di sempre...</p>
+            <p>Ma Sapo non ha mai smesso di crederci. Ha continuato con la Festa della Sulada, la Sgabanata e altri eventi, anno dopo anno, mantenendo vivo lo spirito del paese e dando ai suoi abitanti un motivo in più per ritrovarsi allo stesso tavolo... Solo che no, non aveva lo stesso sapore di un tempo, e a distanza di anni, tra una Sulada e un bicchiere di troppo, anche Sapo ha cominciato a sentirsi un po'... come dire... tonda.</p>
+            <p>"Da quest'anno basta, mi rimetto in pista!" si è detta Sapo, una mattina. "Segnatevi la data, paesani e non, perché si salterà davvero!"</p>
+        </div>
+        <p>Data evento: 12/08/2025</p>
+        <p>
+            <a href="https://www.instagram.com/cerresummergames" class="button" target="_blank">
+                <i class="fab fa-instagram" style="vertical-align: middle; margin-right: 5px;"></i>
+                Segui le avventure di Sapo qui!
+            </a>
+        </p>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+    </footer>
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode(); // Verifica all'avvio della pagina
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+    <iframe src="about:blank" style="display: none;"></iframe>
+</body>
+</html>

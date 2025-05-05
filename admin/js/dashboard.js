@@ -777,6 +777,30 @@ function updateVisitsChart(analyticsData) {
 }
 
 /**
+ * Ottiene i dati sui referrer (provenienza dei visitatori)
+ * @param {number} limit - Il numero massimo di referrer da restituire
+ * @returns {Array} Un array di oggetti {referrer, visits, percentage}
+ */
+function getReferrersData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const referrers = analyticsData.referrers || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {referrer, visits, percentage}
+    const referrersArray = Object.keys(referrers).map(referrer => ({
+        referrer,
+        visits: referrers[referrer],
+        percentage: totalVisits > 0 ? (referrers[referrer] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    referrersArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di referrer
+    return referrersArray.slice(0, limit);
+}
+
+/**
  * Aggiorna il grafico della provenienza dei visitatori
  * @param {Object} analyticsData - I dati di analytics
  */
@@ -785,7 +809,7 @@ function updateReferrerChart(analyticsData) {
     if (!chartCanvas) return;
     
     // Ottieni i dati dei referrer
-    const referrersData = typeof getReferrersData === 'function' ? getReferrersData() : [];
+    const referrersData = getReferrersData();
     
     // Se non ci sono dati, mostra un messaggio
     if (referrersData.length === 0) {
@@ -849,6 +873,54 @@ function updateReferrerChart(analyticsData) {
 }
 
 /**
+ * Ottiene i dati sui dispositivi utilizzati
+ * @param {number} limit - Il numero massimo di dispositivi da restituire
+ * @returns {Array} Un array di oggetti {device, visits, percentage}
+ */
+function getDevicesData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const devices = analyticsData.devices || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {device, visits, percentage}
+    const devicesArray = Object.keys(devices).map(device => ({
+        device,
+        visits: devices[device],
+        percentage: totalVisits > 0 ? (devices[device] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    devicesArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di dispositivi
+    return devicesArray.slice(0, limit);
+}
+
+/**
+ * Ottiene i dati sui sistemi operativi utilizzati
+ * @param {number} limit - Il numero massimo di sistemi operativi da restituire
+ * @returns {Array} Un array di oggetti {os, visits, percentage}
+ */
+function getOsData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const osData = analyticsData.os || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {os, visits, percentage}
+    const osArray = Object.keys(osData).map(os => ({
+        os,
+        visits: osData[os],
+        percentage: totalVisits > 0 ? (osData[os] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    osArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di sistemi operativi
+    return osArray.slice(0, limit);
+}
+
+/**
  * Aggiorna il grafico dei dispositivi e sistemi operativi
  * @param {Object} analyticsData - I dati di analytics
  */
@@ -857,8 +929,8 @@ function updateDeviceOsChart(analyticsData) {
     if (!chartCanvas) return;
     
     // Ottieni i dati dei dispositivi e sistemi operativi
-    const devicesData = typeof getDevicesData === 'function' ? getDevicesData() : [];
-    const osData = typeof getOsData === 'function' ? getOsData() : [];
+    const devicesData = getDevicesData();
+    const osData = getOsData();
     
     // Se non ci sono dati, mostra un messaggio
     if (devicesData.length === 0 && osData.length === 0) {

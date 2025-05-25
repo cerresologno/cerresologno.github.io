@@ -24,9 +24,14 @@ function updateAllPages(darkModeEnabled) {
 }
 
 // Verifica se la modalità scura è abilitata all'avvio della pagina
-if (localStorage.getItem("darkMode") === "enabled") {
-    document.body.classList.add("dark-mode");
+function checkDarkMode() {
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark-mode");
+    }
 }
+
+// Esegui checkDarkMode all'avvio della pagina
+checkDarkMode();
 
 window.addEventListener("message", event => {
     if (event.data.darkMode !== undefined) {

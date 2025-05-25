@@ -29,7 +29,6 @@ function trackPageVisit() {
     if (!analyticsData.devices) analyticsData.devices = {};
     if (!analyticsData.browsers) analyticsData.browsers = {};
     if (!analyticsData.os) analyticsData.os = {};
-    if (!analyticsData.regions) analyticsData.regions = {};
     if (!analyticsData.referrers) analyticsData.referrers = {};
     
     // Incrementa il contatore delle visite totali
@@ -89,36 +88,7 @@ function trackPageVisit() {
     else if (userAgent.indexOf('Linux') > -1) os = 'Linux';
     analyticsData.os[os] = (analyticsData.os[os] || 0) + 1;
     
-    // Tenta di ottenere la regione dall'API di geolocalizzazione (se disponibile e consentita)
-    try {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                // Utilizziamo una semplice approssimazione per la regione basata sulle coordinate
-                // In un sistema reale si utilizzerebbe un servizio di geocoding
-                const lat = Math.round(position.coords.latitude);
-                const lng = Math.round(position.coords.longitude);
-                const regionKey = `${lat},${lng}`;
-                
-                // Aggiorna i dati di analytics con la regione
-                let updatedData = JSON.parse(localStorage.getItem('cerresologno-analytics') || '{}');
-                if (!updatedData.regions) updatedData.regions = {};
-                updatedData.regions[regionKey] = (updatedData.regions[regionKey] || 0) + 1;
-                localStorage.setItem('cerresologno-analytics', JSON.stringify(updatedData));
-            }, function(error) {
-                // Errore o permesso negato, registra come "Sconosciuta"
-                let updatedData = JSON.parse(localStorage.getItem('cerresologno-analytics') || '{}');
-                if (!updatedData.regions) updatedData.regions = {};
-                updatedData.regions['Sconosciuta'] = (updatedData.regions['Sconosciuta'] || 0) + 1;
-                localStorage.setItem('cerresologno-analytics', JSON.stringify(updatedData));
-            });
-        } else {
-            // Geolocalizzazione non supportata
-            analyticsData.regions['Sconosciuta'] = (analyticsData.regions['Sconosciuta'] || 0) + 1;
-        }
-    } catch (e) {
-        // In caso di errore, registra come "Sconosciuta"
-        analyticsData.regions['Sconosciuta'] = (analyticsData.regions['Sconosciuta'] || 0) + 1;
-    }
+    // La funzionalità di geolocalizzazione è stata rimossa per rispettare la privacy degli utenti
     
     // Mantieni solo gli ultimi 30 giorni di dati per evitare di occupare troppo spazio
     const thirtyDaysAgo = new Date();
@@ -295,29 +265,146 @@ function getOsData(limit = 10) {
     return osArray.slice(0, limit);
 }
 
+// La funzione getRegionsData è stata rimossa per rispettare la privacy degli utenti
+
 /**
- * Ottiene i dati sulle regioni di provenienza
- * @param {number} limit - Il numero massimo di regioni da restituire
- * @returns {Array} Un array di oggetti {region, visits, percentage}
+ * Ottiene i dati sui referrer (provenienza dei visitatori)
+ * @param {number} limit - Il numero massimo di referrer da restituire
+ * @returns {Array} Un array di oggetti {referrer, visits, percentage}
  */
-function getRegionsData(limit = 10) {
+function getReferrersData(limit = 10) {
     const analyticsData = getAnalyticsData();
-    const regions = analyticsData.regions || {};
+    const referrers = analyticsData.referrers || {};
     const totalVisits = analyticsData.totalVisits || 0;
     
-    // Converti l'oggetto in un array di oggetti {region, visits, percentage}
-    const regionsArray = Object.keys(regions).map(region => ({
-        region,
-        visits: regions[region],
-        percentage: totalVisits > 0 ? (regions[region] / totalVisits * 100).toFixed(1) : 0
+    // Converti l'oggetto in un array di oggetti {referrer, visits, percentage}
+    const referrersArray = Object.keys(referrers).map(referrer => ({
+        referrer,
+        visits: referrers[referrer],
+        percentage: totalVisits > 0 ? (referrers[referrer] / totalVisits * 100).toFixed(1) : 0
     }));
     
     // Ordina l'array per numero di visite (decrescente)
-    regionsArray.sort((a, b) => b.visits - a.visits);
+    referrersArray.sort((a, b) => b.visits - a.visits);
     
-    // Restituisci solo il numero richiesto di regioni
-    return regionsArray.slice(0, limit);
+    // Restituisci solo il numero richiesto di referrer
+    return referrersArray.slice(0, limit);
 }
+
+/**
+ * Ottiene un riepilogo aggregato di tutti gli utenti che visitano il sito
+ * @returns {Object} Un oggetto con i dati aggregati degli utenti
+ */
+function getAggregatedUserData() {
+    const analyticsData = getAnalyticsData();
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Calcola il numero di visite negli ultimi 7 giorni
+    const dailyVisits = analyticsData.dailyVisits || {};
+    const last7Days = [];
+    let visitsLast7Days = 0;
+    
+    for (let i = 6; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        const dateString = date.toISOString().split('T')[0];
+        last7Days.push(dateString);
+        visitsLast7Days += (dailyVisits[dateString] || 0);
+    }
+    
+    // Calcola il numero di visite nell'ultimo mese (30 giorni)
+    let visitsLastMonth = 0;
+    Object.keys(dailyVisits).forEach(date => {
+        visitsLastMonth += dailyVisits[date];
+    });
+    
+    // Calcola la media giornaliera di visite negli ultimi 7 giorni
+    const avgDailyVisits = visitsLast7Days > 0 ? (visitsLast7Days / 7).toFixed(1) : 0;
+    
+    // Ottieni i dati sui dispositivi, browser e sistemi operativi più utilizzati
+    const topDevices = getDevicesData(3);
+    const topBrowsers = getBrowsersData(3);
+    const topOs = getOsData(3);
+    const topReferrers = getReferrersData(3);
+    
+    // Calcola la distribuzione percentuale dei dispositivi
+    const deviceDistribution = {};
+    topDevices.forEach(item => {
+        deviceDistribution[item.device] = item.percentage;
+    });
+    
+    return {
+        totalVisits,
+        visitsLast7Days,
+        visitsLastMonth,
+        avgDailyVisits,
+        topDevices,
+        topBrowsers,
+        topOs,
+        topReferrers,
+        deviceDistribution
+    };
+}
+
+/**
+ * Azzera tutti i dati di analytics
+ */
+function resetAnalyticsData() {
+    if (confirm('Sei sicuro di voler azzerare tutte le statistiche? Questa azione non può essere annullata.')) {
+        localStorage.removeItem('cerresologno-analytics');
+        alert('Statistiche azzerate con successo.');
+    }
+}
+
+/**
+ * Ottiene i dati sui browser utilizzati
+ * @param {number} limit - Il numero massimo di browser da restituire
+ * @returns {Array} Un array di oggetti {browser, visits, percentage}
+ */
+function getBrowsersData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const browsers = analyticsData.browsers || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {browser, visits, percentage}
+    const browsersArray = Object.keys(browsers).map(browser => ({
+        browser,
+        visits: browsers[browser],
+        percentage: totalVisits > 0 ? (browsers[browser] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    browsersArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di browser
+    return browsersArray.slice(0, limit);
+}
+
+/**
+ * Ottiene i dati sui sistemi operativi utilizzati
+ * @param {number} limit - Il numero massimo di sistemi operativi da restituire
+ * @returns {Array} Un array di oggetti {os, visits, percentage}
+ */
+function getOsData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const osData = analyticsData.os || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {os, visits, percentage}
+    const osArray = Object.keys(osData).map(os => ({
+        os,
+        visits: osData[os],
+        percentage: totalVisits > 0 ? (osData[os] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    osArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di sistemi operativi
+    return osArray.slice(0, limit);
+}
+
+// La funzione getRegionsData è stata rimossa per rispettare la privacy degli utenti
 
 /**
  * Ottiene i dati sui referrer (provenienza dei visitatori)
@@ -352,3 +439,251 @@ function resetAnalyticsData() {
         alert('Statistiche azzerate con successo.');
     }
 }
+
+/**
+ * Ottiene i dati sui dispositivi utilizzati
+ * @param {number} limit - Il numero massimo di dispositivi da restituire
+ * @returns {Array} Un array di oggetti {device, visits, percentage}
+ */
+function getDevicesData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const devices = analyticsData.devices || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {device, visits, percentage}
+    const devicesArray = Object.keys(devices).map(device => ({
+        device,
+        visits: devices[device],
+        percentage: totalVisits > 0 ? (devices[device] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    devicesArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di dispositivi
+    return devicesArray.slice(0, limit);
+}
+
+/**
+ * Ottiene i dati sui browser utilizzati
+ * @param {number} limit - Il numero massimo di browser da restituire
+ * @returns {Array} Un array di oggetti {browser, visits, percentage}
+ */
+function getBrowsersData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const browsers = analyticsData.browsers || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {browser, visits, percentage}
+    const browsersArray = Object.keys(browsers).map(browser => ({
+        browser,
+        visits: browsers[browser],
+        percentage: totalVisits > 0 ? (browsers[browser] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    browsersArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di browser
+    return browsersArray.slice(0, limit);
+}
+
+/**
+ * Ottiene i dati sui sistemi operativi utilizzati
+ * @param {number} limit - Il numero massimo di sistemi operativi da restituire
+ * @returns {Array} Un array di oggetti {os, visits, percentage}
+ */
+function getOsData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const osData = analyticsData.os || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {os, visits, percentage}
+    const osArray = Object.keys(osData).map(os => ({
+        os,
+        visits: osData[os],
+        percentage: totalVisits > 0 ? (osData[os] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    osArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di sistemi operativi
+    return osArray.slice(0, limit);
+}
+
+// La funzione getRegionsData è stata rimossa per rispettare la privacy degli utenti
+
+/**
+ * Ottiene i dati sui referrer (provenienza dei visitatori)
+ * @param {number} limit - Il numero massimo di referrer da restituire
+ * @returns {Array} Un array di oggetti {referrer, visits, percentage}
+ */
+function getReferrersData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const referrers = analyticsData.referrers || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {referrer, visits, percentage}
+    const referrersArray = Object.keys(referrers).map(referrer => ({
+        referrer,
+        visits: referrers[referrer],
+        percentage: totalVisits > 0 ? (referrers[referrer] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    referrersArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di referrer
+    return referrersArray.slice(0, limit);
+}
+
+/**
+ * Ottiene un riepilogo aggregato di tutti gli utenti che visitano il sito
+ * @returns {Object} Un oggetto con i dati aggregati degli utenti
+ */
+function getAggregatedUserData() {
+    const analyticsData = getAnalyticsData();
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Calcola il numero di visite negli ultimi 7 giorni
+    const dailyVisits = analyticsData.dailyVisits || {};
+    const last7Days = [];
+    let visitsLast7Days = 0;
+    
+    for (let i = 6; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        const dateString = date.toISOString().split('T')[0];
+        last7Days.push(dateString);
+        visitsLast7Days += (dailyVisits[dateString] || 0);
+    }
+    
+    // Calcola il numero di visite nell'ultimo mese (30 giorni)
+    let visitsLastMonth = 0;
+    Object.keys(dailyVisits).forEach(date => {
+        visitsLastMonth += dailyVisits[date];
+    });
+    
+    // Calcola la media giornaliera di visite negli ultimi 7 giorni
+    const avgDailyVisits = visitsLast7Days > 0 ? (visitsLast7Days / 7).toFixed(1) : 0;
+    
+    // Ottieni i dati sui dispositivi, browser e sistemi operativi più utilizzati
+    const topDevices = getDevicesData(3);
+    const topBrowsers = getBrowsersData(3);
+    const topOs = getOsData(3);
+    const topReferrers = getReferrersData(3);
+    
+    // Calcola la distribuzione percentuale dei dispositivi
+    const deviceDistribution = {};
+    topDevices.forEach(item => {
+        deviceDistribution[item.device] = item.percentage;
+    });
+    
+    return {
+        totalVisits,
+        visitsLast7Days,
+        visitsLastMonth,
+        avgDailyVisits,
+        topDevices,
+        topBrowsers,
+        topOs,
+        topReferrers,
+        deviceDistribution
+    };
+}
+
+/**
+ * Azzera tutti i dati di analytics
+ */
+function resetAnalyticsData() {
+    if (confirm('Sei sicuro di voler azzerare tutte le statistiche? Questa azione non può essere annullata.')) {
+        localStorage.removeItem('cerresologno-analytics');
+        alert('Statistiche azzerate con successo.');
+    }
+}
+
+/**
+ * Ottiene i dati sui browser utilizzati
+ * @param {number} limit - Il numero massimo di browser da restituire
+ * @returns {Array} Un array di oggetti {browser, visits, percentage}
+ */
+function getBrowsersData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const browsers = analyticsData.browsers || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {browser, visits, percentage}
+    const browsersArray = Object.keys(browsers).map(browser => ({
+        browser,
+        visits: browsers[browser],
+        percentage: totalVisits > 0 ? (browsers[browser] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    browsersArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di browser
+    return browsersArray.slice(0, limit);
+}
+
+/**
+ * Ottiene i dati sui sistemi operativi utilizzati
+ * @param {number} limit - Il numero massimo di sistemi operativi da restituire
+ * @returns {Array} Un array di oggetti {os, visits, percentage}
+ */
+function getOsData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const osData = analyticsData.os || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {os, visits, percentage}
+    const osArray = Object.keys(osData).map(os => ({
+        os,
+        visits: osData[os],
+        percentage: totalVisits > 0 ? (osData[os] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    osArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di sistemi operativi
+    return osArray.slice(0, limit);
+}
+
+// La funzione getRegionsData è stata rimossa per rispettare la privacy degli utenti
+
+/**
+ * Ottiene i dati sui referrer (provenienza dei visitatori)
+ * @param {number} limit - Il numero massimo di referrer da restituire
+ * @returns {Array} Un array di oggetti {referrer, visits, percentage}
+ */
+function getReferrersData(limit = 10) {
+    const analyticsData = getAnalyticsData();
+    const referrers = analyticsData.referrers || {};
+    const totalVisits = analyticsData.totalVisits || 0;
+    
+    // Converti l'oggetto in un array di oggetti {referrer, visits, percentage}
+    const referrersArray = Object.keys(referrers).map(referrer => ({
+        referrer,
+        visits: referrers[referrer],
+        percentage: totalVisits > 0 ? (referrers[referrer] / totalVisits * 100).toFixed(1) : 0
+    }));
+    
+    // Ordina l'array per numero di visite (decrescente)
+    referrersArray.sort((a, b) => b.visits - a.visits);
+    
+    // Restituisci solo il numero richiesto di referrer
+    return referrersArray.slice(0, limit);
+}
+
+/**
+ * Azzera tutti i dati di analytics
+ */
+function resetAnalyticsData() {
+    if (confirm('Sei sicuro di voler azzerare tutte le statistiche? Questa azione non può essere annullata.')) {
+        localStorage.removeItem('cerresologno-analytics');
+        alert('Statistiche azzerate con successo.');
+    }
+}
+// Funzione sendAnalyticsToGoogleSheet rimossa perché non implementata

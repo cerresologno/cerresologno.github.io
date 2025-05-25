@@ -242,30 +242,42 @@ function generateArticleHTML(title, summary, content, contentType, tags, eventDa
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         .centered-content {
-            text-align: center; /* Centra il testo orizzontalmente */
-            margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
-        }
-        
-        /* Stile per il contenitore della navigazione */
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        
-        /* Stile per il pulsante del tema */
-        .theme-toggle {
-            position: absolute;
-            right: 0;
-        }
-        
-        /* Solo per dispositivi mobili, ripristina il comportamento normale */
-        @media (max-width: 768px) {
-            .theme-toggle {
-                position: static;
+                margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
+                max-width: 800px; /* Larghezza massima del contenuto */
+                margin-left: auto; /* Centra il blocco orizzontalmente */
+                margin-right: auto; /* Centra il blocco orizzontalmente */
+                padding: 0 20px; /* Aggiunge un po' di padding laterale */
             }
-        }
+            .centered-content h2, .centered-content h3 {
+                text-align: center; /* Centra i titoli orizzontalmente */
+            }
+            .centered-content p {
+                text-align: justify; /* Giustifica i paragrafi */
+            }
+            .content {
+                width: 100%; /* Assicura che il contenuto occupi tutta la larghezza disponibile */
+            }
+            
+            /* Stile per il contenitore della navigazione */
+            .nav-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+            }
+            
+            /* Stile per il pulsante del tema */
+            .theme-toggle {
+                position: absolute;
+                right: 0;
+            }
+            
+            /* Solo per dispositivi mobili, ripristina il comportamento normale */
+            @media (max-width: 768px) {
+                .theme-toggle {
+                    position: static;
+                }
+            }
     </style>
 </head>
 <body onload="checkDarkMode()">
@@ -646,11 +658,14 @@ function updateAnalyticsData() {
     // Aggiorna il grafico delle visite
     updateVisitsChart(analyticsData);
     
-    // Aggiorna il grafico della provenienza dei visitatori
+    // Aggiorna il grafico dei referrer
     updateReferrerChart(analyticsData);
     
     // Aggiorna il grafico dei dispositivi e sistemi operativi
     updateDeviceOsChart(analyticsData);
+    
+    // Aggiorna la sezione di riepilogo aggregato degli utenti
+    updateAggregatedUserSection();
 }
 
 /**
@@ -957,6 +972,172 @@ function updateDeviceOsChart(analyticsData) {
     if (window.deviceOsChart) {
         window.deviceOsChart.destroy();
     }
+}
+
+/**
+ * Aggiorna la sezione di riepilogo aggregato degli utenti
+ */
+function updateAggregatedUserSection() {
+    // Verifica se la funzione getAggregatedUserData è disponibile
+    if (typeof getAggregatedUserData !== 'function') {
+        console.error('Funzione getAggregatedUserData non disponibile');
+        return;
+    }
+    
+    // Ottieni i dati aggregati degli utenti
+    const userData = getAggregatedUserData();
+    
+    // Verifica se esiste già la sezione di riepilogo aggregato
+    let aggregatedSection = document.getElementById('aggregated-users-section');
+    
+    // Se non esiste, creala e inseriscila prima della sezione dei grafici
+    if (!aggregatedSection) {
+        const analyticsSection = document.querySelector('#analytics-section .container-fluid');
+        if (!analyticsSection) return;
+        
+        // Crea la nuova sezione
+        const newSection = document.createElement('div');
+        newSection.id = 'aggregated-users-section';
+        newSection.className = 'card mb-4';
+        newSection.innerHTML = `
+            <div class="card-header">Riepilogo Aggregato Utenti</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Metrica</th>
+                                        <th>Valore</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="aggregated-metrics">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="aggregated-chart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Inserisci la nuova sezione dopo le card di visite totali e visite oggi
+        const topPagesSection = document.querySelector('.card.mb-4:nth-child(3)');
+        if (topPagesSection) {
+            analyticsSection.insertBefore(newSection, topPagesSection);
+        } else {
+            analyticsSection.appendChild(newSection);
+        }
+        
+        aggregatedSection = newSection;
+    }
+    
+    // Aggiorna la tabella delle metriche aggregate
+    const metricsTable = document.getElementById('aggregated-metrics');
+    if (metricsTable) {
+        metricsTable.innerHTML = `
+            <tr>
+                <td>Visite Totali</td>
+                <td>${userData.totalVisits}</td>
+            </tr>
+            <tr>
+                <td>Visite Ultimi 7 Giorni</td>
+                <td>${userData.visitsLast7Days}</td>
+            </tr>
+            <tr>
+                <td>Visite Ultimo Mese</td>
+                <td>${userData.visitsLastMonth}</td>
+            </tr>
+            <tr>
+                <td>Media Giornaliera (7 giorni)</td>
+                <td>${userData.avgDailyVisits}</td>
+            </tr>
+            <tr>
+                <td>Dispositivo Principale</td>
+                <td>${userData.topDevices[0]?.device || 'N/D'} (${userData.topDevices[0]?.percentage || 0}%)</td>
+            </tr>
+            <tr>
+                <td>Browser Principale</td>
+                <td>${userData.topBrowsers[0]?.browser || 'N/D'} (${userData.topBrowsers[0]?.percentage || 0}%)</td>
+            </tr>
+            <tr>
+                <td>Sistema Operativo Principale</td>
+                <td>${userData.topOs[0]?.os || 'N/D'} (${userData.topOs[0]?.percentage || 0}%)</td>
+            </tr>
+            <tr>
+                <td>Principale Fonte di Traffico</td>
+                <td>${userData.topReferrers[0]?.referrer || 'N/D'} (${userData.topReferrers[0]?.percentage || 0}%)</td>
+            </tr>
+        `;
+    }
+    
+    // Aggiorna il grafico della distribuzione dei dispositivi
+    const chartCanvas = document.getElementById('aggregated-chart');
+    if (chartCanvas) {
+        // Prepara i dati per il grafico
+        const labels = userData.topDevices.map(item => item.device);
+        const data = userData.topDevices.map(item => item.visits);
+        
+        // Colori per il grafico
+        const backgroundColors = [
+            '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'
+        ];
+        
+        // Distruggi il grafico esistente se presente
+        if (window.aggregatedChart) {
+            window.aggregatedChart.destroy();
+        }
+        
+        // Crea il nuovo grafico
+        window.aggregatedChart = new Chart(chartCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors.slice(0, labels.length),
+                    hoverBackgroundColor: backgroundColors.slice(0, labels.length),
+                    hoverBorderColor: 'rgba(234, 236, 244, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribuzione Dispositivi',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const percentage = userData.topDevices.find(d => d.device === label)?.percentage || 0;
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+    }
+}
     
     // Crea il nuovo grafico
     window.deviceOsChart = new Chart(chartCanvas, {
@@ -993,4 +1174,3 @@ function updateDeviceOsChart(analyticsData) {
             }
         }
     });
-}

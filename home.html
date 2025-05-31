@@ -6,91 +6,45 @@
     <title>Pro Loco Cerrè Sologno</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="card-style.css">
     <script src="script.js"></script>
     <script src="js/analytics.js"></script>
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         .centered-content {
-            text-align: center; /* Centra il testo orizzontalmente */
-            margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
+            text-align: center;
+            margin-top: 50px;
         }
-        .two-column-layout {
+        
+        .nav-container {
             display: flex;
-            flex-wrap: wrap;
-            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
         
-        .left-column {
-            flex: 1;
-            min-width: 300px;
-            padding: 10px;
+        .theme-toggle {
+            position: absolute;
+            right: 0;
         }
         
-        .right-column {
-            flex: 1;
-            min-width: 300px;
-            padding: 10px;
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
         }
         
         .map-container {
             width: 100%;
-            margin-bottom: 20px;
+            margin: 40px 0;
         }
         
         .map-container iframe {
             width: 100%;
             height: 300px;
             border: 0;
-        }
-        
-        .aerial-photo {
-            width: 100%;
-            margin-top: 20px;
-            clear: both;
-        }
-        
-        .aerial-photo img {
-            width: 100%;
-            max-height: 300px;
-            object-fit: cover;
             border-radius: 8px;
-        }
-        
-        @media (max-width: 768px) {
-            .two-column-layout {
-                flex-direction: column;
-            }
-            
-            .left-column {
-                display: flex;
-                flex-direction: column;
-            }
-            
-            /* Hide the original aerial photo in the left column */
-            .left-column .aerial-photo {
-                display: none;
-            }
-            
-            /* Move the map container below */
-            .map-container {
-                margin-top: 40px;
-                margin-bottom: 40px;
-            }
-            
-            /* Create a mobile-only aerial photo that appears after h2 */
-            .mobile-aerial-photo {
-                display: block;
-                width: 90%;
-                margin: 20px auto;
-            }
-            
-            /* Hide this element in desktop view */
-            @media (min-width: 769px) {
-                .mobile-aerial-photo {
-                    display: none;
-                }
-            }
         }
     </style>
 </head>
@@ -99,8 +53,11 @@
         <h1>Pro Loco Cerrè Sologno</h1>
         <div class="nav-container">
             <nav>
+                <a href="home.html" class="button">Home</a>
                 <a href="news.html" class="button">News</a>
                 <a href="eventi.html" class="button">Eventi</a>
+                <a href="ricette.html" class="button">Ricette</a>
+                <a href="attività.html" class="button">Attività</a>
                 <a href="contatti.html" class="button">Chi siamo?</a>
                 <a href="storia.html" class="button">La storia di Cerré</a>
                 <a href="dove.html" class="button">Dove ci trovi?</a>
@@ -110,53 +67,95 @@
     </header>
 
     <main>
-        <h2 class="centered-content">Benvenuti nel sito della Pro Loco di Cerrè Sologno!</h2>
-        
-        <!-- Add a mobile-only aerial photo here -->
-        <div class="mobile-aerial-photo">
-            <h3>Vista del paese</h3>
-            <img src="cerre2.jpeg" alt="Vista di Cerrè Sologno" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px;">
+        <div class="map-container">
+            <h1 class="centered-content">Dove Siamo</h1>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2846.1831392896644!2d10.466204776537515!3d44.4105642057298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47809f9aaaaaaa01%3A0x5f5f5f5f5f5f5f5f!2sCerr%C3%A8%20Sologno%2C%2042030%20Villa%20Minozzo%20RE!5e0!3m2!1sit!2sit!4v1698765432109!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        
-        <p class="centered-content">Scopri le bellezze del nostro territorio, la sua storia, gli eventi e le iniziative che organizziamo.</p>
-        
-        <div class="two-column-layout">
-            <div class="right-column centered-content"> 
-                <h2>In programmazione</h2>
-                <div class="news-preview">
-                    <p>Scopri cosa sta bollendo in pentola!</p>
-                    <a href="evento3.html" class="button">Clicca qui!</a>
+        <h1 class="page-title">Scopri Cerrè Sologno</h1>
+        <div class="card-container">
+            <!-- Card 1: Natura Incontaminata -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">landscape</i>
                 </div>
-                <div class="news-preview">
-                    <p>Per la programmazione completa:</p>
-                    <a href="evento4.html" class="button">Clicca qui!</a>
-                </div>
-                
-                <h2>La storia</h2>
-                <div class="news-preview">
-                    <p>Scopri la storia di una delle battaglie meno raccontate di sempre!</p>
-                    <a href="storia.html" class="button">Clicca qui!</a>
-                </div>
-                <h2>Chi siamo?</h2>
-                <div class="news-preview">
-                    <p>Segui le nostre pagine social per rimanere sempre aggiornato!</p>
-                    <a href="contatti.html" class="button">Clicca qui per seguirci!</a>
+                <div class="card-content">
+                    <h2 class="card-title">Natura Incontaminata</h2>
+                    <p class="card-text">Immerso nel Parco Nazionale dell'Appennino Tosco-Emiliano, Cerrè Sologno offre sentieri mozzafiato, boschi secolari e panorami che tolgono il fiato. Perfetto per trekking ed escursioni.</p>
+                    <a href="attività.html" class="card-button">Scopri di più</a>
                 </div>
             </div>
             
-            <div class="left-column">
-                <div class="map-container">
-                    <h3><a href="dove.html" style="text-decoration: none; color: inherit;">Dove siamo</a></h3>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11326.006362789367!2d10.3763!3d44.3825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47809f9c8a6e2c33%3A0x5f39b3c5c0c7e6c6!2sCerr%C3%A8%20Sologno%2C%2042030%20Villa%20Minozzo%20RE!5e1!3m2!1sit!2sit!4v1650000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
+            <!-- Card 2: Storia e Tradizioni -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">castle</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Storia e Tradizioni</h2>
+                    <p class="card-text">Un borgo ricco di storia, con architettura tradizionale appenninica perfettamente conservata. Scopri le nostre tradizioni e la cultura montana che si tramanda da generazioni.</p>
+                    <a href="storia.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+            
+            <!-- Card 3: Gastronomia Locale -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">restaurant_menu</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Gastronomia Locale</h2>
+                    <p class="card-text">Assapora i sapori autentici della montagna con i nostri prodotti tipici: formaggi artigianali, funghi, castagne e piatti della tradizione emiliana preparati secondo le ricette di una volta.</p>
+                    <a href="ricette.html" class="card-button">Eventi gastronomici</a>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="centered-content">Prossimi Eventi</h2>
+        <div class="card-container">
+            <!-- Card Eventi -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">event</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Cerrè Summer Games</h2>
+                    <p class="card-text">Tornei di Beach Volley, Freccette, Beer Pong e tanto divertimento! Animazione dalle 18:30 e foodtruck con specialità brasiliane.</p>
+                    <p>Data: 12/08/2025</p>
+                    <a href="eventi/evento4.html" class="card-button">Dettagli</a>
+                </div>
+            </div>
+            
+            <!-- Card News -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">article</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Ultime Notizie</h2>
+                    <p class="card-text">Rimani aggiornato sulle ultime novità e attività della Pro Loco di Cerrè Sologno. Scopri i nostri progetti e come partecipare attivamente alla vita della comunità.</p>
+                    <a href="news.html" class="card-button">Leggi le news</a>
+                </div>
+            </div>
+        </div>
+        <h2 class="centered-content">Le nostre Specialità</h2>
+        <div class="card-container">
+            <!-- Card Ricette -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">restaurant_menu</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Ricette Tradizionali</h2>
+                    <p class="card-text">Scopri i sapori autentici della nostra tradizione gastronomica. Ricette tipiche dell'Appennino Tosco-Emiliano come il castagnaccio e altri piatti della nostra cultura.</p>
+                    <a href="ricette.html" class="card-button">Scopri le ricette</a>
                 </div>
             </div>
         </div>
     </main>
-    
+
     <footer>
         <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
     </footer>
-    
     <script>
         function checkDarkMode() {
             if (localStorage.getItem("darkMode") === "enabled") {
@@ -176,6 +175,5 @@
             }
         });
     </script>
-    <iframe src="about:blank" style="display: none;"></iframe>
 </body>
 </html>

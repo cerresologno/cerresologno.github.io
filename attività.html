@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attività e Sentieri - Pro Loco Cerrè Sologno</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="card-style.css">
+    <script src="script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .centered-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 40px 0 20px 0;
+            color: #848b11; /* Colore richiesto */
+            padding-bottom: 10px; /* Rimosso border-bottom */
+        }
+        
+        .dark-mode .section-title {
+            color: #848b11; /* Manteniamo lo stesso colore anche in dark mode per coerenza con la richiesta */
+        }
+        
+        .difficulty-easy { border-left: 4px solid #4CAF50; }
+        .difficulty-medium { border-left: 4px solid #FF9800; }
+        .difficulty-hard { border-left: 4px solid #F44336; }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        
+        .badge-easy { background-color: #E8F5E8; color: #2E7D2E; }
+        .badge-medium { background-color: #FFF3E0; color: #E65100; }
+        .badge-hard { background-color: #FFEBEE; color: #C62828; }
+        
+        .dark-mode .badge-easy { background-color: #2E7D2E; color: #E8F5E8; }
+        .dark-mode .badge-medium { background-color: #E65100; color: #FFF3E0; }
+        .dark-mode .badge-hard { background-color: #C62828; color: #FFEBEE; }
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Pro Loco Cerrè Sologno</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="home.html" class="button">Home</a>
+                <a href="news.html" class="button">News</a>
+                <a href="eventi.html" class="button">Eventi</a>
+                <a href="ricette.html" class="button">Ricette</a>
+                <a href="contatti.html" class="button">Chi siamo?</a>
+                <a href="storia.html" class="button">La storia di Cerré</a>
+                <a href="dove.html" class="button">Dove ci trovi?</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="page-title">Attività e Sentieri</h1>
+        <p class="centered-content">Scopri tutte le meraviglie naturali e le attività che puoi fare nei dintorni di Cerrè Sologno, nel cuore del Parco Nazionale dell'Appennino Tosco-Emiliano.</p>
+        
+        <h2 class="section-title">Sentieri Escursionistici</h2>
+        <div class="card-container">
+            <!-- Sentiero Il Monte -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">hiking</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Il Monte</h2>
+                    <p class="card-text">Piacevole passeggiata tra boschi e il caratteristico borgo di Ligonchio, con vista sulla Big Bench.</p>
+                    <p><strong>Difficoltà:</strong> T (Molto Facile) <span class="difficulty-badge badge-easy">Molto Facile</span></p>
+                    <a href="sentieri/il-monte.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+            <!-- Sentiero Ospitaletto-Passo Pradarena -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">landscape</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Ospitaletto-Passo Pradarena</h2>
+                    <p class="card-text">Itinerario tra faggete e pascoli d'alta quota, con ampie vedute sul confine tosco-emiliano.</p>
+                    <p><strong>Difficoltà:</strong> T (Facile) <span class="difficulty-badge badge-easy">Facile</span></p>
+                    <a href="sentieri/ospitaletto-passo-pradarena.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+            <!-- Sentiero Monte Cusna -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">landscape</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Monte Cusna</h2>
+                    <p class="card-text">Ascesa al "Gigante", la seconda vetta dell'Appennino Settentrionale, per panorami mozzafiato.</p>
+                    <p><strong>Difficoltà:</strong> E (Escursionistico) <span class="difficulty-badge badge-medium">Medio</span></p>
+                    <a href="sentieri/monte-cusna.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+            <!-- Sentiero Prati di Sara -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">forest</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Casalino-Prati di Sara</h2>
+                    <p class="card-text">Escursione attraverso antichi castagneti e boschi misti, alla scoperta di muri storici.</p>
+                    <p><strong>Difficoltà:</strong> E (Moderato) <span class="difficulty-badge badge-medium">Medio</span></p>
+                    <a href="sentieri/prati-di-sara.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Rifugi di Montagna</h2>
+        <div class="card-container">
+            <!-- Rifugio Bargetana -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">home_work</i> <!-- Icona per rifugio alpino -->
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Rifugio Bargetana</h2>
+                    <p class="card-text">Accogliente rifugio alpino vicino all'omonimo lago, base per escursioni al Monte Prado. Offre ristorazione e pernottamento.</p>
+                    <p><strong>Altitudine:</strong> 1740m</p>
+                    <a href="rifugi/rifugio-bargetana.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+            <!-- Rifugio Cesare Battisti -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">home_work</i> <!-- Icona alternativa per rifugio -->
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Rifugio Cesare Battisti</h2>
+                    <p class="card-text">Storico rifugio CAI in Alta Val d'Ozola, punto di appoggio per Monte Cusna e Alpe di Succiso. Cucina casalinga e posti letto.</p>
+                    <p><strong>Altitudine:</strong> 1751m</p>
+                    <a href="rifugi/rifugio-battisti.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+        </div>
+        <h2 class="section-title">Ristoranti e Agriturismi</h2>
+        <div class="card-container">
+            <!-- Foresteria San Benedetto -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">restaurant</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Foresteria San Benedetto</h2>
+                    <p class="card-text">Ristorante con camere che offre cucina tradizionale emiliana e prodotti locali freschi.</p>
+                    <p><strong>Località:</strong> Castelnovo ne' Monti, RE</p>
+                    <a href="dove-mangiare/foresteria-san-benedetto.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+            <!-- Trattoria Il Faro -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">restaurant_menu</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Trattoria Il Faro</h2>
+                    <p class="card-text">Cucina tipica montanara con specialità funghi e selvaggina, in un ambiente rustico.</p>
+                    <p><strong>Località:</strong> Civago, RE</p>
+                    <a href="dove-mangiare/trattoria-il-faro.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+            <!-- Rifugio della Pietra -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">local_dining</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Rifugio della Pietra</h2>
+                    <p class="card-text">Ai piedi della Pietra di Bismantova, offre gnocco fritto, tigelle e cucina emiliana.</p>
+                    <p><strong>Località:</strong> Castelnovo ne' Monti, RE</p>
+                    <a href="dove-mangiare/rifugio-della-pietra.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+    </footer>
+    
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode();
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            if (document.body.classList.contains("dark-mode")) {
+                localStorage.setItem("darkMode", "enabled");
+            } else {
+                localStorage.setItem("darkMode", "disabled");
+            }
+        }
+    </script>
+</body>
+</html>

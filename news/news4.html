@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuovo evento a Cerrè! - Pro Loco Cerrè Sologno</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
+    <script src="../script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .centered-content {
+            text-align: center; /* Centra il testo orizzontalmente */
+            margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
+        }
+        
+        /* Stile per il contenitore della navigazione */
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        /* Stile per il pulsante del tema */
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        /* Solo per dispositivi mobili, ripristina il comportamento normale */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Nuovo evento a Cerrè!</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="../news.html" class="button">Indietro</a>
+                <a href="../home.html" class="button">Home</a>
+                <a href="../eventi.html" class="button">Eventi</a>
+                <a href="../contatti.html" class="button">Chi siamo?</a>
+                <a href="../storia.html" class="button">La storia di Cerré</a>
+                <a href="../dove.html" class="button">Dove ci trovi?</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+
+    <main class="centered-content">
+        <h2>Nuovo evento a Cerrè!</h2>
+        <p>3/5/2025</p>
+        <div class="content">
+            <p>Sta bollendo qualcosa in pentola... la Rana della Sapo ha deciso di rimettersi in forma!</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+    </footer>
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode(); // Verifica all'avvio della pagina
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+    <iframe src="about:blank" style="display: none;"></iframe>
+</body>
+</html>

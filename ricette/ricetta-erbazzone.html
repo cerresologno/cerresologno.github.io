@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erbazzone Reggiano - Ricetta Originale</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
+    <link rel="stylesheet" href="../card-style.css">
+    <script src="../script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .centered-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
+        
+        .recipe-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .recipe-header {
+            background-color: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Testo chiaro da style.css */
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .recipe-header h1,
+        .recipe-header p {
+            color: #ede1b5; /* Testo chiaro da style.css per h1 e p nell'header */
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ede1b5; /* Colore sfondo chiaro da style.css */
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            color: #201208; /* Colore testo scuro da style.css */
+        }
+        
+        .dark-mode .container {
+            background: #201208; /* Colore sfondo da style.css */
+            color: white; 
+        }
+        
+        .dark-mode .recipe-header {
+            background-color: #848b11; /* Verde da style.css */
+            color: white; /* Testo bianco */
+        }
+
+        .dark-mode .recipe-header h1,
+        .dark-mode .recipe-header p {
+            color: white; /* Testo bianco per h1 e p nell'header */
+        }
+
+        .dark-mode .intro {
+            background: #444; /* Sfondo leggermente più chiaro per contrasto */
+            border-left: 5px solid #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .intro p {
+            color: white;
+        }
+        
+        .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode .section-title {
+            color: #ede1b5; /* Colore testo chiaro da style.css per i titoli */
+        }
+
+        .dark-mode .section-title i {
+            color: #ede1b5; /* Colore icone section title */
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .intro {
+            background: #f8f9fa; /* Manteniamo uno sfondo leggermente diverso per l'intro */
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            border-left: 5px solid #848b11; /* Verde da style.css */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #201208; /* Testo scuro da style.css */
+        }
+
+        .recipe-section {
+            margin-bottom: 3rem;
+        }
+
+        h1, h2, h3, .section-title {
+            color: #848b11; /* Verde da style.css per i titoli */
+        }
+
+        .section-title {
+            font-size: 2rem;
+            /* color: #848b11; */ /* Già definito sopra */
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: #848b11; /* Verde da style.css per le icone */
+        }
+
+        .section-icon {
+            font-size: 2rem;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .ingredients-card {
+            background: #fff;
+            border: 2px solid #848b11; /* Verde da style.css */
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(132, 139, 17, 0.1); /* Ombra adattata al verde */
+        }
+        
+        .dark-mode .ingredients-card {
+            background: #444;
+            border-color: #848b11; /* Verde da style.css */
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #848b11; /* Verde da style.css */
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .dark-mode .card-title {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .ingredients-list, .steps-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ingredients-list li {
+            background: #f8f9fa;
+            margin-bottom: 0.5rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border-left: 4px solid #848b11; /* Verde da style.css */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease;
+            color: #201208; /* Testo scuro */
+        }
+        
+        .dark-mode .ingredients-list li {
+            background: #555;
+            border-left-color: #848b11; /* Verde da style.css */
+            color: white; /* Testo bianco per gli item della lista */
+        }
+
+        .ingredients-list li:hover {
+            transform: translateX(5px);
+            background: #e9ecef;
+        }
+
+        .ingredient-name {
+            font-weight: 500;
+        }
+
+        .ingredient-name {
+            color: #201208; /* Testo scuro */
+        }
+
+        .ingredient-amount {
+            color: #848b11; /* Verde da style.css */
+            font-weight: bold;
+        }
+        
+        .dark-mode .ingredient-name {
+            color: white;
+        }
+
+        .dark-mode .ingredient-amount {
+            color: #ede1b5; /* Colore testo chiaro per quantità */
+        }
+
+        .steps-list li {
+            background: white;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #848b11; /* Verde da style.css */
+            position: relative;
+            transition: all 0.3s ease;
+            color: #201208; /* Testo scuro */
+        }
+
+        .dark-mode .steps-list li {
+            background: #444;
+            border-left-color: #848b11; /* Verde da style.css */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            color: white; /* Testo bianco per i passaggi */
+        }
+
+        .steps-list li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .step-number {
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Testo chiaro */
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .dark-mode .step-number {
+            background: #848b11; /* Verde da style.css */
+            color: white;
+        }
+
+        .step-content {
+            margin-left: 30px;
+        }
+
+        .step-content strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .step-content strong {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .tips-section {
+            background: #f0ead6; /* Sfondo leggermente diverso per tips, coordinato con #ede1b5 */
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 3rem;
+            border-left: 5px solid #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .tips-section {
+            background: #444; /* Sfondo leggermente più chiaro per contrasto */
+            border-left-color: #848b11; /* Verde da style.css */
+        }
+
+        .tips-section h3 {
+            color: #848b11; /* Verde da style.css */
+            margin-bottom: 1rem;
+        }
+
+        .tips-section i {
+            color: #848b11; /* Verde da style.css per le icone */
+        }
+        
+        .dark-mode .tips-section h3 {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .dark-mode .tips-section i {
+            color: #ede1b5; /* Colore icone tips section */
+        }
+
+        .tips-list {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .tips-list li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            color: #201208; /* Testo scuro */
+        }
+        
+        .dark-mode .tips-list li {
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            background: #ede1b5; /* Sfondo chiaro da style.css */
+            border-top: 1px solid #848b11; /* Bordo verde da style.css */
+            color: #201208; /* Testo scuro */
+        }
+
+        .footer p {
+            color: #201208; /* Testo scuro */
+        }
+        
+        .dark-mode .footer {
+            background: #201208; /* Colore sfondo da style.css */
+            border-top-color: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .dark-mode .footer p {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Proloco Cerrè Sologno</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="../home.html" class="button">Home</a>
+                <a href="../news.html" class="button">News</a>
+                <a href="../eventi.html" class="button">Eventi</a>
+                <a href="../contatti.html" class="button">Chi siamo?</a>
+                <a href="../storia.html" class="button">La storia di Cerré</a>
+                <a href="../dove.html" class="button">Dove ci trovi?</a>
+                <a href="../ricette.html" class="button">Ricette</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="recipe-header">
+            <h1>Erbazzone Reggiano</h1>
+            <p>Un classico della cucina emiliana, una torta salata ricca di sapore e tradizione.</p>
+        </div>
+
+        <div class="content">
+            <section class="intro">
+                <p>L'erbazzone, conosciuto anche come "scarpasòun" nel dialetto reggiano, è una torta salata tipica della provincia di Reggio Emilia. È un piatto rustico, preparato con un ripieno di bietole (o spinaci), parmigiano reggiano, pancetta (o lardo) e aglio, racchiuso tra due sfoglie di pasta. Una vera delizia che profuma di casa e di tradizione contadina.</p>
+            </section>
+
+            <section class="recipe-section ingredients">
+                <h2 class="section-title"><i class="fas fa-carrot section-icon"></i>Ingredienti</h2>
+                <div class="ingredients-grid">
+                    <div class="ingredients-card">
+                        <h3 class="card-title">Per la Pasta</h3>
+                        <ul class="ingredients-list">
+                            <li><span class="ingredient-name">Farina 00</span> <span class="ingredient-amount">300g</span></li>
+                            <li><span class="ingredient-name">Acqua tiepida</span> <span class="ingredient-amount">150ml</span></li>
+                            <li><span class="ingredient-name">Strutto (o olio EVO)</span> <span class="ingredient-amount">50g</span></li>
+                            <li><span class="ingredient-name">Sale</span> <span class="ingredient-amount">1 pizzico</span></li>
+                        </ul>
+                    </div>
+                    <div class="ingredients-card">
+                        <h3 class="card-title">Per il Ripieno</h3>
+                        <ul class="ingredients-list">
+                            <li><span class="ingredient-name">Bietole (o spinaci)</span> <span class="ingredient-amount">1kg</span></li>
+                            <li><span class="ingredient-name">Parmigiano Reggiano DOP</span> <span class="ingredient-amount">150g grattugiato</span></li>
+                            <li><span class="ingredient-name">Pancetta (o lardo)</span> <span class="ingredient-amount">100g a cubetti</span></li>
+                            <li><span class="ingredient-name">Cipolla bianca</span> <span class="ingredient-amount">1 media</span></li>
+                            <li><span class="ingredient-name">Aglio</span> <span class="ingredient-amount">1-2 spicchi</span></li>
+                            <li><span class="ingredient-name">Prezzemolo tritato</span> <span class="ingredient-amount">2 cucchiai</span></li>
+                            <li><span class="ingredient-name">Pangrattato</span> <span class="ingredient-amount">2-3 cucchiai (se necessario)</span></li>
+                            <li><span class="ingredient-name">Olio extravergine d'oliva</span> <span class="ingredient-amount">q.b.</span></li>
+                            <li><span class="ingredient-name">Sale e pepe</span> <span class="ingredient-amount">q.b.</span></li>
+                            <li><span class="ingredient-name">Noce moscata (opzionale)</span> <span class="ingredient-amount">1 pizzico</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recipe-section preparation">
+                <h2 class="section-title"><i class="fas fa-utensils section-icon"></i>Preparazione</h2>
+                <ol class="steps-list">
+                    <li>
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <strong>Preparare la pasta:</strong> In una ciotola capiente, mescolate la farina con il sale. Aggiungete lo strutto (o l'olio) e lavorate con le dita fino ad ottenere un composto sabbioso. Versate l'acqua tiepida poco alla volta, impastando fino ad ottenere un panetto liscio ed elastico. Coprite con un canovaccio e lasciate riposare per almeno 30 minuti.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <strong>Preparare il ripieno:</strong> Lavate accuratamente le bietole (o gli spinaci). Lessatele in poca acqua salata per circa 5-7 minuti, finché non saranno tenere. Scolatele bene, strizzatele per eliminare l'acqua in eccesso e tritatele grossolanamente.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <strong>Soffritto:</strong> In una padella capiente, scaldate un filo d'olio EVO. Aggiungete la cipolla tritata finemente e l'aglio (intero o tritato, a seconda dei gusti). Fate soffriggere a fuoco dolce finché la cipolla non sarà trasparente. Aggiungete la pancetta a cubetti e fatela rosolare finché non diventa croccante. Rimuovete l'aglio se lo avete lasciato intero.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <strong>Unire gli ingredienti:</strong> Aggiungete le bietole tritate al soffritto nella padella. Fatele insaporire per qualche minuto, mescolando. Togliete dal fuoco e lasciate intiepidire.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <strong>Completare il ripieno:</strong> Trasferite il composto di bietole e pancetta in una ciotola. Aggiungete il Parmigiano Reggiano grattugiato, il prezzemolo tritato, sale, pepe e, se gradita, una spolverata di noce moscata. Mescolate bene tutti gli ingredienti. Se il ripieno dovesse risultare troppo umido, aggiungete 2-3 cucchiai di pangrattato per assorbire l'eccesso di liquidi.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">6</span>
+                        <div class="step-content">
+                            <strong>Stendere la pasta:</strong> Dividete l'impasto in due parti, una leggermente più grande dell'altra. Stendete la parte più grande con un mattarello su una superficie infarinata, fino ad ottenere una sfoglia sottile che possa foderare una teglia da forno rotonda (circa 26-28 cm di diametro) o rettangolare, precedentemente unta d'olio o foderata con carta forno. Lasciate che la pasta debordi leggermente dai lati.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">7</span>
+                        <div class="step-content">
+                            <strong>Farcire:</strong> Versate il ripieno sulla base di pasta, livellandolo uniformemente con un cucchiaio.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">8</span>
+                        <div class="step-content">
+                            <strong>Coprire:</strong> Stendete la seconda parte dell'impasto per formare un disco o un rettangolo che copra il ripieno. Adagiate la sfoglia superiore sull'erbazzone, sigillando bene i bordi pizzicandoli con le dita o con i rebbi di una forchetta. Eliminate l'eventuale pasta in eccesso.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">9</span>
+                        <div class="step-content">
+                            <strong>Decorare e cuocere:</strong> Bucherellate la superficie dell'erbazzone con una forchetta. Spennellate la superficie con un po' d'olio d'oliva (o con un tuorlo d'uovo sbattuto per una doratura più intensa). Potete cospargere la superficie con qualche cubetto di lardo o pancetta, se vi piace. Cuocete in forno statico preriscaldato a 180-200°C per circa 35-45 minuti, o finché la superficie non sarà dorata e croccante.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">10</span>
+                        <div class="step-content">
+                            <strong>Servire:</strong> Sfornate l'erbazzone e lasciatelo intiepidire prima di tagliarlo a fette o a quadrotti. È ottimo sia tiepido che freddo.
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="recipe-section tips-section">
+                <h3><i class="fas fa-lightbulb section-icon"></i>Consigli e Varianti</h3>
+                <ul class="tips-list">
+                    <li><strong>Variante con Riso:</strong> Alcune versioni dell'erbazzone prevedono l'aggiunta di una manciata di riso bollito al ripieno, per renderlo più sostanzioso.</li>
+                    <li><strong>Senza Latticini:</strong> Per una versione senza latticini, omettete il Parmigiano Reggiano o sostituitelo con lievito alimentare in scaglie per un sapore "formaggioso".</li>
+                    <li><strong>Pasta Sfoglia Pronta:</strong> Se avete poco tempo, potete utilizzare due rotoli di pasta sfoglia o pasta brisée già pronta.</li>
+                    <li><strong>Conservazione:</strong> L'erbazzone si conserva bene in frigorifero per 2-3 giorni, coperto con pellicola trasparente. Può anche essere congelato, sia crudo che cotto.</li>
+                </ul>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+        </footer>
+    </div>
+
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode(); // Verifica all'avvio della pagina
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

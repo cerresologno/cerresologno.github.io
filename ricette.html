@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricette Tradizionali - Pro Loco Cerrè Sologno</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="card-style.css">
+    <script src="script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .centered-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
+        
+        .recipe-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .recipe-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+        }
+        
+        .recipe-body {
+            background-color: white;
+            padding: 20px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .recipe-section {
+            margin-bottom: 30px;
+        }
+        
+        .recipe-section h3 {
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .ingredients-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .ingredients-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .step {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .step:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 10px;
+            height: 10px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Ricette Tradizionali</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="home.html" class="button">Home</a>
+                <a href="news.html" class="button">News</a>
+                <a href="eventi.html" class="button">Eventi</a>
+                <a href="attività.html" class="button">Attività</a>
+                <a href="contatti.html" class="button">Chi siamo?</a>
+                <a href="storia.html" class="button">La storia di Cerré</a>
+                <a href="dove.html" class="button">Dove ci trovi?</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="page-title centered-content">Le Nostre Ricette Tradizionali</h1>
+        <div class="card-container">
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">local_pizza</i> <!-- Icona per l'erbazzone -->
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Erbazzone Reggiano</h2>
+                    <p class="card-text">L'erbazzone è una torta salata tipica della cucina emiliana, un rustico scrigno di pasta ripieno di bietole, parmigiano e pancetta. Una vera delizia della tradizione contadina.</p>
+                    <a href="ricette/ricetta-erbazzone.html" class="card-button">Scopri di più</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+    </footer>
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode(); // Verifica all'avvio della pagina
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

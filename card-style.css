@@ -1,0 +1,119 @@
+/* Card Style CSS per Pro Loco Cerrè Sologno */
+
+/* Stile base per le card */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.card {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Area verde con icona */
+.card-icon-area {
+    background-color: #848b11;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card-icon {
+    font-size: 80px;
+    color: white;
+}
+
+/* Contenuto della card */
+.card-content {
+    background-color: white;
+    padding: 20px;
+}
+
+.card-title {
+    /* color: #848b11; // Colore gestito globalmente */
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.card-text {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Stile per il pulsante nella card */
+.card-button {
+    display: inline-block;
+    background-color: #848b11;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.card-button:hover {
+    background-color: #6a700e;
+}
+
+/* Stile per il titolo principale della pagina */
+.page-title {
+    text-align: center;
+    /* color: #848b11; // Colore gestito globalmente */
+    margin: 40px 0;
+    font-size: 36px;
+    position: relative;
+}
+
+.page-title:after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background-color: #848b11;
+    margin: 15px auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .card {
+        max-width: 100%;
+    }
+}
+
+/* Dark mode */
+.dark-mode .card-content {
+    background-color: #333;
+}
+
+.dark-mode .card-title {
+    /* color:#848b11; // Colore gestito globalmente */
+}
+
+.dark-mode .card-text {
+    color: #ccc;
+}
+
+.dark-mode .page-title {
+    /* color: #848b11; // Colore gestito globalmente */
+}

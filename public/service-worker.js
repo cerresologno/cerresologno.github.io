@@ -1,16 +1,29 @@
 const CACHE_NAME = 'cerresologno-cache-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  // Use more generic patterns instead of specific chunk names
-  // which can change with each build
-  '/static/css/',
-  '/static/js/',
-  '/manifest.json',
-  '/favicon.ico',
-  '/logo192.png',
-  '/logo512.png'
-  // Remove specific asset paths that might not exist
+  './',
+  './home.html',
+  './style.css',
+  './mobile.css',
+  './card-style.css',
+  './script.js',
+  './manifest.json',
+  './pietra.jpg',
+  './cerre2.jpeg',
+  './Villa-Minozzo_1.1-225x300.webp',
+  './contatti.html',
+  './dove.html',
+  './eventi.html',
+  './news.html',
+  './ricette.html',
+  './storia.html',
+  './attività.html',
+  './eventi/evento3.html',
+  './eventi/evento4.html',
+  './news/news4.html',
+  './ricette/ricetta-erbazzone.html',
+  './rifugi/rifugio-bargetana.html',
+  './rifugi/rifugio-battisti.html',
+  'https://fonts.googleapis.com/icon?family=Material+Icons' // Cache Google Fonts
 ];
 
 self.addEventListener('install', event => {

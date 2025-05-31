@@ -68,6 +68,11 @@
     .map-container {
         width: 100%;
         height: 300px;
+        margin-bottom: 20px; /* Aggiunge spazio sotto la mappa su mobile */
+    }
+
+    .page-title {
+        margin-top: 20px; /* Aggiunge spazio sopra il titolo su mobile */
     }
 
     /* General Content */

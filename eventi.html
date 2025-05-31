@@ -6,6 +6,7 @@
     <title>News - Pro Loco Cerrè Sologno</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="card-style.css">
     <script src="script.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
@@ -35,27 +36,42 @@
             <nav>
                 <a href="home.html" class="button">Home</a>
                 <a href="news.html" class="button">News</a>
+                <a href="ricette.html" class="button">Ricette</a>
+                <a href="attività.html" class="button">Attività</a>
                 <a href="contatti.html" class="button">Chi siamo?</a>
                 <a href="storia.html" class="button">La storia di Cerré</a>
                 <a href="dove.html" class="button">Dove ci trovi?</a>
             </nav>
             <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
         </div>
-        </nav>
     </header>
-    <main class="centered-content">
-        <h2>Ultimi Eventi</h2>
-        <div class="news-preview">
-            <h3>I giochi di Cerrè</h3>
-            <p>Clicca sotto per saperne di più!</p>
-            <a href="evento4.html" class="button">Leggi tutto</a>
+    <main>
+        <h1 class="page-title">Ultimi Eventi</h1>
+        <div class="card-container">
+            <!-- Card Evento 1 -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">event</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">I giochi di Cerrè</h2>
+                    <p class="card-text">Clicca sotto per saperne di più!</p>
+                    <a href="eventi/evento4.html" class="card-button">Leggi tutto</a>
+                </div>
+            </div>
+            <!-- Card Evento 2 -->
+            <div class="card">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">event</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Una Storia Curiosa...</h2>
+                    <p class="card-text">Cosa sta succedendo a Cerrè?</p>
+                    <a href="eventi/evento3.html" class="card-button">Leggi tutto</a>
+                </div>
+            </div>
+            <!-- Aggiungi altre card evento qui -->
         </div>
-        <div class="news-preview">
-            <h3>Una Storia Curiosa...</h3>
-            <p>Cosa sta succedendo a Cerrè?</p>
-            <a href="evento3.html" class="button">Leggi tutto</a>
-        </div>
-    </main>
     </main>
     <footer>
         <p>&copy; 2025 Pro Loco Cerrè Sologno</p>

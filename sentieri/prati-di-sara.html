@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiero Prati di Sara - Pro Loco Cerrè Sologno</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
+    <script src="../script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ede1b5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #848b11;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .info-table th, .info-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #848b11;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .dark-mode .container {
+            background-color: #333;
+            color: #f4f4f4;
+        }
+        .dark-mode h1, .dark-mode h2 {
+            color: #f4f4f4;
+        }
+        .dark-mode .info-table th, .dark-mode .info-table td {
+            border: 1px solid #555;
+        }
+        .dark-mode .info-table th {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Sentiero Prati di Sara</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="../home.html" class="button">Home</a>
+                <a href="../news.html" class="button">News</a>
+                <a href="../eventi.html" class="button">Eventi</a>
+                <a href="../ricette.html" class="button">Ricette</a>
+                <a href="../attività.html" class="button">Attività</a>
+                <a href="../contatti.html" class="button">Chi siamo?</a>
+                <a href="../storia.html" class="button">La storia di Cerré</a>
+                <a href="../dove.html" class="button">Dove ci trovi?</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Dettagli del Sentiero</h2>
+            <table class="info-table">
+                <tr>
+                    <th>Nome del Sentiero</th>
+                    <td>Casalino-Prati di Sara</td>
+                </tr>
+                <tr>
+                    <th>Località/Area più Vicina</th>
+                    <td>Casalino (Ventasso)</td>
+                </tr>
+                <tr>
+                    <th>Difficoltà</th>
+                    <td>E (Moderato)</td>
+                </tr>
+                <tr>
+                    <th>Lunghezza (Km)</th>
+                    <td>7 (A/R)</td>
+                </tr>
+                <tr>
+                    <th>Tempo Stimato (Ore)</th>
+                    <td>3 (A/R)</td>
+                </tr>
+                <tr>
+                    <th>Dislivello (m)</th>
+                    <td>+/- 700</td>
+                </tr>
+                <tr>
+                    <th>Caratteristiche</th>
+                    <td>Antichi castagneti, boschi misti, muri storici</td>
+                </tr>
+                <tr>
+                    <th>Segnale CAI</th>
+                    <td>CAI 625</td>
+                </tr>
+                <tr>
+                    <th>Curiosità</th>
+                    <td>I Prati di Sara sono noti per la loro bellezza paesaggistica e si narra che il nome derivi da una pastorella di nome Sara che portava lì le sue greggi.</td>
+                </tr>
+            </table>
+            <a href="../attività.html" class="back-button">Torna alle Attività</a>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+    </footer>
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+        checkDarkMode();
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

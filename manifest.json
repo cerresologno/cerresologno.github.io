@@ -1,42 +1,20 @@
-<<<<<<< HEAD
 {
     "name": "Pro Loco Cerrè Sologno",
     "short_name": "Cerrè Sologno",
-    "start_url": "/home.html",
+    "start_url": "./home.html",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#4CAF50",
+    "background_color": "#ede1b5",
+    "theme_color": "#848b11",
     "icons": [
       {
-        "src": "img/pietra.jpg",
+        "src": "./pietra.jpg",
         "sizes": "192x192",
-        "type": "pietra/jpg"
+        "type": "image/jpeg"
       },
       {
-        "src": "img/pietra.jpg",
+        "src": "./pietra.jpg",
         "sizes": "512x512",
-        "type": "image/jpg"
+        "type": "image/jpeg"
       }
     ]
-=======
-{
-    "name": "Pro Loco Cerrè Sologno",
-    "short_name": "Cerrè Sologno",
-    "start_url": "/home.html",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#4CAF50",
-    "icons": [
-      {
-        "src": "img/pietra.jpg",
-        "sizes": "192x192",
-        "type": "pietra/jpg"
-      },
-      {
-        "src": "img/pietra.jpg",
-        "sizes": "512x512",
-        "type": "image/jpg"
-      }
-    ]
->>>>>>> 8f76def3e1a617694796d3e66887dfb3a91a4a87
 }

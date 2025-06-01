@@ -12,16 +12,16 @@
 .card {
     width: 100%;
     max-width: 350px;
-    border-radius: 15px;
+    border-radius: 20px; /* Angoli più arrotondati per M3 Expressive */
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombra più definita per M3 Expressive */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Ombra hover più definita */
 }
 
 /* Area verde con icona */
@@ -67,13 +67,16 @@
     color: white;
     padding: 10px 20px;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 16px; /* Coerente con .button in style.css */
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15); /* Ombra come .button */
 }
 
 .card-button:hover {
     background-color: #6a700e;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25); /* Ombra hover come .button */
+    transform: translateY(-2px); /* Effetto sollevamento come .button */
 }
 
 /* Stile per il titolo principale della pagina */
@@ -106,14 +109,10 @@
     background-color: #333;
 }
 
-.dark-mode .card-title {
-    /* color:#848b11; // Colore gestito globalmente */
-}
+/* .dark-mode .card-title viene gestito da style.css */
 
 .dark-mode .card-text {
     color: #ccc;
 }
 
-.dark-mode .page-title {
-    /* color: #848b11; // Colore gestito globalmente */
-}
+/* .dark-mode .page-title viene gestito da style.css */

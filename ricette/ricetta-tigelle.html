@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tigelle Modenesi - Ricetta Tradizionale</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
+    <link rel="stylesheet" href="../card-style.css">
+    <script src="../script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .centered-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
+        
+        .recipe-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .recipe-header {
+            background-color: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Testo chiaro da style.css */
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .recipe-header h1,
+        .recipe-header p {
+            color: #ede1b5; /* Testo chiaro da style.css per h1 e p nell'header */
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ede1b5; /* Colore sfondo chiaro da style.css */
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            color: #201208; /* Colore testo scuro da style.css */
+        }
+        
+        .dark-mode .container {
+            background: #201208; /* Colore sfondo da style.css */
+            color: white; 
+        }
+        
+        .dark-mode .recipe-header {
+            background-color: #848b11; /* Verde da style.css */
+            color: white; /* Testo bianco */
+        }
+
+        .dark-mode .recipe-header h1,
+        .dark-mode .recipe-header p {
+            color: white; /* Testo bianco per h1 e p nell'header */
+        }
+
+        .dark-mode .intro {
+            background: #444; /* Sfondo leggermente più chiaro per contrasto */
+            border-left: 5px solid #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .intro p {
+            color: white;
+        }
+        
+        .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode .section-title {
+            color: #ede1b5; /* Colore testo chiaro da style.css per i titoli */
+        }
+
+        .dark-mode .section-title i {
+            color: #ede1b5; /* Colore icone section title */
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .intro {
+            background: #f8f9fa; /* Manteniamo uno sfondo leggermente diverso per l'intro */
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            border-left: 5px solid #848b11; /* Verde da style.css */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #201208; /* Testo scuro da style.css */
+        }
+
+        .recipe-section {
+            margin-bottom: 3rem;
+        }
+
+        h1, h2, h3, .section-title {
+            color: #848b11; /* Verde da style.css per i titoli */
+        }
+
+        .section-title {
+            font-size: 2rem;
+            /* color: #848b11; */ /* Già definito sopra */
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: #848b11; /* Verde da style.css per le icone */
+        }
+
+        .section-icon {
+            font-size: 2rem;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .ingredients-card {
+            background: #fff;
+            border: 2px solid #848b11; /* Verde da style.css */
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(132, 139, 17, 0.1); /* Ombra adattata al verde */
+        }
+        
+        .dark-mode .ingredients-card {
+            background: #444;
+            border-color: #848b11; /* Verde da style.css */
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #848b11; /* Verde da style.css */
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .dark-mode .card-title {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .ingredients-list, .steps-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ingredients-list li {
+            background: #f8f9fa;
+            margin-bottom: 0.5rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border-left: 4px solid #848b11; /* Verde da style.css */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease;
+            color: #201208; /* Testo scuro */
+        }
+        
+        .dark-mode .ingredients-list li {
+            background: #555;
+            border-left-color: #848b11; /* Verde da style.css */
+            color: white; /* Testo bianco per gli item della lista */
+        }
+
+        .ingredients-list li:hover {
+            transform: translateX(5px);
+            background: #e9ecef;
+        }
+
+        .ingredient-name {
+            font-weight: 500;
+        }
+
+        .ingredient-name {
+            color: #201208; /* Testo scuro */
+        }
+
+        .ingredient-amount {
+            color: #848b11; /* Verde da style.css */
+            font-weight: bold;
+        }
+        
+        .dark-mode .ingredient-name {
+            color: white;
+        }
+
+        .dark-mode .ingredient-amount {
+            color: #ede1b5; /* Colore testo chiaro per quantità */
+        }
+
+        .steps-list li {
+            background: white;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #848b11; /* Verde da style.css */
+            position: relative;
+            transition: all 0.3s ease;
+            color: #201208; /* Testo scuro */
+        }
+
+        .dark-mode .steps-list li {
+            background: #444;
+            border-left-color: #848b11; /* Verde da style.css */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            color: white; /* Testo bianco per i passaggi */
+        }
+
+        .steps-list li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .step-number {
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Testo chiaro */
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .dark-mode .step-number {
+            background: #848b11; /* Verde da style.css */
+            color: white;
+        }
+
+        .step-content {
+            margin-left: 30px;
+        }
+
+        .step-content strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .step-content strong {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .tips-section {
+            background: #f0ead6; /* Sfondo leggermente diverso per tips, coordinato con #ede1b5 */
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 3rem;
+            border-left: 5px solid #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .tips-section {
+            background: #444; /* Sfondo leggermente più chiaro per contrasto */
+            border-left-color: #848b11; /* Verde da style.css */
+        }
+
+        .tips-section h3 {
+            color: #848b11; /* Verde da style.css */
+            margin-bottom: 1rem;
+        }
+
+        .tips-section i {
+            color: #848b11; /* Verde da style.css per le icone */
+        }
+        
+        .dark-mode .tips-section h3 {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .dark-mode .tips-section i {
+            color: #ede1b5; /* Colore icone tips section */
+        }
+
+        .tips-list {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .tips-list li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            color: #201208; /* Testo scuro */
+        }
+        
+        .dark-mode .tips-list li {
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            background: #ede1b5; /* Sfondo chiaro da style.css */
+            border-top: 1px solid #848b11; /* Bordo verde da style.css */
+            color: #201208; /* Testo scuro */
+        }
+
+        .footer p {
+            color: #201208; /* Testo scuro */
+        }
+        
+        .dark-mode .footer {
+            background: #201208; /* Colore sfondo da style.css */
+            border-top-color: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .dark-mode .footer p {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Proloco Cerrè Sologno</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="../home.html" class="button">Home</a>
+                <a href="../news.html" class="button">News</a>
+                <a href="../eventi.html" class="button">Eventi</a>
+                <a href="../contatti.html" class="button">Chi siamo?</a>
+                <a href="../storia.html" class="button">La storia di Cerré</a>
+                <a href="../dove.html" class="button">Dove ci trovi?</a>
+                <a href="../ricette.html" class="button">Ricette</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="recipe-header">
+            <h1>Tigelle Modenesi</h1>
+            <p>Le famose focaccine emiliane, perfette da farcire in compagnia.</p>
+        </div>
+        
+        <div class="content">
+            <section class="intro">
+                <p>Le tigelle, conosciute anche come crescentine, sono un tesoro della gastronomia modenese. Queste piccole focaccine, un tempo cotte in dischi di terracotta chiamati "tigelle", sono oggi un simbolo di convivialità. Si gustano calde, tagliate a metà e farcite con salumi, formaggi o il tradizionale "pesto" modenese a base di lardo. La loro preparazione è semplice e il risultato è un pane fragrante e saporito, ideale per ogni occasione.</p>
+            </section>
+
+            <section class="recipe-section ingredients">
+                <h2 class="section-title"><i class="fas fa-utensils section-icon"></i>Ingredienti</h2>
+                <div class="ingredients-grid">
+                    <div class="ingredients-card">
+                        <h3 class="card-title">Per l'impasto (circa 25-30 tigelle)</h3>
+                        <ul class="ingredients-list">
+                            <li><span class="ingredient-name">Farina "0"</span><span class="ingredient-amount">500 g</span></li>
+                            <li><span class="ingredient-name">Acqua tiepida</span><span class="ingredient-amount">150 ml</span></li>
+                            <li><span class="ingredient-name">Latte intero</span><span class="ingredient-amount">150 ml</span></li>
+                            <li><span class="ingredient-name">Lievito di birra fresco</span><span class="ingredient-amount">12 g</span></li>
+                            <li><span class="ingredient-name">Strutto</span><span class="ingredient-amount">50 g</span></li>
+                            <li><span class="ingredient-name">Sale fino</span><span class="ingredient-amount">10 g</span></li>
+                            <li><span class="ingredient-name">Un pizzico di zucchero</span><span class="ingredient-amount"></span></li>
+                        </ul>
+                    </div>
+                    <div class="ingredients-card">
+                        <h3 class="card-title">Per la "Cunza" (Pesto Modenese)</h3>
+                        <ul class="ingredients-list">
+                            <li><span class="ingredient-name">Lardo di maiale</span><span class="ingredient-amount">100 g</span></li>
+                            <li><span class="ingredient-name">Aglio</span><span class="ingredient-amount">1 spicchio</span></li>
+                            <li><span class="ingredient-name">Rosmarino fresco</span><span class="ingredient-amount">1 rametto</span></li>
+                            <li><span class="ingredient-name">Parmigiano Reggiano grattugiato</span><span class="ingredient-amount">50 g</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recipe-section preparation">
+                <h2 class="section-title"><i class="fas fa-blender section-icon"></i>Preparazione</h2>
+                <ol class="steps-list">
+                    <li>
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <strong>Attivare il lievito:</strong> In una ciotola (o in una planetaria), sciogliere il lievito di birra e lo zucchero nell'acqua e latte tiepidi.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <strong>Impastare:</strong> Aggiungere la farina e iniziare a impastare. Unire lo strutto e il sale. Lavorare l'impasto per almeno 10 minuti, fino a renderlo liscio ed elastico.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <strong>Prima lievitazione:</strong> Formare una palla, coprirla con un canovaccio umido e lasciarla lievitare in un luogo tiepido per circa 2-3 ore, o finché non avrà raddoppiato il suo volume.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <strong>Preparare la cunza:</strong> Mentre l'impasto lievita, preparare la "cunza": tritare finemente il lardo con l'aglio e gli aghi di rosmarino. Mescolare il trito con il Parmigiano Reggiano.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <strong>Stendere e formare:</strong> Trascorso il tempo di lievitazione, stendere l'impasto su una spianatoia infarinata fino a uno spessore di circa 4-5 mm. Con un coppapasta di circa 8-10 cm di diametro, ricavare tanti dischi.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">6</span>
+                        <div class="step-content">
+                            <strong>Seconda lievitazione:</strong> Lasciar riposare i dischi per altri 20-30 minuti.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">7</span>
+                        <div class="step-content">
+                            <strong>Cottura:</strong> Scaldare la tigelliera (o una padella antiaderente spessa) sul fuoco. Cuocere le tigelle per circa 3-4 minuti per lato, finché non saranno dorate e gonfie.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">8</span>
+                        <div class="step-content">
+                            <strong>Servire:</strong> Servire le tigelle caldissime, da tagliare e farcire a piacere con la cunza, salumi, formaggi morbidi o Nutella per i più golosi.
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="recipe-section tips-section">
+                <h3><i class="fas fa-lightbulb section-icon"></i>Consigli e Varianti</h3>
+                <ul class="tips-list">
+                    <li><strong>Alternativa allo strutto:</strong> Se preferite un sapore più leggero, potete sostituire lo strutto con 50ml di olio extravergine d'oliva.</li>
+                    <li><strong>Tigelliera:</strong> Se non possedete una tigelliera, una buona padella antiaderente dal fondo spesso andrà benissimo.</li>
+                    <li><strong>Conservazione:</strong> Le tigelle sono migliori appena fatte, ma si conservano per un giorno in un sacchetto di carta. Basterà scaldarle brevemente prima di servirle.</li>
+                    <li><strong>Farcitura:</strong> Sbizzarritevi con la farcitura! Oltre alla cunza, sono ottime con prosciutto crudo, squacquerone e rucola, o gorgonzola e noci.</li>
+                </ul>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+        </footer>
+    </div>
+
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode(); // Verifica all'avvio della pagina
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

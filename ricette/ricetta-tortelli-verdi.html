@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tortelli Verdi Reggiani - Ricetta Tradizionale</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
+    <link rel="stylesheet" href="../card-style.css">
+    <script src="../script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .centered-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
+        
+        .recipe-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .recipe-header {
+            background-color: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Testo chiaro da style.css */
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .recipe-header h1,
+        .recipe-header p {
+            color: #ede1b5; /* Testo chiaro da style.css per h1 e p nell'header */
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ede1b5; /* Colore sfondo chiaro da style.css */
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            color: #201208; /* Colore testo scuro da style.css */
+        }
+        
+        .dark-mode .container {
+            background: #201208; /* Colore sfondo da style.css */
+            color: white; 
+        }
+        
+        .dark-mode .recipe-header {
+            background-color: #848b11; /* Verde da style.css */
+            color: white; /* Testo bianco */
+        }
+
+        .dark-mode .recipe-header h1,
+        .dark-mode .recipe-header p {
+            color: white; /* Testo bianco per h1 e p nell'header */
+        }
+
+        .dark-mode .intro {
+            background: #444; /* Sfondo leggermente più chiaro per contrasto */
+            border-left: 5px solid #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .intro p {
+            color: white;
+        }
+        
+        .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode .section-title {
+            color: #ede1b5; /* Colore testo chiaro da style.css per i titoli */
+        }
+
+        .dark-mode .section-title i {
+            color: #ede1b5; /* Colore icone section title */
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .intro {
+            background: #f8f9fa; /* Manteniamo uno sfondo leggermente diverso per l'intro */
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            border-left: 5px solid #848b11; /* Verde da style.css */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #201208; /* Testo scuro da style.css */
+        }
+
+        .recipe-section {
+            margin-bottom: 3rem;
+        }
+
+        h1, h2, h3, .section-title {
+            color: #848b11; /* Verde da style.css per i titoli */
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: #848b11; /* Verde da style.css per le icone */
+        }
+
+        .section-icon {
+            font-size: 2rem;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .ingredients-card {
+            background: #fff;
+            border: 2px solid #848b11; /* Verde da style.css */
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(132, 139, 17, 0.1);
+        }
+        
+        .dark-mode .ingredients-card {
+            background: #444;
+            border-color: #848b11; /* Verde da style.css */
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #848b11; /* Verde da style.css */
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .dark-mode .card-title {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .ingredients-list, .steps-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ingredients-list li {
+            background: #f8f9fa;
+            margin-bottom: 0.5rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border-left: 4px solid #848b11; /* Verde da style.css */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease;
+            color: #201208;
+        }
+        
+        .dark-mode .ingredients-list li {
+            background: #555;
+            border-left-color: #848b11; /* Verde da style.css */
+            color: white;
+        }
+
+        .ingredients-list li:hover {
+            transform: translateX(5px);
+            background: #e9ecef;
+        }
+
+        .ingredient-name {
+            font-weight: 500;
+            color: #201208;
+        }
+
+        .ingredient-amount {
+            color: #848b11;
+            font-weight: bold;
+        }
+        
+        .dark-mode .ingredient-name {
+            color: white;
+        }
+
+        .dark-mode .ingredient-amount {
+            color: #ede1b5;
+        }
+
+        .steps-list li {
+            background: white;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #848b11;
+            position: relative;
+            transition: all 0.3s ease;
+            color: #201208;
+        }
+
+        .dark-mode .steps-list li {
+            background: #444;
+            border-left-color: #848b11;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            color: white;
+        }
+
+        .steps-list li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .step-number {
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #848b11;
+            color: #ede1b5;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .dark-mode .step-number {
+            background: #848b11;
+            color: white;
+        }
+
+        .step-content {
+            margin-left: 30px;
+        }
+
+        .step-content strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: #848b11;
+        }
+        
+        .dark-mode .step-content strong {
+            color: #ede1b5;
+        }
+
+        .tips-section {
+            background: #f0ead6;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 3rem;
+            border-left: 5px solid #848b11;
+        }
+        
+        .dark-mode .tips-section {
+            background: #444;
+            border-left-color: #848b11;
+        }
+
+        .tips-section h3 {
+            color: #848b11;
+            margin-bottom: 1rem;
+        }
+
+        .tips-section i {
+            color: #848b11;
+        }
+        
+        .dark-mode .tips-section h3 {
+            color: #ede1b5;
+        }
+
+        .dark-mode .tips-section i {
+            color: #ede1b5;
+        }
+
+        .tips-list {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .tips-list li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            color: #201208;
+        }
+        
+        .dark-mode .tips-list li {
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            background: #ede1b5;
+            border-top: 1px solid #848b11;
+            color: #201208;
+        }
+
+        .footer p {
+            color: #201208;
+        }
+        
+        .dark-mode .footer {
+            background: #201208;
+            border-top-color: #848b11;
+            color: #ede1b5;
+        }
+
+        .dark-mode .footer p {
+            color: #ede1b5;
+        }
+
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Proloco Cerrè Sologno</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="../home.html" class="button">Home</a>
+                <a href="../news.html" class="button">News</a>
+                <a href="../eventi.html" class="button">Eventi</a>
+                <a href="../contatti.html" class="button">Chi siamo?</a>
+                <a href="../storia.html" class="button">La storia di Cerré</a>
+                <a href="../dove.html" class="button">Dove ci trovi?</a>
+                <a href="../ricette.html" class="button">Ricette</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="recipe-header">
+            <h1>Tortelli Verdi Reggiani</h1>
+            <p>Un primo piatto sontuoso, cuore della tradizione gastronomica di Reggio Emilia.</p>
+        </div>
+
+        <div class="content">
+            <section class="intro">
+                <p>I tortelli verdi sono una vera istituzione a Reggio Emilia. Un piatto delle feste, preparato con pazienza e amore. La sfoglia sottile racchiude un ripieno ricco e saporito a base di bietole, spinaci, ricotta e abbondante Parmigiano Reggiano. Conditi semplicemente con burro fuso e formaggio, sono una celebrazione dei sapori del territorio.</p>
+            </section>
+
+            <section class="recipe-section ingredients">
+                <h2 class="section-title"><i class="fas fa-leaf section-icon"></i>Ingredienti</h2>
+                <div class="ingredients-grid">
+                    <div class="ingredients-card">
+                        <h3 class="card-title">Per la Pasta (Sfoglia)</h3>
+                        <ul class="ingredients-list">
+                            <li><span class="ingredient-name">Farina 00</span> <span class="ingredient-amount">600g</span></li>
+                            <li><span class="ingredient-name">Uova intere</span> <span class="ingredient-amount">6</span></li>
+                            <li><span class="ingredient-name">Sale</span> <span class="ingredient-amount">q.b.</span></li>
+                        </ul>
+                    </div>
+                    <div class="ingredients-card">
+                        <h3 class="card-title">Per il Ripieno</h3>
+                        <ul class="ingredients-list">
+                            <li><span class="ingredient-name">Bietole</span> <span class="ingredient-amount">800g</span></li>
+                            <li><span class="ingredient-name">Spinaci</span> <span class="ingredient-amount">800g</span></li>
+                            <li><span class="ingredient-name">Ricotta vaccina</span> <span class="ingredient-amount">300g</span></li>
+                            <li><span class="ingredient-name">Parmigiano Reggiano DOP</span> <span class="ingredient-amount">300g grattugiato</span></li>
+                            <li><span class="ingredient-name">Lardo tritato (o burro)</span> <span class="ingredient-amount">3-4 cucchiai</span></li>
+                            <li><span class="ingredient-name">Aglio e Prezzemolo</span> <span class="ingredient-amount">un trito</span></li>
+                            <li><span class="ingredient-name">Noce moscata</span> <span class="ingredient-amount">q.b.</span></li>
+                            <li><span class="ingredient-name">Sale</span> <span class="ingredient-amount">q.b.</span></li>
+                        </ul>
+                    </div>
+                     <div class="ingredients-card">
+                        <h3 class="card-title">Per Condire</h3>
+                        <ul class="ingredients-list">
+                            <li><span class="ingredient-name">Burro</span> <span class="ingredient-amount">abbondante</span></li>
+                            <li><span class="ingredient-name">Parmigiano Reggiano</span> <span class="ingredient-amount">grattugiato</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recipe-section preparation">
+                <h2 class="section-title"><i class="fas fa-utensils section-icon"></i>Preparazione</h2>
+                <ol class="steps-list">
+                    <li>
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <strong>Preparare le verdure:</strong> Pulire bietole e spinaci, eliminando le coste più dure delle bietole. Lessare le verdure in poca acqua salata, scolarle e strizzarle con la massima cura per eliminare tutta l'acqua. Tritarle finemente al coltello.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <strong>Insaporire il ripieno:</strong> In una padella, soffriggere il trito di lardo (o burro) con aglio e prezzemolo. Aggiungere le verdure tritate e farle insaporire bene per alcuni minuti, finché il composto non sarà ben asciutto. Lasciare intiepidire.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <strong>Completare il ripieno:</strong> In una ciotola capiente, unire le verdure insaporite, la ricotta (ben sgocciolata), il Parmigiano Reggiano grattugiato e una grattata di noce moscata. Amalgamare il tutto fino ad ottenere un composto omogeneo. Assaggiare e, se necessario, aggiustare di sale.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <strong>Preparare la sfoglia:</strong> Impastare la farina con le uova e un pizzico di sale fino a ottenere un panetto liscio ed elastico. Coprirlo e lasciarlo riposare per almeno 30 minuti.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <strong>Stendere e farcire:</strong> Tirare la sfoglia sottile con il mattarello o con la macchina. Disporre sulla sfoglia delle piccole noci di ripieno, ben distanziate tra loro.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">6</span>
+                        <div class="step-content">
+                            <strong>Formare i tortelli:</strong> Ricoprire con un'altra striscia di sfoglia, premendo bene con le dita attorno al ripieno per far uscire l'aria. Con una rotella tagliapasta, ricavare dei tortelli di forma quadrata o rettangolare (tipicamente 5x7 cm).
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">7</span>
+                        <div class="step-content">
+                            <strong>Cottura:</strong> Cuocere i tortelli in abbondante acqua bollente salata. Saranno pronti in pochi minuti, non appena verranno a galla.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">8</span>
+                        <div class="step-content">
+                            <strong>Condire e servire:</strong> Scolare i tortelli delicatamente con una schiumarola e disporli in una zuppiera (o direttamente nei piatti), condendoli a strati con burro fuso e abbondante Parmigiano Reggiano grattugiato. Servire subito, ben caldi.
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="recipe-section tips-section">
+                <h3><i class="fas fa-lightbulb section-icon"></i>Consigli e Tradizioni</h3>
+                <ul class="tips-list">
+                    <li><strong>L'asciugatura delle verdure:</strong> È il segreto per un ripieno perfetto. Se le verdure rimangono acquose, il ripieno sarà molle e i tortelli rischieranno di rompersi in cottura.</li>
+                    <li><strong>Tradizione di San Giovanni:</strong> A Reggio Emilia, i tortelli verdi sono il piatto tipico della cena della vigilia di Natale e della "rugiada di San Giovanni" (24 giugno), spesso accompagnati da una spruzzata di aceto balsamico.</li>
+                    <li><strong>Conservazione:</strong> Come per i cappelletti, potete congelare i tortelli crudi su un vassoio e poi trasferirli in un sacchetto. Si cuociono da congelati.</li>
+                </ul>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+        </footer>
+    </div>
+
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode(); // Verifica all'avvio della pagina
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

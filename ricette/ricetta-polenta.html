@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polenta Tradizionale - Ricetta Classica</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
+    <link rel="stylesheet" href="../card-style.css">
+    <script src="../script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .centered-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
+        
+        .recipe-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .recipe-header {
+            background-color: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Testo chiaro da style.css */
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .recipe-header h1,
+        .recipe-header p {
+            color: #ede1b5; /* Testo chiaro da style.css per h1 e p nell'header */
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ede1b5; /* Colore sfondo chiaro da style.css */
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            color: #201208; /* Colore testo scuro da style.css */
+        }
+        
+        .dark-mode .container {
+            background: #201208; /* Colore sfondo da style.css */
+            color: white; 
+        }
+        
+        .dark-mode .recipe-header {
+            background-color: #848b11; /* Verde da style.css */
+            color: white; /* Testo bianco */
+        }
+
+        .dark-mode .recipe-header h1,
+        .dark-mode .recipe-header p {
+            color: white; /* Testo bianco per h1 e p nell'header */
+        }
+
+        .dark-mode .intro {
+            background: #444; /* Sfondo leggermente più chiaro per contrasto */
+            border-left: 5px solid #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .intro p {
+            color: white;
+        }
+        
+        .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode .section-title {
+            color: #ede1b5; /* Colore testo chiaro da style.css per i titoli */
+        }
+
+        .dark-mode .section-title i {
+            color: #ede1b5; /* Colore icone section title */
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .intro {
+            background: #f8f9fa; /* Manteniamo uno sfondo leggermente diverso per l'intro */
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            border-left: 5px solid #848b11; /* Verde da style.css */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #201208; /* Testo scuro da style.css */
+        }
+
+        .recipe-section {
+            margin-bottom: 3rem;
+        }
+
+        h1, h2, h3, .section-title {
+            color: #848b11; /* Verde da style.css per i titoli */
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: #848b11; /* Verde da style.css per le icone */
+        }
+
+        .section-icon {
+            font-size: 2rem;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .ingredients-card {
+            background: #fff;
+            border: 2px solid #848b11; /* Verde da style.css */
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(132, 139, 17, 0.1); /* Ombra adattata al verde */
+        }
+        
+        .dark-mode .ingredients-card {
+            background: #444;
+            border-color: #848b11; /* Verde da style.css */
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #848b11; /* Verde da style.css */
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .dark-mode .card-title {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .ingredients-list, .steps-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ingredients-list li {
+            background: #f8f9fa;
+            margin-bottom: 0.5rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border-left: 4px solid #848b11; /* Verde da style.css */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease;
+            color: #201208; /* Testo scuro */
+        }
+        
+        .dark-mode .ingredients-list li {
+            background: #555;
+            border-left-color: #848b11; /* Verde da style.css */
+            color: white; /* Testo bianco per gli item della lista */
+        }
+
+        .ingredients-list li:hover {
+            transform: translateX(5px);
+            background: #e9ecef;
+        }
+
+        .ingredient-name {
+            font-weight: 500;
+        }
+
+        .ingredient-name {
+            color: #201208; /* Testo scuro */
+        }
+
+        .ingredient-amount {
+            color: #848b11; /* Verde da style.css */
+            font-weight: bold;
+        }
+        
+        .dark-mode .ingredient-name {
+            color: white;
+        }
+
+        .dark-mode .ingredient-amount {
+            color: #ede1b5; /* Colore testo chiaro per quantità */
+        }
+
+        .steps-list li {
+            background: white;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #848b11; /* Verde da style.css */
+            position: relative;
+            transition: all 0.3s ease;
+            color: #201208; /* Testo scuro */
+        }
+
+        .dark-mode .steps-list li {
+            background: #444;
+            border-left-color: #848b11; /* Verde da style.css */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            color: white; /* Testo bianco per i passaggi */
+        }
+
+        .steps-list li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .step-number {
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Testo chiaro */
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .dark-mode .step-number {
+            background: #848b11; /* Verde da style.css */
+            color: white;
+        }
+
+        .step-content {
+            margin-left: 30px;
+        }
+
+        .step-content strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .step-content strong {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .tips-section {
+            background: #f0ead6; /* Sfondo leggermente diverso per tips, coordinato con #ede1b5 */
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 3rem;
+            border-left: 5px solid #848b11; /* Verde da style.css */
+        }
+        
+        .dark-mode .tips-section {
+            background: #444; /* Sfondo leggermente più chiaro per contrasto */
+            border-left-color: #848b11; /* Verde da style.css */
+        }
+
+        .tips-section h3 {
+            color: #848b11; /* Verde da style.css */
+            margin-bottom: 1rem;
+        }
+
+        .tips-section i {
+            color: #848b11; /* Verde da style.css per le icone */
+        }
+        
+        .dark-mode .tips-section h3 {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .dark-mode .tips-section i {
+            color: #ede1b5; /* Colore icone tips section */
+        }
+
+        .tips-list {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .tips-list li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            color: #201208; /* Testo scuro */
+        }
+        
+        .dark-mode .tips-list li {
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            background: #ede1b5; /* Sfondo chiaro da style.css */
+            border-top: 1px solid #848b11; /* Bordo verde da style.css */
+            color: #201208; /* Testo scuro */
+        }
+
+        .footer p {
+            color: #201208; /* Testo scuro */
+        }
+        
+        .dark-mode .footer {
+            background: #201208; /* Colore sfondo da style.css */
+            border-top-color: #848b11; /* Verde da style.css */
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+        .dark-mode .footer p {
+            color: #ede1b5; /* Colore testo chiaro da style.css */
+        }
+
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Proloco Cerrè Sologno</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="../home.html" class="button">Home</a>
+                <a href="../news.html" class="button">News</a>
+                <a href="../eventi.html" class="button">Eventi</a>
+                <a href="../contatti.html" class="button">Chi siamo?</a>
+                <a href="../storia.html" class="button">La storia di Cerré</a>
+                <a href="../dove.html" class="button">Dove ci trovi?</a>
+                <a href="../ricette.html" class="button">Ricette</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="recipe-header">
+            <h1>Polenta Tradizionale</h1>
+            <p>Un piatto povero ma ricco di storia, simbolo della cucina del Nord Italia.</p>
+        </div>
+        
+        <div class="content">
+            <section class="intro">
+                <p>La polenta è un piatto iconico, un comfort food che scalda il cuore. Originariamente un alimento base per le popolazioni contadine, oggi è un piatto versatile e apprezzato in tutta Italia. La sua preparazione, lenta e meditativa, è un rito che unisce generazioni. Servita morbida e fumante o abbrustolita sulla griglia, la polenta si sposa perfettamente con sughi di carne, funghi, formaggi e molto altro.</p>
+            </section>
+
+            <section class="recipe-section ingredients">
+                <h2 class="section-title"><i class="fas fa-utensils section-icon"></i>Ingredienti</h2>
+                <div class="ingredients-grid">
+                    <div class="ingredients-card" style="grid-column: span 2;">
+                        <h3 class="card-title">Per 4 persone</h3>
+                        <ul class="ingredients-list">
+                            <li><span class="ingredient-name">Farina di mais bramata</span><span class="ingredient-amount">500 g</span></li>
+                            <li><span class="ingredient-name">Acqua</span><span class="ingredient-amount">2 litri</span></li>
+                            <li><span class="ingredient-name">Sale grosso</span><span class="ingredient-amount">1 cucchiaio</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recipe-section preparation">
+                <h2 class="section-title"><i class="fas fa-blender section-icon"></i>Preparazione</h2>
+                <ol class="steps-list">
+                    <li>
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <strong>Portare a bollore l'acqua:</strong> In un paiolo di rame o in una pentola dal fondo spesso, portare a ebollizione l'acqua. Aggiungere il sale e mescolare.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <strong>Versare la farina:</strong> Quando l'acqua bolle, abbassare il fuoco e versare la farina di mais a pioggia, mescolando energicamente con una frusta per evitare la formazione di grumi.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <strong>Cottura:</strong> Continuare la cottura a fuoco basso per circa 45-50 minuti, mescolando costantemente con un mestolo di legno, sempre nello stesso verso. La polenta sarà pronta quando si staccherà dalle pareti della pentola.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <strong>Servire:</strong> Rovesciare la polenta su un tagliere di legno. Può essere servita subito, calda e morbida, oppure lasciata raffreddare per poi tagliarla a fette.
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="recipe-section tips-section">
+                <h3><i class="fas fa-lightbulb section-icon"></i>Consigli e Varianti</h3>
+                <ul class="tips-list">
+                    <li><strong>Il paiolo:</strong> La tradizione vuole il paiolo di rame, che garantisce una cottura uniforme. In alternativa, una pentola in ghisa o con fondo pesante andrà benissimo.</li>
+                    <li><strong>Taglio col filo:</strong> Per ottenere fette perfette dalla polenta raffreddata, la tradizione contadina suggerisce di usare un filo di cotone teso.</li>
+                    <li><strong>Polenta concia:</strong> Per una versione più ricca, a fine cottura mantecate la polenta con burro e formaggi a piacere (come Fontina, Gorgonzola o Taleggio).</li>
+                    <li><strong>Polenta fritta:</strong> La polenta avanzata è deliziosa! Tagliatela a fette o a cubetti e friggetela in olio bollente fino a doratura.</li>
+                    <li><strong>Polenta grigliata:</strong> Le fette di polenta sono ottime anche grigliate e servite come crostini con salumi, formaggi o verdure.</li>
+                </ul>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+        </footer>
+    </div>
+
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+    
+        checkDarkMode(); // Verifica all'avvio della pagina
+    
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

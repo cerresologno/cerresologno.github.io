@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabellone Punteggi - Pro Loco Cerrè Sologno</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
+    <script src="../script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .centered-content {
+            margin-top: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+        .centered-content h1, .centered-content h2, .centered-content h3 {
+            text-align: center;
+        }
+        .centered-content p {
+            text-align: justify;
+        }
+        .centered-content > p {
+            text-align: center;
+        }
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px auto;
+            background: #eeeadf;
+        }
+        .score-table th, .score-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            color: #848b11;
+        }
+        .score-table th {
+            background-color: #ede1b5;
+            color: #848b11;
+            font-weight: bold;
+        }
+        .score-table td {
+            background-color: #eeeadf;
+        }
+        @media (max-width: 768px) {
+            .score-table th, .score-table td {
+                padding: 5px;
+            }
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        @media (max-width: 768px) {
+            .theme-toggle {
+                position: static;
+            }
+        }
+        /* Dark mode per la tabella */
+        body.dark-mode .score-table {
+            background: #201208;
+        }
+        body.dark-mode .score-table th {
+            background-color: #2d1a0b;
+            color: #848b11;
+        }
+        body.dark-mode .score-table td {
+            background-color: #201208;
+            color: #ede1b5;
+        }
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>Tabellone Punteggi</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="../eventi.html" class="button">Indietro</a>
+                <a href="../home.html" class="button">Home</a>
+                <a href="../news.html" class="button">News</a>
+                <a href="../contatti.html" class="button">Chi siamo?</a>
+                <a href="../storia.html" class="button">La storia di Cerré</a>
+                <a href="../dove.html" class="button">Dove ci trovi?</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+    <main class="centered-content">
+        <h2>Classifica delle Squadre</h2>
+        <div id="tabelle-sport"></div>
+        <p id="tabellone-loading"><em>Caricamento tabelloni...</em></p>
+    </main>
+    <footer>
+        <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+    </footer>
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+        checkDarkMode();
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+
+        // --- INIZIO: Caricamento tabellone da Google Sheets CSV ---
+        // Sostituisci QUI sotto con il link CSV pubblico del tuo Google Sheets
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0E9MiWJdBY7qmhBl2hYfpR7za34_hb8PvZtbMNYCQI2NutC84Rv7EHFG3qrBXZnSiUTM3-z2Ieu5r/pub?output=csv";
+
+        function csvToArray(str, delimiter = ",") {
+            const rows = str.trim().split("\n");
+            return rows.map(row => {
+                // Gestisce i valori tra virgolette e le virgole
+                const regex = /(?:\"([^\"]*(?:\"\"[^\"]*)*)\")|([^\",]+)/g;
+                const arr = [];
+                let match;
+                let line = row;
+                while ((match = regex.exec(line))) {
+                    arr.push(match[1] ? match[1].replace(/\"\"/g, "\"") : match[2]);
+                }
+                return arr;
+            });
+        }
+
+        function isHeaderRow(row) {
+            // Riconosce una riga di intestazione: inizia con "Squadra" e almeno un'altra colonna non vuota
+            return row[0] && row[0].toLowerCase().includes("squadra") && row.length > 1 && row[1];
+        }
+
+        function renderTabelle(data) {
+            const container = document.getElementById("tabelle-sport");
+            container.innerHTML = "";
+            let i = 0;
+            while (i < data.length) {
+                // Trova la prossima intestazione
+                while (i < data.length && !isHeaderRow(data[i])) i++;
+                if (i >= data.length) break;
+                const header = data[i];
+                const sportName = header[1]; // Es: "Beach Volley", "Freccette", ...
+                i++;
+                // Raccogli le righe di dati finché non trovi una riga vuota o la fine
+                const rows = [];
+                while (i < data.length && data[i][0] && data[i][1]) {
+                    rows.push(data[i]);
+                    i++;
+                }
+                // Salta eventuali righe vuote
+                while (i < data.length && (!data[i][0] || !data[i][1])) i++;
+                // Crea la tabella solo se ci sono dati
+                if (rows.length > 0) {
+                    const section = document.createElement("section");
+                    const h2 = document.createElement("h2");
+                    h2.textContent = sportName;
+                    section.appendChild(h2);
+                    const table = document.createElement("table");
+                    table.className = "score-table";
+                    // Intestazione
+                    const thead = document.createElement("thead");
+                    const trHead = document.createElement("tr");
+                    header.forEach(cell => {
+                        const th = document.createElement("th");
+                        th.textContent = cell;
+                        trHead.appendChild(th);
+                    });
+                    thead.appendChild(trHead);
+                    table.appendChild(thead);
+                    // Corpo
+                    const tbody = document.createElement("tbody");
+                    rows.forEach(row => {
+                        const tr = document.createElement("tr");
+                        row.forEach(cell => {
+                            const td = document.createElement("td");
+                            td.textContent = cell;
+                            tr.appendChild(td);
+                        });
+                        tbody.appendChild(tr);
+                    });
+                    table.appendChild(tbody);
+                    section.appendChild(table);
+                    container.appendChild(section);
+                }
+            }
+            document.getElementById("tabellone-loading").style.display = "none";
+        }
+
+        function loadTabelle() {
+            fetch(CSV_URL)
+                .then(response => response.text())
+                .then(csv => {
+                    const data = csvToArray(csv);
+                    renderTabelle(data);
+                })
+                .catch(err => {
+                    document.getElementById("tabellone-loading").innerHTML = "<em>Errore nel caricamento dei tabelloni.</em>";
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadTabelle);
+        // --- FINE: Caricamento tabellone da Google Sheets CSV ---
+    </script>
+    <iframe src="about:blank" style="display: none;"></iframe>
+</body>
+</html> 

@@ -95,12 +95,8 @@
         </div>
     </header>
     <main class="centered-content">
-        <h2>Beach Volley</h2>
-        <div id="tabella-beach"></div>
-        <h2>Freccette</h2>
-        <div id="tabella-freccette"></div>
-        <h2>Beer Pong</h2>
-        <div id="tabella-beerpong"></div>
+        <h2>Classifica delle Squadre</h2>
+        <div id="tabelle-sport"></div>
         <p id="tabellone-loading"><em>Caricamento tabelloni...</em></p>
     </main>
     <footer>
@@ -123,58 +119,68 @@
             }
         });
 
-        // --- INIZIO: Caricamento tabellone da Google Sheets CSV ---
-        // Sostituisci QUI sotto con il link CSV pubblico del tuo Google Sheets
-        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRW8lCwnAo03cDMxGWi5T6xQSpYDm3iO_SyJy6d9kUai2Hl1VFZ_SF35MaqtLNjA6ti6KlU3OiGosNe/pub?gid=0&single=true&output=csv";
-553015141
+        // --- INIZIO: Caricamento tabellone da CSV su GitHub Pages ---
+        // Sostituisci QUI sotto con il link RAW del tuo CSV su GitHub Pages
+        // Esempio: https://<tuo-username>.github.io/<nome-repo>/tabellone/tabellone.csv
+        const CSV_URL = "https://cerresologno.github.io/tabellone/tabellone.csv";
+
         function csvToArray(str, delimiter = ",") {
             const rows = str.trim().split("\n");
             return rows.map(row => row.split(delimiter));
         }
 
-        function splitTabelle(data) {
-            let tabelle = [];
-            let current = [];
-            for (let i = 0; i < data.length; i++) {
-                if (data[i][0].toLowerCase().includes("squadra") && current.length > 0) {
-                    tabelle.push(current);
-                    current = [];
-                }
-                if (data[i][0] || data[i][1]) current.push(data[i]);
-            }
-            if (current.length > 0) tabelle.push(current);
-            return tabelle;
+        function isHeaderRow(row) {
+            return row[0] && row[0].toLowerCase().includes("squadre") && row.length > 1 && row[1];
         }
 
-        function renderTabella(data, containerId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            const table = document.createElement("table");
-            table.className = "score-table";
-            // Intestazione
-            const thead = document.createElement("thead");
-            const trHead = document.createElement("tr");
-            data[0].forEach(cell => {
-                const th = document.createElement("th");
-                th.textContent = cell;
-                trHead.appendChild(th);
-            });
-            thead.appendChild(trHead);
-            table.appendChild(thead);
-            // Corpo
-            const tbody = document.createElement("tbody");
-            for (let i = 1; i < data.length; i++) {
-                const tr = document.createElement("tr");
-                data[i].forEach(cell => {
-                    const td = document.createElement("td");
-                    td.textContent = cell;
-                    tr.appendChild(td);
-                });
-                tbody.appendChild(tr);
-            }
-            table.appendChild(tbody);
+        function renderTabelle(data) {
+            const container = document.getElementById("tabelle-sport");
             container.innerHTML = "";
-            container.appendChild(table);
+            let i = 0;
+            while (i < data.length) {
+                while (i < data.length && !isHeaderRow(data[i])) i++;
+                if (i >= data.length) break;
+                const header = data[i];
+                const sportName = header[1];
+                i++;
+                const rows = [];
+                while (i < data.length && data[i][0] && data[i][1]) {
+                    rows.push(data[i]);
+                    i++;
+                }
+                while (i < data.length && (!data[i][0] || !data[i][1])) i++;
+                if (rows.length > 0) {
+                    const section = document.createElement("section");
+                    const h2 = document.createElement("h2");
+                    h2.textContent = sportName;
+                    section.appendChild(h2);
+                    const table = document.createElement("table");
+                    table.className = "score-table";
+                    const thead = document.createElement("thead");
+                    const trHead = document.createElement("tr");
+                    header.forEach(cell => {
+                        const th = document.createElement("th");
+                        th.textContent = cell;
+                        trHead.appendChild(th);
+                    });
+                    thead.appendChild(trHead);
+                    table.appendChild(thead);
+                    const tbody = document.createElement("tbody");
+                    rows.forEach(row => {
+                        const tr = document.createElement("tr");
+                        row.forEach(cell => {
+                            const td = document.createElement("td");
+                            td.textContent = cell;
+                            tr.appendChild(td);
+                        });
+                        tbody.appendChild(tr);
+                    });
+                    table.appendChild(tbody);
+                    section.appendChild(table);
+                    container.appendChild(section);
+                }
+            }
+            document.getElementById("tabellone-loading").style.display = "none";
         }
 
         function loadTabelle() {
@@ -182,11 +188,7 @@
                 .then(response => response.text())
                 .then(csv => {
                     const data = csvToArray(csv);
-                    const tabelle = splitTabelle(data);
-                    renderTabella(tabelle[0], "tabella-beach");
-                    renderTabella(tabelle[1], "tabella-freccette");
-                    renderTabella(tabelle[2], "tabella-beerpong");
-                    document.getElementById("tabellone-loading").style.display = "none";
+                    renderTabelle(data);
                 })
                 .catch(err => {
                     document.getElementById("tabellone-loading").innerHTML = "<em>Errore nel caricamento dei tabelloni.</em>";
@@ -194,7 +196,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", loadTabelle);
-        // --- FINE: Caricamento tabellone da Google Sheets CSV ---
+        // --- FINE: Caricamento tabellone da CSV su GitHub Pages ---
     </script>
     <iframe src="about:blank" style="display: none;"></iframe>
 </body>

@@ -185,14 +185,31 @@
         }
 
         function loadTabelle() {
-            fetch(CSV_URL)
-                .then(response => response.text())
+            // 1. Prova a caricare da Google Sheets
+            const GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRW8lCwnAo03cDMxGWi5T6xQSpYDm3iO_SyJy6d9kUai2Hl1VFZ_SF35MaqtLNjA6ti6KlU3OiGosNe/pub?gid=0&single=true&output=csv";
+            fetch(GOOGLE_SHEETS_CSV)
+                .then(response => {
+                    if (!response.ok) throw new Error("Errore Google Sheets");
+                    return response.text();
+                })
                 .then(csv => {
                     const data = csvToArray(csv);
                     renderTabelle(data);
                 })
                 .catch(err => {
-                    document.getElementById("tabellone-loading").innerHTML = "<em>Errore nel caricamento dei tabelloni.</em>";
+                    // 2. Se fallisce, carica da GitHub Pages
+                    fetch(CSV_URL)
+                        .then(response => {
+                            if (!response.ok) throw new Error("Errore CSV statico");
+                            return response.text();
+                        })
+                        .then(csv => {
+                            const data = csvToArray(csv);
+                            renderTabelle(data);
+                        })
+                        .catch(err2 => {
+                            document.getElementById("tabellone-loading").innerHTML = "<em>Errore nel caricamento dei tabelloni.</em>";
+                        });
                 });
         }
 

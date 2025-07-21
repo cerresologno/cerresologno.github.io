@@ -66,6 +66,63 @@
         .article-item:last-child {
             border-bottom: none;
         }
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+        .dark-mode .sidebar {
+            background-color: #1a1d20;
+        }
+        .dark-mode .main-content h2, .dark-mode .main-content h3, .dark-mode .main-content h4, .dark-mode .main-content h5 {
+            color: #f8f9fa;
+        }
+        .dark-mode .editor-container, .dark-mode .preview-container, .dark-mode .article-list {
+            background-color: #343a40;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+        .dark-mode .form-control, .dark-mode .form-check-label {
+            background-color: #495057;
+            color: #f8f9fa;
+            border-color: #6c757d;
+        }
+        .dark-mode .form-control::placeholder {
+            color: #adb5bd;
+        }
+        .dark-mode .article-item {
+            border-bottom-color: #495057;
+        }
+        .dark-mode .quill .ql-editor {
+            color: #f8f9fa;
+        }
+        .dark-mode .quill .ql-toolbar {
+            border-color: #6c757d;
+        }
+        .dark-mode .quill .ql-snow .ql-stroke {
+            stroke: #f8f9fa;
+        }
+        .dark-mode .quill .ql-picker-label {
+            color: #f8f9fa;
+        }
+        .dark-mode .card {
+            background-color: #343a40;
+            border-color: #495057;
+        }
+        .dark-mode .card-header {
+            background-color: #495057;
+            border-bottom-color: #6c757d;
+        }
+        .dark-mode .table {
+            color: #f8f9fa;
+        }
+        .dark-mode .table > :not(caption) > * > * {
+            background-color: #343a40;
+            border-bottom-width: 1px;
+            box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+        }
+        .dark-mode .text-muted {
+            color: #adb5bd !important;
+        }
     </style>
 </head>
 <body>

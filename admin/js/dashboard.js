@@ -47,6 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize analytics section
     initAnalyticsSection();
+    
+    // Initialize theme toggle
+    initThemeToggle();
 });
 
 /**
@@ -1075,3 +1078,42 @@ function updateAggregatedUserSection() {
             }
         }
     });
+
+/**
+ * Inizializza il toggle per il tema scuro
+ */
+function initThemeToggle() {
+    const themeToggleInput = document.getElementById('theme-toggle-input');
+    
+    // Controlla lo stato del tema scuro al caricamento della pagina
+    function checkDarkMode() {
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            themeToggleInput.checked = true;
+        }
+    }
+    
+    checkDarkMode();
+    
+    themeToggleInput.addEventListener('change', function() {
+        if (this.checked) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('darkMode', 'enabled');
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('darkMode', 'disabled');
+        }
+    });
+
+    window.addEventListener("storage", event => {
+        if (event.key === "darkMode") {
+            if (event.newValue === "enabled") {
+                document.body.classList.add("dark-mode");
+                themeToggleInput.checked = true;
+            } else {
+                document.body.classList.remove("dark-mode");
+                themeToggleInput.checked = false;
+            }
+        }
+    });
+}

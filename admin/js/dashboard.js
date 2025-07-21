@@ -3,6 +3,13 @@
  * Script per la gestione degli articoli, eventi e bozze
  */
 
+// INSERISCI QUI IL LINK CSV DEL TUO FOGLIO GOOGLE
+// Per ottenerlo: in Google Sheets, vai su "File" > "Condividi" > "Pubblica sul web".
+// Seleziona il foglio corretto, scegli "Valori separati da virgola (.csv)" e clicca "Pubblica".
+// Copia il link generato e incollalo qui.
+const GOOGLE_SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTp8UQplENXEQT2DbGAnBhf1-tW_5yD59NYj9LpwlFlGZsmii9RnWw1_eprSx-ULeTwABLUgd4HuGY2/pub?gid=0&single=true&output=csv';
+
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize Quill editor
     const quill = new Quill('#editor', {
@@ -41,6 +48,34 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize analytics section
     initAnalyticsSection();
 });
+
+/**
+ * Carica i dati di analytics da Google Sheets.
+ * @returns {Promise<Array<Object>>} Una promessa che si risolve con un array di oggetti, dove ogni oggetto rappresenta una riga.
+ */
+async function fetchAnalyticsFromGoogleSheets() {
+    if (GOOGLE_SHEETS_CSV_URL === 'INCOLLA_QUI_IL_TUO_LINK_CSV') {
+        console.error("URL del CSV di Google Sheets non configurato.");
+        return [];
+    }
+    try {
+        const response = await fetch(GOOGLE_SHEETS_CSV_URL);
+        if (!response.ok) {
+            throw new Error(`Errore nel caricamento del CSV: ${response.statusText}`);
+        }
+        const csvText = await response.text();
+        const rows = csvText.trim().split('\n').slice(1); // Salta l'intestazione
+        const data = rows.map(row => {
+            const [timestamp, page, userAgent, platform, os, browser] = row.split(',');
+            return { timestamp, page, userAgent, platform, os, browser };
+        });
+        return data;
+    } catch (error) {
+        console.error("Impossibile caricare i dati da Google Sheets:", error);
+        return [];
+    }
+}
+
 
 /**
  * Inizializza la navigazione tra le sezioni
@@ -622,34 +657,35 @@ function initAnalyticsSection() {
 /**
  * Aggiorna i dati di analytics nella dashboard
  */
-function updateAnalyticsData() {
-    // Verifica che le funzioni di analytics siano disponibili
-    if (typeof getAnalyticsData !== 'function') {
-        console.error('Funzioni di analytics non disponibili');
-        return;
-    }
-    
+async function updateAnalyticsData() {
     // Mostra il messaggio di benvenuto per Dante
     const username = localStorage.getItem('adminUsername');
     const danteWelcome = document.getElementById('dante-welcome');
     if (danteWelcome) {
         danteWelcome.style.display = username === 'dante' ? 'block' : 'none';
     }
-    
-    // Ottieni i dati di analytics
-    const analyticsData = getAnalyticsData();
+
+    // Carica i dati da Google Sheets
+    const analyticsData = await fetchAnalyticsFromGoogleSheets();
+
+    if (!analyticsData || analyticsData.length === 0) {
+        console.log("Nessun dato di analytics da visualizzare.");
+        // Potresti voler mostrare un messaggio all'utente qui
+        return;
+    }
     
     // Aggiorna il contatore delle visite totali
     const totalVisitsElement = document.getElementById('total-visits');
     if (totalVisitsElement) {
-        totalVisitsElement.textContent = analyticsData.totalVisits || 0;
+        totalVisitsElement.textContent = analyticsData.length;
     }
     
     // Aggiorna il contatore delle visite odierne
     const today = new Date().toISOString().split('T')[0];
+    const todayVisits = analyticsData.filter(visit => visit.timestamp.startsWith(today)).length;
     const todayVisitsElement = document.getElementById('today-visits');
     if (todayVisitsElement) {
-        todayVisitsElement.textContent = analyticsData.dailyVisits?.[today] || 0;
+        todayVisitsElement.textContent = todayVisits;
     }
     
     // Aggiorna la tabella delle pagine più visitate
@@ -658,14 +694,17 @@ function updateAnalyticsData() {
     // Aggiorna il grafico delle visite
     updateVisitsChart(analyticsData);
     
-    // Aggiorna il grafico dei referrer
-    updateReferrerChart(analyticsData);
+    // Aggiorna il grafico dei referrer (se i dati sono disponibili)
+    // updateReferrerChart(analyticsData); // Questa funzione richiede la colonna referrer
     
     // Aggiorna il grafico dei dispositivi e sistemi operativi
     updateDeviceOsChart(analyticsData);
     
-    // Aggiorna la sezione di riepilogo aggregato degli utenti
-    updateAggregatedUserSection();
+    // La sezione di riepilogo aggregato non è più necessaria con i dati da Google Sheets
+    const aggregatedSection = document.getElementById('aggregated-users-section');
+    if (aggregatedSection) {
+        aggregatedSection.style.display = 'none';
+    }
 }
 
 /**
@@ -678,9 +717,15 @@ function updateTopPagesTable(analyticsData) {
     
     // Svuota la tabella
     tableBody.innerHTML = '';
+
+    const pageVisits = analyticsData.reduce((acc, visit) => {
+        const page = visit.page || 'N/D';
+        acc[page] = (acc[page] || 0) + 1;
+        return acc;
+    }, {});
     
     // Se non ci sono dati, mostra un messaggio
-    if (!analyticsData.pageVisits || Object.keys(analyticsData.pageVisits).length === 0) {
+    if (Object.keys(pageVisits).length === 0) {
         const row = document.createElement('tr');
         row.innerHTML = '<td colspan="3" class="text-center">Nessun dato disponibile</td>';
         tableBody.appendChild(row);
@@ -688,16 +733,13 @@ function updateTopPagesTable(analyticsData) {
     }
     
     // Calcola il totale delle visite alle pagine
-    const totalPageVisits = Object.values(analyticsData.pageVisits).reduce((sum, visits) => sum + visits, 0);
+    const totalPageVisits = analyticsData.length;
     
     // Ottieni le pagine più visitate
-    const topPages = [];
-    for (const page in analyticsData.pageVisits) {
-        topPages.push({
-            page,
-            visits: analyticsData.pageVisits[page]
-        });
-    }
+    const topPages = Object.keys(pageVisits).map(page => ({
+        page,
+        visits: pageVisits[page]
+    }));
     
     // Ordina per numero di visite (decrescente)
     topPages.sort((a, b) => b.visits - a.visits);
@@ -729,7 +771,11 @@ function updateVisitsChart(analyticsData) {
     if (!chartCanvas) return;
     
     // Ottieni i dati delle visite giornaliere per gli ultimi 7 giorni
-    const dailyVisits = analyticsData.dailyVisits || {};
+    const dailyVisits = analyticsData.reduce((acc, visit) => {
+        const date = new Date(visit.timestamp).toISOString().split('T')[0];
+        acc[date] = (acc[date] || 0) + 1;
+        return acc;
+    }, {});
     
     // Genera un array di date per gli ultimi 7 giorni
     const dates = [];
@@ -942,13 +988,21 @@ function getOsData(limit = 10) {
 function updateDeviceOsChart(analyticsData) {
     const chartCanvas = document.getElementById('device-os-chart');
     if (!chartCanvas) return;
-    
-    // Ottieni i dati dei dispositivi e sistemi operativi
-    const devicesData = getDevicesData();
-    const osData = getOsData();
+
+    const devicesData = analyticsData.reduce((acc, visit) => {
+        const device = visit.platform || 'N/D';
+        acc[device] = (acc[device] || 0) + 1;
+        return acc;
+    }, {});
+
+    const osData = analyticsData.reduce((acc, visit) => {
+        const os = visit.os || 'N/D';
+        acc[os] = (acc[os] || 0) + 1;
+        return acc;
+    }, {});
     
     // Se non ci sono dati, mostra un messaggio
-    if (devicesData.length === 0 && osData.length === 0) {
+    if (Object.keys(devicesData).length === 0 && Object.keys(osData).length === 0) {
         const ctx = chartCanvas.getContext('2d');
         ctx.font = '16px Arial';
         ctx.fillStyle = '#666';
@@ -958,11 +1012,11 @@ function updateDeviceOsChart(analyticsData) {
     }
     
     // Prepara i dati per il grafico
-    const deviceLabels = devicesData.map(item => `${item.device}`);
-    const deviceData = devicesData.map(item => item.visits);
+    const deviceLabels = Object.keys(devicesData);
+    const deviceData = Object.values(devicesData);
     
-    const osLabels = osData.map(item => `${item.os}`);
-    const osData2 = osData.map(item => item.visits);
+    const osLabels = Object.keys(osData);
+    const osData2 = Object.values(osData);
     
     // Colori per il grafico
     const deviceColors = ['#4e73df', '#1cc88a', '#36b9cc'];
@@ -978,164 +1032,11 @@ function updateDeviceOsChart(analyticsData) {
  * Aggiorna la sezione di riepilogo aggregato degli utenti
  */
 function updateAggregatedUserSection() {
-    // Verifica se la funzione getAggregatedUserData è disponibile
-    if (typeof getAggregatedUserData !== 'function') {
-        console.error('Funzione getAggregatedUserData non disponibile');
-        return;
-    }
-    
-    // Ottieni i dati aggregati degli utenti
-    const userData = getAggregatedUserData();
-    
-    // Verifica se esiste già la sezione di riepilogo aggregato
-    let aggregatedSection = document.getElementById('aggregated-users-section');
-    
-    // Se non esiste, creala e inseriscila prima della sezione dei grafici
-    if (!aggregatedSection) {
-        const analyticsSection = document.querySelector('#analytics-section .container-fluid');
-        if (!analyticsSection) return;
-        
-        // Crea la nuova sezione
-        const newSection = document.createElement('div');
-        newSection.id = 'aggregated-users-section';
-        newSection.className = 'card mb-4';
-        newSection.innerHTML = `
-            <div class="card-header">Riepilogo Aggregato Utenti</div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Metrica</th>
-                                        <th>Valore</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="aggregated-metrics">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <canvas id="aggregated-chart" height="250"></canvas>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Inserisci la nuova sezione dopo le card di visite totali e visite oggi
-        const topPagesSection = document.querySelector('.card.mb-4:nth-child(3)');
-        if (topPagesSection) {
-            analyticsSection.insertBefore(newSection, topPagesSection);
-        } else {
-            analyticsSection.appendChild(newSection);
-        }
-        
-        aggregatedSection = newSection;
-    }
-    
-    // Aggiorna la tabella delle metriche aggregate
-    const metricsTable = document.getElementById('aggregated-metrics');
-    if (metricsTable) {
-        metricsTable.innerHTML = `
-            <tr>
-                <td>Visite Totali</td>
-                <td>${userData.totalVisits}</td>
-            </tr>
-            <tr>
-                <td>Visite Ultimi 7 Giorni</td>
-                <td>${userData.visitsLast7Days}</td>
-            </tr>
-            <tr>
-                <td>Visite Ultimo Mese</td>
-                <td>${userData.visitsLastMonth}</td>
-            </tr>
-            <tr>
-                <td>Media Giornaliera (7 giorni)</td>
-                <td>${userData.avgDailyVisits}</td>
-            </tr>
-            <tr>
-                <td>Dispositivo Principale</td>
-                <td>${userData.topDevices[0]?.device || 'N/D'} (${userData.topDevices[0]?.percentage || 0}%)</td>
-            </tr>
-            <tr>
-                <td>Browser Principale</td>
-                <td>${userData.topBrowsers[0]?.browser || 'N/D'} (${userData.topBrowsers[0]?.percentage || 0}%)</td>
-            </tr>
-            <tr>
-                <td>Sistema Operativo Principale</td>
-                <td>${userData.topOs[0]?.os || 'N/D'} (${userData.topOs[0]?.percentage || 0}%)</td>
-            </tr>
-            <tr>
-                <td>Principale Fonte di Traffico</td>
-                <td>${userData.topReferrers[0]?.referrer || 'N/D'} (${userData.topReferrers[0]?.percentage || 0}%)</td>
-            </tr>
-        `;
-    }
-    
-    // Aggiorna il grafico della distribuzione dei dispositivi
-    const chartCanvas = document.getElementById('aggregated-chart');
-    if (chartCanvas) {
-        // Prepara i dati per il grafico
-        const labels = userData.topDevices.map(item => item.device);
-        const data = userData.topDevices.map(item => item.visits);
-        
-        // Colori per il grafico
-        const backgroundColors = [
-            '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'
-        ];
-        
-        // Distruggi il grafico esistente se presente
-        if (window.aggregatedChart) {
-            window.aggregatedChart.destroy();
-        }
-        
-        // Crea il nuovo grafico
-        window.aggregatedChart = new Chart(chartCanvas, {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: backgroundColors.slice(0, labels.length),
-                    hoverBackgroundColor: backgroundColors.slice(0, labels.length),
-                    hoverBorderColor: 'rgba(234, 236, 244, 1)'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            font: {
-                                size: 12
-                            }
-                        }
-                    },
-                    title: {
-                        display: true,
-                        text: 'Distribuzione Dispositivi',
-                        font: {
-                            size: 16
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.label || '';
-                                const value = context.raw || 0;
-                                const percentage = userData.topDevices.find(d => d.device === label)?.percentage || 0;
-                                return `${label}: ${value} (${percentage}%)`;
-                            }
-                        }
-                    }
-                },
-                cutout: '70%'
-            }
-        });
+    // Questa funzione non è più necessaria perché i dati vengono caricati da Google Sheets
+    // e la sezione di riepilogo aggregato è stata nascosta.
+    const aggregatedSection = document.getElementById('aggregated-users-section');
+    if (aggregatedSection) {
+        aggregatedSection.style.display = 'none';
     }
 }
     

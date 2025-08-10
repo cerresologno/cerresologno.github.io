@@ -19,6 +19,48 @@
             text-align: center; /* Centra il testo orizzontalmente */
             margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
         }
+        
+        /* Stili per la news in evidenza */
+        .featured-news {
+            border: 3px solid #667eea;
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+        }
+        
+        .featured-news:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .news-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+        
+        .news-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        
+        /* Responsive design per mobile */
+        @media (max-width: 768px) {
+            .news-highlights {
+                gap: 6px;
+            }
+            
+            .news-tag {
+                font-size: 0.7em;
+                padding: 3px 10px;
+            }
+        }
     </style>
 </head>
 <body onload="checkDarkMode()">    
@@ -41,6 +83,23 @@
     <main>
         <h1 class="page-title">Ultime News</h1>
         <div class="card-container">
+            <!-- Card News Evento Principale -->
+            <div class="card featured-news">
+                <div class="card-icon-area">
+                    <i class="material-icons card-icon">celebration</i>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">🎉 Cerrè Summer Games 2025 - Il Grande Ritorno!</h2>
+                    <p class="card-text">L'evento più atteso dell'estate è finalmente confermato! Tornei sportivi, musica live, foodtruck e tanto divertimento per tutta la famiglia. Una giornata intera di sport e spettacolo nel cuore di Cerrè Sologno.</p>
+                    <div class="news-highlights">
+                        <span class="news-tag">🏆 Evento Principale</span>
+                        <span class="news-tag">📅 12 Agosto</span>
+                        <span class="news-tag">🎯 Tornei</span>
+                    </div>
+                    <a href="eventi/evento4.html" class="card-button">Scopri Tutto</a>
+                </div>
+            </div>
+            
             <!-- Card News -->
             <div class="card">
                 <div class="card-icon-area">

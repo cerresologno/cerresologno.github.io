@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segnapunti Beach Volley - Pro Loco Cerrè Sologno</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
+    <script src="../script.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .centered-content {
+            margin-top: 50px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+        .centered-content h1, .centered-content h2, .centered-content h3 {
+            text-align: center;
+        }
+        .centered-content p {
+            text-align: justify;
+        }
+        .centered-content > p {
+            text-align: center;
+        }
+        
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px auto;
+            background: #eeeadf;
+            font-size: 14px;
+        }
+        .score-table th, .score-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+            color: #848b11;
+        }
+        .score-table th {
+            background-color: #ede1b5;
+            color: #848b11;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .score-table td {
+            background-color: #eeeadf;
+        }
+        
+        .girone-header {
+            background-color: #d4edda !important;
+            color: #155724 !important;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .set-input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 2px;
+        }
+        
+        .winner-cell {
+            background-color: #d1ecf1 !important;
+            font-weight: bold;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+        }
+        
+        .girone-tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .girone-tab {
+            padding: 10px 20px;
+            background-color: #ede1b5;
+            border: 2px solid #848b11;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #848b11;
+        }
+        
+        .girone-tab:hover {
+            background-color: #848b11;
+            color: #ede1b5;
+        }
+        
+        .girone-tab.active {
+            background-color: #848b11;
+            color: #ede1b5;
+        }
+        
+        .girone-section {
+            display: none;
+        }
+        
+        .girone-section.active {
+            display: block;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stats-card {
+            background: #eeeadf;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stats-card h3 {
+            color: #848b11;
+            margin-bottom: 15px;
+        }
+        
+        .stats-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #848b11;
+        }
+        
+        @media (max-width: 768px) {
+            .score-table th, .score-table td {
+                padding: 4px;
+                font-size: 12px;
+            }
+            .set-input {
+                width: 30px;
+                font-size: 12px;
+            }
+            .girone-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Dark mode per la tabella */
+        body.dark-mode .score-table {
+            background: #201208;
+        }
+        body.dark-mode .score-table th {
+            background-color: #2d1a0b;
+            color: #848b11;
+        }
+        body.dark-mode .score-table td {
+            background-color: #201208;
+            color: #ede1b5;
+        }
+        body.dark-mode .girone-header {
+            background-color: #1e4d2b !important;
+            color: #d4edda !important;
+        }
+        body.dark-mode .winner-cell {
+            background-color: #0c5460 !important;
+        }
+        body.dark-mode .stats-card {
+            background: #201208;
+            border-color: #2d1a0b;
+        }
+    </style>
+</head>
+<body onload="checkDarkMode()">
+    <header>
+        <h1>🏐 Segnapunti Beach Volley</h1>
+        <div class="nav-container">
+            <nav>
+                <a href="../eventi.html" class="button">Indietro</a>
+                <a href="../home.html" class="button">Home</a>
+                <a href="../news.html" class="button">News</a>
+                <a href="../contatti.html" class="button">Chi siamo?</a>
+                <a href="../storia.html" class="button">La storia di Cerré</a>
+                <a href="../dove.html" class="button">Dove ci trovi?</a>
+            </nav>
+            <a onclick="toggleDarkMode()" class="button theme-toggle">Cambia Tema</a>
+        </div>
+    </header>
+    
+    <main class="centered-content">
+        <h2>🏖️ Torneo Beach Volley 2025</h2>
+        <p>Segnapunti in tempo reale per tutti i gironi del torneo. I punteggi vengono aggiornati automaticamente da Google Sheets!</p>
+        
+        <!-- Tab gironi -->
+        <div class="girone-tabs">
+            <div class="girone-tab active" onclick="showGirone('moscow-mule')">🐸 Moscow Mule</div>
+            <div class="girone-tab" onclick="showGirone('whiskey-sour')">🥃 Whiskey Sour</div>
+            <div class="girone-tab" onclick="showGirone('special-daiquiri')">🍹 Special Daiquiri</div>
+            <div class="girone-tab" onclick="showGirone('tequila-sunrise')">🌅 Tequila Sunrise</div>
+        </div>
+        
+        <!-- Statistiche generali -->
+        <div class="stats-container">
+            <div class="stats-card">
+                <h3>🏆 Partite Giocate</h3>
+                <div class="stats-number" id="partite-giocate">0</div>
+            </div>
+            <div class="stats-card">
+                <h3>⏰ Prossima Partita</h3>
+                <div class="stats-number" id="prossima-partita">-</div>
+            </div>
+            <div class="stats-card">
+                <h3>📊 Squadre Partecipanti</h3>
+                <div class="stats-number">16</div>
+            </div>
+        </div>
+        
+        <!-- Sezioni gironi -->
+        <div id="girone-moscow-mule" class="girone-section active">
+            <h3>🐸 GIRONE MOSCOW MULE</h3>
+            <div id="tabella-moscow-mule"></div>
+        </div>
+        
+        <div id="girone-whiskey-sour" class="girone-section">
+            <h3>🥃 GIRONE WHISKEY SOUR</h3>
+            <div id="tabella-whiskey-sour"></div>
+        </div>
+        
+        <div id="girone-special-daiquiri" class="girone-section">
+            <h3>🍹 GIRONE SPECIAL DAIQUIRI</h3>
+            <div id="tabella-special-daiquiri"></div>
+        </div>
+        
+        <div id="girone-tequila-sunrise" class="girone-section">
+            <h3>🌅 GIRONE TEQUILA SUNRISE</h3>
+            <div id="tabella-tequila-sunrise"></div>
+        </div>
+        
+        <p id="segnapunti-loading"><em>Caricamento segnapunti...</em></p>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+    </footer>
+    
+    <script>
+        function checkDarkMode() {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+        
+        checkDarkMode();
+        window.addEventListener("storage", event => {
+            if (event.key === "darkMode") {
+                if (event.newValue === "enabled") {
+                    document.body.classList.add("dark-mode");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                }
+            }
+        });
+
+        // --- INIZIO: Caricamento segnapunti da Google Sheets ---
+        // Sostituisci QUI sotto con il link RAW del tuo CSV su GitHub Pages
+        const CSV_URL = "https://cerresologno.github.io/tabellone/segnapunti_beach_volley.csv";
+        
+        // URL Google Sheets per il segnapunti (da configurare)
+        const GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?output=csv"
+
+        function csvToArray(str, delimiter = ",") {
+            const rows = str.trim().split("\n");
+            return rows.map(row => row.split(delimiter));
+        }
+
+        function renderSegnapunti(data) {
+            // Raggruppa le partite per girone
+            const gironi = {
+                'MOSCOW MULE': [],
+                'WHISKEY SOUR': [],
+                'SPECIAL DAIQUIRI': [],
+                'TEQUILA SUNRISE': []
+            };
+            
+            // Salta l'intestazione
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                if (row.length >= 12) {
+                    const girone = row[0];
+                    if (gironi[girone]) {
+                        gironi[girone].push({
+                            squadra1: row[1],
+                            squadra2: row[2],
+                            set1_1: row[3] || '',
+                            set1_2: row[4] || '',
+                            set2_1: row[5] || '',
+                            set2_2: row[6] || '',
+                            set3_1: row[7] || '',
+                            set3_2: row[8] || '',
+                            vincitore: row[9] || '',
+                            orario: row[10] || '',
+                            note: row[11] || ''
+                        });
+                    }
+                }
+            }
+            
+            // Renderizza ogni girone
+            renderGirone('moscow-mule', gironi['MOSCOW MULE']);
+            renderGirone('whiskey-sour', gironi['WHISKEY SOUR']);
+            renderGirone('special-daiquiri', gironi['SPECIAL DAIQUIRI']);
+            renderGirone('tequila-sunrise', gironi['TEQUILA SUNRISE']);
+            
+            // Aggiorna statistiche
+            updateStats(gironi);
+            
+            document.getElementById("segnapunti-loading").style.display = "none";
+        }
+
+        function renderGirone(gironeId, partite) {
+            const container = document.getElementById(`tabella-${gironeId}`);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (partite.length === 0) {
+                container.innerHTML = '<p>Nessuna partita trovata per questo girone.</p>';
+                return;
+            }
+            
+            const table = document.createElement('table');
+            table.className = 'score-table';
+            
+            // Intestazione
+            const thead = document.createElement('thead');
+            const trHead = document.createElement('tr');
+            const headers = ['Squadra 1', 'Squadra 2', 'Set 1', 'Set 2', 'Set 3', 'Vincitore', 'Orario', 'Note'];
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                trHead.appendChild(th);
+            });
+            thead.appendChild(trHead);
+            table.appendChild(thead);
+            
+            // Corpo tabella
+            const tbody = document.createElement('tbody');
+            partite.forEach(partita => {
+                const tr = document.createElement('tr');
+                
+                // Squadra 1
+                const td1 = document.createElement('td');
+                td1.textContent = partita.squadra1;
+                tr.appendChild(td1);
+                
+                // Squadra 2
+                const td2 = document.createElement('td');
+                td2.textContent = partita.squadra2;
+                tr.appendChild(td2);
+                
+                // Set 1
+                const td3 = document.createElement('td');
+                td3.innerHTML = `${partita.set1_1} - ${partita.set1_2}`;
+                tr.appendChild(td3);
+                
+                // Set 2
+                const td4 = document.createElement('td');
+                td4.innerHTML = `${partita.set2_1} - ${partita.set2_2}`;
+                tr.appendChild(td4);
+                
+                // Set 3
+                const td5 = document.createElement('td');
+                td5.innerHTML = `${partita.set3_1} - ${partita.set3_2}`;
+                tr.appendChild(td5);
+                
+                // Vincitore
+                const td6 = document.createElement('td');
+                td6.textContent = partita.vincitore;
+                if (partita.vincitore) {
+                    td6.className = 'winner-cell';
+                }
+                tr.appendChild(td6);
+                
+                // Orario
+                const td7 = document.createElement('td');
+                td7.textContent = partita.orario;
+                tr.appendChild(td7);
+                
+                // Note
+                const td8 = document.createElement('td');
+                td8.textContent = partita.note;
+                tr.appendChild(td8);
+                
+                tbody.appendChild(tr);
+            });
+            
+            table.appendChild(tbody);
+            container.appendChild(table);
+        }
+
+        function updateStats(gironi) {
+            let partiteGiocate = 0;
+            let prossimaPartita = '-';
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            Object.values(gironi).forEach(partite => {
+                partite.forEach(partita => {
+                    if (partita.vincitore) {
+                        partiteGiocate++;
+                    }
+                    
+                    // Trova la prossima partita
+                    if (!partita.vincitore && partita.orario) {
+                        const [hours, minutes] = partita.orario.split(':').map(Number);
+                        const partitaTime = hours * 60 + minutes;
+                        if (partitaTime > currentTime && (prossimaPartita === '-' || partitaTime < prossimaPartita)) {
+                            prossimaPartita = partita.orario;
+                        }
+                    }
+                });
+            });
+            
+            document.getElementById('partite-giocate').textContent = partiteGiocate;
+            document.getElementById('prossima-partita').textContent = prossimaPartita;
+        }
+
+        function showGirone(gironeId) {
+            // Nascondi tutte le sezioni
+            document.querySelectorAll('.girone-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Rimuovi classe active da tutti i tab
+            document.querySelectorAll('.girone-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostra la sezione selezionata
+            document.getElementById(`girone-${gironeId}`).classList.add('active');
+            
+            // Attiva il tab corrispondente
+            event.target.classList.add('active');
+        }
+
+        function loadSegnapunti() {
+            // 1. Prova a caricare da Google Sheets
+            fetch(GOOGLE_SHEETS_CSV)
+                .then(response => {
+                    if (!response.ok) throw new Error("Errore Google Sheets");
+                    return response.text();
+                })
+                .then(csv => {
+                    const data = csvToArray(csv);
+                    renderSegnapunti(data);
+                })
+                .catch(err => {
+                    // 2. Se fallisce, carica da GitHub Pages
+                    fetch(CSV_URL)
+                        .then(response => {
+                            if (!response.ok) throw new Error("Errore CSV statico");
+                            return response.text();
+                        })
+                        .then(csv => {
+                            const data = csvToArray(csv);
+                            renderSegnapunti(data);
+                        })
+                        .catch(err2 => {
+                            document.getElementById("segnapunti-loading").innerHTML = "<em>Errore nel caricamento del segnapunti.</em>";
+                        });
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadSegnapunti);
+        
+        // Aggiorna ogni 30 secondi
+        setInterval(loadSegnapunti, 30000);
+        // --- FINE: Caricamento segnapunti da Google Sheets ---
+    </script>
+    <iframe src="about:blank" style="display: none;"></iframe>
+</body>
+</html> 

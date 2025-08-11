@@ -481,6 +481,8 @@
         function loadSegnapunti() {
             console.log("🔄 Inizio caricamento segnapunti...");
             
+            let googleSheetsSuccess = false; // Flag per tracciare il successo
+            
             // 1. Prova a caricare da Google Sheets con gestione migliore
             fetch(GOOGLE_SHEETS_CSV, {
                 redirect: 'follow',
@@ -502,17 +504,22 @@
                     const data = csvToArray(csv);
                     console.log("📊 Righe CSV:", data.length);
                     renderSegnapunti(data);
+                    googleSheetsSuccess = true; // Marca il successo
                     return "SUCCESS"; // Marca il successo
                 })
                 .then(result => {
                     if (result === "SUCCESS") {
                         console.log("🎉 Google Sheets funziona perfettamente, nessun fallback necessario!");
-                        return; // Esci dalla catena se Google Sheets ha successo
+                        return Promise.reject("SUCCESS_EXIT"); // Esci dalla catena se Google Sheets ha successo
                     }
                     // Se non è successo, continua con il fallback
                     throw new Error("Google Sheets non ha restituito successo");
                 })
                 .catch(err => {
+                    if (err === "SUCCESS_EXIT") {
+                        console.log("🎯 Uscita anticipata: Google Sheets ha funzionato!");
+                        return; // Esci completamente dalla funzione
+                    }
                     console.log("❌ Errore Google Sheets (URL 1):", err);
                     // 2. Prova URL alternativo di Google Sheets
                     return fetch(GOOGLE_SHEETS_CSV_ALT, {
@@ -560,6 +567,10 @@
                     renderSegnapunti(data);
                 })
                 .catch(err => {
+                    if (googleSheetsSuccess) {
+                        console.log("🎯 Google Sheets ha già funzionato, nessun fallback necessario!");
+                        return;
+                    }
                     console.log("❌ Errore Google Sheets (tutti e tre gli URL):", err);
                     // 4. Se fallisce tutto, carica da GitHub Pages
                     console.log("🔄 Tentativo di caricamento CSV statico...");

@@ -289,10 +289,9 @@
         const CSV_URL = "https://cerresologno.github.io/tabellone/segnapunti_beach_volley.csv";
         
         // URL Google Sheets per il segnapunti (da configurare)
-        const GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?output=csv";
-        
+        const GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?gid=1890475304&single=true&output=csv"
         // URL alternativo per Google Sheets (se il primo non funziona)
-        const GOOGLE_SHEETS_CSV_ALT = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?gid=0&single=true&output=csv";
+        //const GOOGLE_SHEETS_CSV_ALT = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?gid=0&single=true&output=csv";
 
         function csvToArray(str, delimiter = ",") {
             const rows = str.trim().split("\n");

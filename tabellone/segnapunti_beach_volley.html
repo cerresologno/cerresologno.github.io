@@ -206,7 +206,7 @@
     
     <main class="centered-content">
         <h2>🏖️ Torneo Beach Volley 2025</h2>
-        <p>Segnapunti in tempo reale per tutti i gironi del torneo!</p>
+        <p>Visualizza il calendario completo delle partite e i risultati in tempo reale!</p>
         
         <!-- Link al tabellone principale -->
         <div style="text-align: center; margin: 20px 0; padding: 15px; background: #ede1b5; border-radius: 8px; border: 1px solid #848b11;">
@@ -225,8 +225,8 @@
         <!-- Statistiche generali -->
         <div class="stats-container">
             <div class="stats-card">
-                <h3>🏆 Partite Giocate</h3>
-                <div class="stats-number" id="partite-giocate">0</div>
+                <h3>🏆 Partite (Giocate/Totali)</h3>
+                <div class="stats-number" id="partite-giocate">0 / 0</div>
             </div>
             <div class="stats-card">
                 <h3>⏰ Prossima Partita</h3>
@@ -259,7 +259,7 @@
             <div id="tabella-tequila-sunrise"></div>
         </div>
         
-        <p id="segnapunti-loading"><em>Caricamento segnapunti...</em></p>
+        <p id="segnapunti-loading"><em>Caricamento calendario partite e risultati in corso...</em></p>
     </main>
     
     <footer>
@@ -289,7 +289,10 @@
         const CSV_URL = "https://cerresologno.github.io/tabellone/segnapunti_beach_volley.csv";
         
         // URL Google Sheets per il segnapunti (da configurare)
-        const GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?output=csv"
+        const GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?output=csv";
+        
+        // URL alternativo per Google Sheets (se il primo non funziona)
+        const GOOGLE_SHEETS_CSV_ALT = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?gid=0&single=true&output=csv";
 
         function csvToArray(str, delimiter = ",") {
             const rows = str.trim().split("\n");
@@ -347,7 +350,7 @@
             container.innerHTML = '';
             
             if (partite.length === 0) {
-                container.innerHTML = '<p>Nessuna partita trovata per questo girone.</p>';
+                container.innerHTML = '<p>Nessuna partita programmata per questo girone.</p>';
                 return;
             }
             
@@ -423,6 +426,7 @@
 
         function updateStats(gironi) {
             let partiteGiocate = 0;
+            let partiteProgrammate = 0;
             let prossimaPartita = '-';
             const now = new Date();
             const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -431,6 +435,8 @@
                 partite.forEach(partita => {
                     if (partita.vincitore) {
                         partiteGiocate++;
+                    } else {
+                        partiteProgrammate++;
                     }
                     
                     // Trova la prossima partita
@@ -444,7 +450,8 @@
                 });
             });
             
-            document.getElementById('partite-giocate').textContent = partiteGiocate;
+            // Mostra sia le partite giocate che quelle programmate
+            document.getElementById('partite-giocate').textContent = `${partiteGiocate} / ${partiteGiocate + partiteProgrammate}`;
             document.getElementById('prossima-partita').textContent = prossimaPartita;
         }
 
@@ -467,29 +474,54 @@
         }
 
         function loadSegnapunti() {
-            // 1. Prova a caricare da Google Sheets
-            fetch(GOOGLE_SHEETS_CSV)
+            console.log("🔄 Inizio caricamento segnapunti...");
+            // 1. Prova a caricare da Google Sheets con redirect automatico
+            fetch(GOOGLE_SHEETS_CSV, {
+                redirect: 'follow',
+                mode: 'cors'
+            })
                 .then(response => {
                     if (!response.ok) throw new Error("Errore Google Sheets");
                     return response.text();
                 })
                 .then(csv => {
+                    console.log("✅ Google Sheets caricato con successo (URL 1)!");
                     const data = csvToArray(csv);
                     renderSegnapunti(data);
                 })
                 .catch(err => {
-                    // 2. Se fallisce, carica da GitHub Pages
+                    console.log("❌ Errore Google Sheets (URL 1):", err);
+                    // 2. Prova URL alternativo di Google Sheets
+                    return fetch(GOOGLE_SHEETS_CSV_ALT, {
+                        redirect: 'follow',
+                        mode: 'cors'
+                    });
+                })
+                .then(response => {
+                    if (!response || !response.ok) throw new Error("Errore Google Sheets (entrambi gli URL)");
+                    return response.text();
+                })
+                .then(csv => {
+                    console.log("✅ Google Sheets caricato con successo (URL 2)!");
+                    const data = csvToArray(csv);
+                    renderSegnapunti(data);
+                })
+                .catch(err => {
+                    console.log("Errore Google Sheets (entrambi gli URL):", err);
+                    // 3. Se fallisce, carica da GitHub Pages
                     fetch(CSV_URL)
                         .then(response => {
                             if (!response.ok) throw new Error("Errore CSV statico");
                             return response.text();
                         })
                         .then(csv => {
+                            console.log("📁 CSV statico caricato come fallback");
                             const data = csvToArray(csv);
                             renderSegnapunti(data);
                         })
                         .catch(err2 => {
-                            document.getElementById("segnapunti-loading").innerHTML = "<em>Errore nel caricamento del segnapunti.</em>";
+                            console.log("Errore CSV statico:", err2);
+                            document.getElementById("segnapunti-loading").innerHTML = "<em>Errore nel caricamento del calendario partite e risultati.</em>";
                         });
                 });
         }
@@ -497,7 +529,10 @@
         document.addEventListener("DOMContentLoaded", loadSegnapunti);
         
         // Aggiorna ogni 30 secondi
-        setInterval(loadSegnapunti, 30000);
+        setInterval(() => {
+            console.log("🔄 Aggiornamento automatico...");
+            loadSegnapunti();
+        }, 30000);
         // --- FINE: Caricamento segnapunti da Google Sheets ---
     </script>
     <iframe src="about:blank" style="display: none;"></iframe>

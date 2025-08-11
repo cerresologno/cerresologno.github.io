@@ -334,7 +334,7 @@
                             set3_2: row[8] || '',
                             vincitore: row[9] || '',
                             orario: row[10] || '',
-                            note: row[11] || ''
+                            note: '' // Non c'è la colonna note nel CSV
                         });
                         console.log(`✅ Partita aggiunta al girone ${girone}`);
                     } else {
@@ -452,6 +452,7 @@
             let prossimaPartita = '-';
             const now = new Date();
             const currentTime = now.getHours() * 60 + now.getMinutes();
+            console.log(`🕐 Ora attuale: ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} (${currentTime} minuti)`);
             
             Object.values(gironi).forEach(partite => {
                 partite.forEach(partita => {
@@ -463,10 +464,23 @@
                     
                     // Trova la prossima partita
                     if (!partita.vincitore && partita.orario) {
-                        const [hours, minutes] = partita.orario.split(':').map(Number);
-                        const partitaTime = hours * 60 + minutes;
-                        if (partitaTime > currentTime && (prossimaPartita === '-' || partitaTime < prossimaPartita)) {
-                            prossimaPartita = partita.orario;
+                        // Gestisce orari come "9:30-9:50" o "9:30"
+                        const orarioParts = partita.orario.split('-');
+                        const orarioInizio = orarioParts[0].trim();
+                        
+                        // Parsing dell'orario di inizio (es: "9:30" -> 9*60 + 30 = 570 minuti)
+                        const [hours, minutes] = orarioInizio.split(':').map(Number);
+                        if (!isNaN(hours) && !isNaN(minutes)) {
+                            const partitaTime = hours * 60 + minutes;
+                            console.log(`🕐 Partita ${partita.squadra1} vs ${partita.squadra2}: orario "${partita.orario}" -> ${hours}:${minutes} (${partitaTime} minuti)`);
+                            
+                            // Trova la prossima partita che non è ancora iniziata
+                            if (partitaTime > currentTime) {
+                                if (prossimaPartita === '-' || partitaTime < prossimaPartita) {
+                                    prossimaPartita = partita.orario;
+                                    console.log(`✅ Nuova prossima partita: ${partita.orario} (${partitaTime} minuti)`);
+                                }
+                            }
                         }
                     }
                 });
@@ -558,5 +572,4 @@
     </script>
     <iframe src="about:blank" style="display: none;"></iframe>
 </body>
-
 </html> 

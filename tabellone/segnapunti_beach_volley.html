@@ -303,6 +303,7 @@
         }
 
         function renderSegnapunti(data) {
+            console.log("🎯 Inizio rendering segnapunti con", data.length, "righe");
             // Raggruppa le partite per girone
             const gironi = {
                 'MOSCOW MULE': [],
@@ -344,6 +345,7 @@
             updateStats(gironi);
             
             document.getElementById("segnapunti-loading").style.display = "none";
+            console.log("🎯 Rendering completato con successo!");
         }
 
         function renderGirone(gironeId, partite) {
@@ -496,8 +498,19 @@
                     }
                     console.log("✅ Google Sheets caricato con successo (URL 1)!");
                     console.log("📊 Dati ricevuti:", csv.substring(0, 200) + "...");
+                    console.log("📊 Lunghezza CSV:", csv.length, "caratteri");
                     const data = csvToArray(csv);
+                    console.log("📊 Righe CSV:", data.length);
                     renderSegnapunti(data);
+                    return "SUCCESS"; // Marca il successo
+                })
+                .then(result => {
+                    if (result === "SUCCESS") {
+                        console.log("🎉 Google Sheets funziona perfettamente, nessun fallback necessario!");
+                        return; // Esci dalla catena se Google Sheets ha successo
+                    }
+                    // Se non è successo, continua con il fallback
+                    throw new Error("Google Sheets non ha restituito successo");
                 })
                 .catch(err => {
                     console.log("❌ Errore Google Sheets (URL 1):", err);

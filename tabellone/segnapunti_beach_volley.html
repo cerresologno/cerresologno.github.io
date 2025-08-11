@@ -319,7 +319,7 @@
             for (let i = 1; i < data.length; i++) {
                 const row = data[i];
                 console.log(`🔍 Riga ${i}:`, row);
-                if (row.length >= 12) {
+                if (row.length >= 11) {
                     const girone = row[0];
                     console.log(`🔍 Girone trovato: "${girone}"`);
                     if (gironi[girone]) {
@@ -558,4 +558,5 @@
     </script>
     <iframe src="about:blank" style="display: none;"></iframe>
 </body>
+
 </html> 

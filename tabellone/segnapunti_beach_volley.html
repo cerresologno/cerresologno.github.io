@@ -288,10 +288,14 @@
         // Sostituisci QUI sotto con il link RAW del tuo CSV su GitHub Pages
         const CSV_URL = "https://cerresologno.github.io/tabellone/segnapunti_beach_volley.csv";
         
-        // URL Google Sheets per il segnapunti (da configurare)
-        const GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?gid=1890475304&single=true&output=csv"
-        // URL alternativo per Google Sheets (se il primo non funziona)
-        //const GOOGLE_SHEETS_CSV_ALT = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?gid=0&single=true&output=csv";
+        // URL Google Sheets per il segnapunti (documento intero - FUNZIONANTE)
+        const GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?output=csv";
+        
+        // URL alternativo per Google Sheets (foglio specifico)
+        const GOOGLE_SHEETS_CSV_ALT = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/pub?gid=1890475304&single=true&output=csv";
+        
+        // URL di terza riserva (formato diverso)
+        const GOOGLE_SHEETS_CSV_RESERVE = "https://docs.google.com/spreadsheets/d/2PACX-1vQ1KuLJw8vw3EjYrleJQNTUWA-_ULgOHqqWPyf2RTAZQji1e0meV-lnux9TDGQt6cENNKMZ5Q_W70Af/gviz/tq?tqx=out:csv";
 
         function csvToArray(str, delimiter = ",") {
             const rows = str.trim().split("\n");
@@ -474,17 +478,24 @@
 
         function loadSegnapunti() {
             console.log("🔄 Inizio caricamento segnapunti...");
-            // 1. Prova a caricare da Google Sheets con redirect automatico
+            
+            // 1. Prova a caricare da Google Sheets con gestione migliore
             fetch(GOOGLE_SHEETS_CSV, {
                 redirect: 'follow',
-                mode: 'cors'
+                mode: 'cors',
+                cache: 'no-cache'
             })
                 .then(response => {
-                    if (!response.ok) throw new Error("Errore Google Sheets");
+                    console.log("📡 Risposta Google Sheets:", response.status, response.statusText);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     return response.text();
                 })
                 .then(csv => {
+                    if (!csv || csv.trim().length === 0) {
+                        throw new Error("CSV vuoto o non valido");
+                    }
                     console.log("✅ Google Sheets caricato con successo (URL 1)!");
+                    console.log("📊 Dati ricevuti:", csv.substring(0, 200) + "...");
                     const data = csvToArray(csv);
                     renderSegnapunti(data);
                 })
@@ -493,21 +504,52 @@
                     // 2. Prova URL alternativo di Google Sheets
                     return fetch(GOOGLE_SHEETS_CSV_ALT, {
                         redirect: 'follow',
-                        mode: 'cors'
+                        mode: 'cors',
+                        cache: 'no-cache'
                     });
                 })
                 .then(response => {
-                    if (!response || !response.ok) throw new Error("Errore Google Sheets (entrambi gli URL)");
+                    if (!response) throw new Error("Nessuna risposta dall'URL alternativo");
+                    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     return response.text();
                 })
                 .then(csv => {
+                    if (!csv || csv.trim().length === 0) {
+                        throw new Error("CSV vuoto o non valido dall'URL alternativo");
+                    }
                     console.log("✅ Google Sheets caricato con successo (URL 2)!");
+                    console.log("📊 Dati ricevuti:", csv.substring(0, 200) + "...");
                     const data = csvToArray(csv);
                     renderSegnapunti(data);
                 })
                 .catch(err => {
-                    console.log("Errore Google Sheets (entrambi gli URL):", err);
-                    // 3. Se fallisce, carica da GitHub Pages
+                    console.log("❌ Errore Google Sheets (entrambi gli URL):", err);
+                    // 3. Prova URL di terza riserva
+                    console.log("🔄 Tentativo con URL di terza riserva...");
+                    return fetch(GOOGLE_SHEETS_CSV_RESERVE, {
+                        redirect: 'follow',
+                        mode: 'cors',
+                        cache: 'no-cache'
+                    });
+                })
+                .then(response => {
+                    if (!response) throw new Error("Nessuna risposta dall'URL di terza riserva");
+                    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    return response.text();
+                })
+                .then(csv => {
+                    if (!csv || csv.trim().length === 0) {
+                        throw new Error("CSV vuoto o non valido dall'URL di terza riserva");
+                    }
+                    console.log("✅ Google Sheets caricato con successo (URL 3)!");
+                    console.log("📊 Dati ricevuti:", csv.substring(0, 200) + "...");
+                    const data = csvToArray(csv);
+                    renderSegnapunti(data);
+                })
+                .catch(err => {
+                    console.log("❌ Errore Google Sheets (tutti e tre gli URL):", err);
+                    // 4. Se fallisce tutto, carica da GitHub Pages
+                    console.log("🔄 Tentativo di caricamento CSV statico...");
                     fetch(CSV_URL)
                         .then(response => {
                             if (!response.ok) throw new Error("Errore CSV statico");
@@ -519,7 +561,7 @@
                             renderSegnapunti(data);
                         })
                         .catch(err2 => {
-                            console.log("Errore CSV statico:", err2);
+                            console.log("❌ Errore CSV statico:", err2);
                             document.getElementById("segnapunti-loading").innerHTML = "<em>Errore nel caricamento del calendario partite e risultati.</em>";
                         });
                 });

@@ -304,6 +304,8 @@
 
         function renderSegnapunti(data) {
             console.log("🎯 Inizio rendering segnapunti con", data.length, "righe");
+            console.log("🔍 Primi dati ricevuti:", data.slice(0, 3));
+            
             // Raggruppa le partite per girone
             const gironi = {
                 'MOSCOW MULE': [],
@@ -313,10 +315,13 @@
             };
             
             // Salta l'intestazione
+            console.log("🔍 Intestazione CSV:", data[0]);
             for (let i = 1; i < data.length; i++) {
                 const row = data[i];
+                console.log(`🔍 Riga ${i}:`, row);
                 if (row.length >= 12) {
                     const girone = row[0];
+                    console.log(`🔍 Girone trovato: "${girone}"`);
                     if (gironi[girone]) {
                         gironi[girone].push({
                             squadra1: row[1],
@@ -331,9 +336,20 @@
                             orario: row[10] || '',
                             note: row[11] || ''
                         });
+                        console.log(`✅ Partita aggiunta al girone ${girone}`);
+                    } else {
+                        console.log(`❌ Girone "${girone}" non riconosciuto`);
                     }
+                } else {
+                    console.log(`❌ Riga ${i} troppo corta:`, row.length, "colonne");
                 }
             }
+            
+            // Mostra quanti dati sono stati raggruppati
+            console.log("📊 Dati raggruppati per girone:");
+            Object.entries(gironi).forEach(([girone, partite]) => {
+                console.log(`  ${girone}: ${partite.length} partite`);
+            });
             
             // Renderizza ogni girone
             renderGirone('moscow-mule', gironi['MOSCOW MULE']);
@@ -430,6 +446,7 @@
         }
 
         function updateStats(gironi) {
+            console.log("📊 Inizio aggiornamento statistiche con gironi:", gironi);
             let partiteGiocate = 0;
             let partiteProgrammate = 0;
             let prossimaPartita = '-';
@@ -456,8 +473,13 @@
             });
             
             // Mostra sia le partite giocate che quelle programmate
-            document.getElementById('partite-giocate').textContent = `${partiteGiocate} / ${partiteGiocate + partiteProgrammate}`;
+            const totalePartite = partiteGiocate + partiteProgrammate;
+            console.log(`📊 Statistiche calcolate: ${partiteGiocate} giocate / ${totalePartite} totali, prossima: ${prossimaPartita}`);
+            
+            document.getElementById('partite-giocate').textContent = `${partiteGiocate} / ${totalePartite}`;
             document.getElementById('prossima-partita').textContent = prossimaPartita;
+            
+            console.log("📊 Statistiche aggiornate nel DOM");
         }
 
         function showGirone(gironeId) {

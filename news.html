@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1735637736555530"
+        crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News - Pro Loco Cerrè Sologno</title>
     <link rel="stylesheet" href="style.css">
@@ -15,11 +18,14 @@
             padding: 10px;
             margin-bottom: 10px;
         }
+
         .centered-content {
-            text-align: center; /* Centra il testo orizzontalmente */
-            margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
+            text-align: center;
+            /* Centra il testo orizzontalmente */
+            margin-top: 50px;
+            /* Aggiunge un po' di spazio sopra il contenuto */
         }
-        
+
         /* Stili per la news in evidenza */
         .featured-news {
             border: 3px solid #667eea;
@@ -27,12 +33,12 @@
             transition: all 0.3s ease;
             background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
         }
-        
+
         .featured-news:hover {
             transform: scale(1.05);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
-        
+
         .news-highlights {
             display: flex;
             flex-wrap: wrap;
@@ -40,7 +46,7 @@
             margin: 15px 0;
             justify-content: center;
         }
-        
+
         .news-tag {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -49,13 +55,13 @@
             font-size: 0.8em;
             font-weight: 500;
         }
-        
+
         /* Responsive design per mobile */
         @media (max-width: 768px) {
             .news-highlights {
                 gap: 6px;
             }
-            
+
             .news-tag {
                 font-size: 0.7em;
                 padding: 3px 10px;
@@ -63,7 +69,8 @@
         }
     </style>
 </head>
-<body onload="checkDarkMode()">    
+
+<body onload="checkDarkMode()">
     <header>
         <h1>News</h1>
         <div class="nav-container">
@@ -90,7 +97,9 @@
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">🎉 Cerrè Summer Games 2025 - Il Grande Ritorno!</h2>
-                    <p class="card-text">L'evento più atteso dell'estate è finalmente confermato! Tornei sportivi, musica live, foodtruck e tanto divertimento per tutta la famiglia. Una giornata intera di sport e spettacolo nel cuore di Cerrè Sologno.</p>
+                    <p class="card-text">L'evento più atteso dell'estate è finalmente confermato! Tornei sportivi,
+                        musica live, foodtruck e tanto divertimento per tutta la famiglia. Una giornata intera di sport
+                        e spettacolo nel cuore di Cerrè Sologno.</p>
                     <div class="news-highlights">
                         <span class="news-tag">🏆 Evento Principale</span>
                         <span class="news-tag">📅 12 Agosto</span>
@@ -103,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Card News -->
             <div class="card">
                 <div class="card-icon-area">
@@ -129,9 +138,9 @@
                 document.body.classList.add("dark-mode");
             }
         }
-    
+
         checkDarkMode(); // Verifica all'avvio della pagina
-    
+
         window.addEventListener("storage", event => {
             if (event.key === "darkMode") {
                 if (event.newValue === "enabled") {
@@ -145,4 +154,5 @@
     <iframe src="about:blank" style="display: none;"></iframe>
 </body>
 </body>
+
 </html>

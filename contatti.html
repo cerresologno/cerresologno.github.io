@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1735637736555530"
+        crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contatti - Pro Loco Cerrè Sologno</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1735637736555530"
-     crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile.css">
     <script src="script.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body onload="checkDarkMode()">   
+
+<body onload="checkDarkMode()">
     <header>
         <h1>Chi Siamo?</h1>
         <div class="nav-container">
@@ -32,8 +34,10 @@
     <main>
         <section id="chi-siamo">
             <h2>Chi Siamo</h2>
-            <p>Siamo due ragazzi di Cerrè con l'obiettivo di rilanciare queste meravigliose terre! Seguici sulla pagina social del paese e, se ti va, anche sulle nostre per rimanere sempre aggiornato su news, eventi
-            e tanto altro!<p>
+            <p>Siamo due ragazzi di Cerrè con l'obiettivo di rilanciare queste meravigliose terre! Seguici sulla pagina
+                social del paese e, se ti va, anche sulle nostre per rimanere sempre aggiornato su news, eventi
+                e tanto altro!
+            <p>
         </section>
         <section id="contatti">
             <p>
@@ -63,30 +67,30 @@
                 </a>
             </p>
         </section>
-    <footer>
-        <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
-    </footer>
-    <script>
-        function checkDarkMode() {
-            if (localStorage.getItem("darkMode") === "enabled") {
-                document.body.classList.add("dark-mode");
-            }
-        }
-    
-        checkDarkMode(); // Verifica all'avvio della pagina
-    
-        window.addEventListener("storage", event => {
-            if (event.key === "darkMode") {
-                if (event.newValue === "enabled") {
+        <footer>
+            <p>&copy; 2025 Pro Loco Cerrè Sologno</p>
+        </footer>
+        <script>
+            function checkDarkMode() {
+                if (localStorage.getItem("darkMode") === "enabled") {
                     document.body.classList.add("dark-mode");
-                } else {
-                    document.body.classList.remove("dark-mode");
                 }
             }
-        });
-    </script>
-    <iframe src="about:blank" style="display: none;"></iframe>
-</body>
-</body>
-</html>
 
+            checkDarkMode(); // Verifica all'avvio della pagina
+
+            window.addEventListener("storage", event => {
+                if (event.key === "darkMode") {
+                    if (event.newValue === "enabled") {
+                        document.body.classList.add("dark-mode");
+                    } else {
+                        document.body.classList.remove("dark-mode");
+                    }
+                }
+            });
+        </script>
+        <iframe src="about:blank" style="display: none;"></iframe>
+</body>
+</body>
+
+</html>

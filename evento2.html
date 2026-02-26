@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1735637736555530"
+        crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titolo evento2</title>
     <link rel="stylesheet" href="style.css">
@@ -11,18 +14,26 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         .centered-content {
-            margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
+            margin-top: 50px;
+            /* Aggiunge un po' di spazio sopra il contenuto */
         }
-        .centered-content h2, .centered-content h3 {
-            text-align: center; /* Centra i titoli orizzontalmente */
+
+        .centered-content h2,
+        .centered-content h3 {
+            text-align: center;
+            /* Centra i titoli orizzontalmente */
         }
+
         .centered-content p {
-            text-align: justify; /* Giustifica i paragrafi */
+            text-align: justify;
+            /* Giustifica i paragrafi */
         }
     </style>
 </head>
+
 <body onload="checkDarkMode()">
 </body>
+
 <body>
     <header>
         <h1>Evento 2</h1>
@@ -41,7 +52,9 @@
 
     <main class="centered-content">
         <h2>Evento 2</h2>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi quibusdam iusto officia excepturi quia laudantium, et, possimus placeat, ad quasi magnam. Vero facilis, minus eos veniam fugit accusantium alias expedita?</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi quibusdam iusto officia excepturi quia
+            laudantium, et, possimus placeat, ad quasi magnam. Vero facilis, minus eos veniam fugit accusantium alias
+            expedita?</p>
         <p>Data: 05/04/2025</p>
     </main>
 
@@ -54,9 +67,9 @@
                 document.body.classList.add("dark-mode");
             }
         }
-    
+
         checkDarkMode(); // Verifica all'avvio della pagina
-    
+
         window.addEventListener("storage", event => {
             if (event.key === "darkMode") {
                 if (event.newValue === "enabled") {
@@ -70,4 +83,5 @@
     <iframe src="about:blank" style="display: none;"></iframe>
 </body>
 </body>
+
 </html>

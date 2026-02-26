@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1735637736555530"
+        crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pro Loco Cerrè Sologno</title>
     <link rel="stylesheet" href="style.css">
@@ -16,54 +19,54 @@
             text-align: center;
             margin-top: 50px;
         }
-        
+
         .nav-container {
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
         }
-        
+
         .theme-toggle {
             position: absolute;
             right: 0;
         }
-        
+
         @media (max-width: 768px) {
             .theme-toggle {
                 position: static;
             }
         }
-        
+
         .map-container {
             width: 100%;
             margin: 40px 0;
         }
-        
+
         .map-container iframe {
             width: 100%;
             height: 300px;
             border: 0;
             border-radius: 8px;
         }
-        
+
         /* Stili per l'evento in evidenza */
         .hero-event-container {
             margin: 40px 0;
             padding: 0 20px;
         }
-        
+
         .hero-event {
             background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
             border-radius: 20px;
             padding: 40px;
             color: white;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
         }
-        
+
         .hero-event::before {
             content: '';
             position: absolute;
@@ -74,25 +77,25 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
             opacity: 0.3;
         }
-        
+
         .hero-event-content {
             position: relative;
             z-index: 1;
         }
-        
+
         .hero-event h2 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-        
+
         .hero-description {
             font-size: 1.2em;
             margin-bottom: 30px;
             line-height: 1.6;
             opacity: 0.95;
         }
-        
+
         .hero-features {
             display: flex;
             justify-content: center;
@@ -100,66 +103,66 @@
             gap: 20px;
             margin: 30px 0;
         }
-        
+
         .feature {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 8px;
         }
-        
+
         .feature-icon {
             font-size: 2em;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
         }
-        
+
         .feature-text {
             font-size: 0.9em;
             font-weight: 500;
             opacity: 0.9;
         }
-        
+
         .hero-cta {
             margin-top: 30px;
         }
-        
+
         .hero-button {
             display: inline-block;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             padding: 15px 30px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
             font-size: 1.1em;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
-        
+
         .hero-button:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
+
         .secondary-button {
-            background: rgba(255,255,255,0.1) !important;
-            border: 2px solid rgba(255,255,255,0.5) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 2px solid rgba(255, 255, 255, 0.5) !important;
             margin-left: 15px;
         }
-        
+
         .secondary-button:hover {
-            background: rgba(255,255,255,0.2) !important;
-            border-color: rgba(255,255,255,0.7) !important;
+            background: rgba(255, 255, 255, 0.2) !important;
+            border-color: rgba(255, 255, 255, 0.7) !important;
         }
-        
+
         .hero-date {
             margin-top: 15px;
             font-size: 1em;
             opacity: 0.9;
         }
-        
+
         /* Stili per i pulsanti multipli nelle card normali */
         .card-buttons {
             display: flex;
@@ -167,51 +170,51 @@
             justify-content: center;
             flex-wrap: wrap;
         }
-        
+
         .event-date {
             color: #666;
             font-weight: 500;
             margin: 15px 0;
             text-align: center;
         }
-        
 
-        
+
+
         /* Responsive design per mobile */
         @media (max-width: 768px) {
             .hero-event {
                 padding: 30px 20px;
             }
-            
+
             .hero-event h2 {
                 font-size: 2em;
             }
-            
+
             .hero-features {
                 gap: 15px;
             }
-            
+
             .feature-icon {
                 font-size: 1.5em;
             }
-            
+
             .hero-button {
                 padding: 12px 25px;
                 font-size: 1em;
             }
-            
+
             .hero-cta {
                 display: flex;
                 flex-direction: column;
                 gap: 15px;
                 align-items: center;
             }
-            
+
             .secondary-button {
                 margin-left: 0;
                 margin-top: 10px;
             }
-            
+
             .card-buttons {
                 flex-direction: column;
                 align-items: center;
@@ -219,6 +222,7 @@
         }
     </style>
 </head>
+
 <body onload="checkDarkMode()">
     <header>
         <h1>Pro Loco Cerrè Sologno</h1>
@@ -243,7 +247,8 @@
             <div class="hero-event">
                 <div class="hero-event-content">
                     <h2>🏆 Cerrè Summer Games 2025</h2>
-                    <p class="hero-description">La grande festa estiva che tutti aspettavano! Una giornata intera di sport, musica e divertimento nel cuore di Cerrè Sologno.</p>
+                    <p class="hero-description">La grande festa estiva che tutti aspettavano! Una giornata intera di
+                        sport, musica e divertimento nel cuore di Cerrè Sologno.</p>
                     <div class="hero-features">
                         <div class="feature">
                             <span class="feature-icon">🏐</span>
@@ -271,10 +276,12 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="map-container">
             <h1 class="centered-content">Dove Siamo</h1>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2846.1831392896644!2d10.466204776537515!3d44.4105642057298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47809f9aaaaaaa01%3A0x5f5f5f5f5f5f5f5f!2sCerr%C3%A8%20Sologno%2C%2042030%20Villa%20Minozzo%20RE!5e0!3m2!1sit!2sit!4v1698765432109!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2846.1831392896644!2d10.466204776537515!3d44.4105642057298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47809f9aaaaaaa01%3A0x5f5f5f5f5f5f5f5f!2sCerr%C3%A8%20Sologno%2C%2042030%20Villa%20Minozzo%20RE!5e0!3m2!1sit!2sit!4v1698765432109!5m2!1sit!2sit"
+                allowfullscreen="" loading="lazy"></iframe>
         </div>
         <h1 class="page-title">Scopri Cerrè Sologno</h1>
         <div class="card-container">
@@ -285,11 +292,13 @@
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">Natura Incontaminata</h2>
-                    <p class="card-text">Immerso nel Parco Nazionale dell'Appennino Tosco-Emiliano, Cerrè Sologno offre sentieri mozzafiato, boschi secolari e panorami che tolgono il fiato. Perfetto per trekking ed escursioni.</p>
+                    <p class="card-text">Immerso nel Parco Nazionale dell'Appennino Tosco-Emiliano, Cerrè Sologno offre
+                        sentieri mozzafiato, boschi secolari e panorami che tolgono il fiato. Perfetto per trekking ed
+                        escursioni.</p>
                     <a href="attività.html" class="card-button">Esplora i sentieri</a>
                 </div>
             </div>
-            
+
             <!-- Card 2: Storia e Tradizioni -->
             <div class="card">
                 <div class="card-icon-area">
@@ -297,11 +306,13 @@
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">Storia e Tradizioni</h2>
-                    <p class="card-text">Un borgo ricco di storia, con architettura tradizionale appenninica perfettamente conservata. Scopri le nostre tradizioni e la cultura montana che si tramanda da generazioni.</p>
+                    <p class="card-text">Un borgo ricco di storia, con architettura tradizionale appenninica
+                        perfettamente conservata. Scopri le nostre tradizioni e la cultura montana che si tramanda da
+                        generazioni.</p>
                     <a href="storia.html" class="card-button">Vivi la tradizione</a>
                 </div>
             </div>
-            
+
             <!-- Card 3: Gastronomia Locale -->
             <div class="card">
                 <div class="card-icon-area">
@@ -309,12 +320,14 @@
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">Gastronomia Locale</h2>
-                    <p class="card-text">Assapora i sapori autentici della montagna con i nostri prodotti tipici: formaggi artigianali, funghi, castagne e piatti della tradizione emiliana preparati secondo le ricette di una volta.</p>
+                    <p class="card-text">Assapora i sapori autentici della montagna con i nostri prodotti tipici:
+                        formaggi artigianali, funghi, castagne e piatti della tradizione emiliana preparati secondo le
+                        ricette di una volta.</p>
                     <a href="ricette.html" class="card-button">Assaggia i sapori</a>
                 </div>
             </div>
         </div>
-        
+
         <h2 class="centered-content">Prossimi Eventi</h2>
         <div class="card-container">
             <!-- Card Eventi -->
@@ -324,7 +337,8 @@
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">🏆 Cerrè Summer Games 2025</h2>
-                    <p class="card-text">Il grande evento estivo è tornato! Tornei di Beach Volley, Freccette, Beer Pong, DJ Set, foodtruck brasiliano e tanto divertimento per tutta la famiglia.</p>
+                    <p class="card-text">Il grande evento estivo è tornato! Tornei di Beach Volley, Freccette, Beer
+                        Pong, DJ Set, foodtruck brasiliano e tanto divertimento per tutta la famiglia.</p>
                     <p class="event-date">📅 12 Agosto 2025 | 🕘 Dalle 9:00</p>
                     <div class="card-buttons">
                         <a href="eventi/evento4.html" class="card-button">Scopri il Programma</a>
@@ -333,7 +347,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Card News -->
             <div class="card">
                 <div class="card-icon-area">
@@ -341,7 +355,8 @@
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">Ultime Notizie</h2>
-                    <p class="card-text">Rimani aggiornato sulle ultime novità e attività della Pro Loco di Cerrè Sologno. Scopri i nostri progetti e come partecipare attivamente alla vita della comunità.</p>
+                    <p class="card-text">Rimani aggiornato sulle ultime novità e attività della Pro Loco di Cerrè
+                        Sologno. Scopri i nostri progetti e come partecipare attivamente alla vita della comunità.</p>
                     <a href="news.html" class="card-button">Leggi le news</a>
                 </div>
             </div>
@@ -355,7 +370,8 @@
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">Ricette Tradizionali</h2>
-                    <p class="card-text">Scopri i sapori autentici della nostra tradizione gastronomica. Ricette tipiche dell'Appennino Tosco-Emiliano come il castagnaccio e altri piatti della nostra cultura.</p>
+                    <p class="card-text">Scopri i sapori autentici della nostra tradizione gastronomica. Ricette tipiche
+                        dell'Appennino Tosco-Emiliano come il castagnaccio e altri piatti della nostra cultura.</p>
                     <a href="ricette.html" class="card-button">Scopri le ricette</a>
                 </div>
             </div>
@@ -371,9 +387,9 @@
                 document.body.classList.add("dark-mode");
             }
         }
-    
+
         checkDarkMode(); // Verifica all'avvio della pagina
-    
+
         window.addEventListener("storage", event => {
             if (event.key === "darkMode") {
                 if (event.newValue === "enabled") {
@@ -383,21 +399,22 @@
                 }
             }
         });
-        
+
         // Funzione per nascondere l'evento in evidenza dopo il 12 agosto 2025
         function checkEventVisibility() {
             const eventDate = new Date('2025-08-12');
             const currentDate = new Date();
             if (currentDate > eventDate) {
                 const heroSection = document.getElementById('hero-event-section');
-                if (heroSection) { 
-                    heroSection.style.display = 'none'; 
+                if (heroSection) {
+                    heroSection.style.display = 'none';
                 }
             }
         }
-        
+
         // Controlla la visibilità dell'evento al caricamento della pagina
         checkEventVisibility();
     </script>
 </body>
+
 </html>

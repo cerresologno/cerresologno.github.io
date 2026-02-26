@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1735637736555530"
+        crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabellone Punteggi - Pro Loco Cerrè Sologno</title>
     <link rel="stylesheet" href="../style.css">
@@ -16,69 +19,89 @@
             margin-right: auto;
             padding: 0 20px;
         }
-        .centered-content h1, .centered-content h2, .centered-content h3 {
+
+        .centered-content h1,
+        .centered-content h2,
+        .centered-content h3 {
             text-align: center;
         }
+
         .centered-content p {
             text-align: justify;
         }
-        .centered-content > p {
+
+        .centered-content>p {
             text-align: center;
         }
+
         .score-table {
             width: 100%;
             border-collapse: collapse;
             margin: 30px auto;
             background: #eeeadf;
         }
-        .score-table th, .score-table td {
+
+        .score-table th,
+        .score-table td {
             border: 1px solid #ccc;
             padding: 10px;
             text-align: center;
             color: #848b11;
         }
+
         .score-table th {
             background-color: #ede1b5;
             color: #848b11;
             font-weight: bold;
         }
+
         .score-table td {
             background-color: #eeeadf;
         }
+
         @media (max-width: 768px) {
-            .score-table th, .score-table td {
+
+            .score-table th,
+            .score-table td {
                 padding: 5px;
             }
         }
+
         .nav-container {
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
         }
+
         .theme-toggle {
             position: absolute;
             right: 0;
         }
+
         @media (max-width: 768px) {
             .theme-toggle {
                 position: static;
             }
         }
+
         /* Dark mode per la tabella */
         body.dark-mode .score-table {
             background: #201208;
         }
+
         body.dark-mode .score-table th {
             background-color: #2d1a0b;
             color: #848b11;
         }
+
         body.dark-mode .score-table td {
             background-color: #201208;
             color: #ede1b5;
         }
     </style>
 </head>
+
 <body onload="checkDarkMode()">
     <header>
         <h1>Tabellone Punteggi</h1>
@@ -216,4 +239,5 @@
     </script>
     <iframe src="about:blank" style="display: none;"></iframe>
 </body>
-</html> 
+
+</html>

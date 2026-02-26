@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1735637736555530"
+        crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News - Pro Loco Cerrè Sologno</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1735637736555530"
-     crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile.css">
     <link rel="stylesheet" href="card-style.css">
@@ -13,24 +14,34 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         .centered-content {
-            text-align: center; /* Centra il testo orizzontalmente */
-            margin-top: 50px; /* Aggiunge un po' di spazio sopra il contenuto */
-            max-width: 800px; /* Limita la larghezza massima */
-            margin-left: auto; /* Centra il contenuto orizzontalmente */
-            margin-right: auto; /* Centra il contenuto orizzontalmente */
+            text-align: center;
+            /* Centra il testo orizzontalmente */
+            margin-top: 50px;
+            /* Aggiunge un po' di spazio sopra il contenuto */
+            max-width: 800px;
+            /* Limita la larghezza massima */
+            margin-left: auto;
+            /* Centra il contenuto orizzontalmente */
+            margin-right: auto;
+            /* Centra il contenuto orizzontalmente */
         }
-        .centered-content h2, .centered-content h3 {
+
+        .centered-content h2,
+        .centered-content h3 {
             text-align: center;
         }
+
         .centered-content p {
             text-align: center;
         }
+
         .news-preview {
             padding: 10px;
             margin-bottom: 10px;
         }
     </style>
 </head>
+
 <body onload="checkDarkMode()">
     <header>
         <h1>Eventi</h1>
@@ -117,9 +128,9 @@
                 document.body.classList.add("dark-mode");
             }
         }
-    
+
         checkDarkMode(); // Verifica all'avvio della pagina
-    
+
         window.addEventListener("storage", event => {
             if (event.key === "darkMode") {
                 if (event.newValue === "enabled") {

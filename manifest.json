@@ -1,7 +1,7 @@
 {
     "name": "Pro Loco Cerrè Sologno",
     "short_name": "Cerrè Sologno",
-    "start_url": "./home.html",
+    "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#ede1b5",
     "theme_color": "#848b11",

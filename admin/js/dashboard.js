@@ -324,7 +324,7 @@ function generateArticleHTML(title, summary, content, contentType, tags, eventDa
         <div class="nav-container">
             <nav>
                 <a href="${contentType === 'event' ? 'eventi' : 'news'}.html" class="button">Indietro</a>
-                <a href="home.html" class="button">Home</a>
+                <a href="index.html" class="button">Home</a>
                 <a href="${contentType === 'event' ? 'news' : 'eventi'}.html" class="button">${contentType === 'event' ? 'News' : 'Eventi'}</a>
                 <a href="contatti.html" class="button">Chi siamo?</a>
                 <a href="storia.html" class="button">La storia di Cerré</a>
